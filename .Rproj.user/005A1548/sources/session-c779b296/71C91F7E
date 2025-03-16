@@ -3,7 +3,7 @@
     "path": "~/Projects/pmc-website/research.qmd",
     "project_path": "research.qmd",
     "type": "quarto_markdown",
-    "hash": "3219037240",
+    "hash": "279272527",
     "contents": "",
     "dirty": false,
     "created": 1742087557686.0,
@@ -17,16 +17,16 @@
         "Source": "Source",
         "docOutlineVisible": "1",
         "rmdVisualCollapsedChunks": "",
-        "cursorPosition": "8,58",
+        "cursorPosition": "8,39",
         "scrollLine": "0",
         "rmdVisualModeLocation": "40:0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1742092054,
+    "lastKnownWriteTime": 1742123579,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1742092054856,
+    "last_content_update": 1742123579720,
     "read_only": false,
     "read_only_alternatives": []
 }

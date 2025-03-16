@@ -42,3 +42,12 @@ format:
       light: cosmo # A modern theme
       dark: darkly # Another modern theme
     css: styles.css # For custom CSS if needed
+    head-content: |
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-FWYE2E48ZC"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-FWYE2E48ZC');
+      </script>
