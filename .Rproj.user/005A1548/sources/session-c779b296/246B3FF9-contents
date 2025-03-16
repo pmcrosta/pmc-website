@@ -1,6 +1,8 @@
 project:
   type: website
   output-dir: docs # Important for GitHub Pages
+  resources:
+    - CNAME
 
 pagetitle: "{{< meta title >}} | Peter M. Crosta"
 author-meta: "Peter M. Crosta"
