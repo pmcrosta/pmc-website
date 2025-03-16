@@ -9,8 +9,10 @@ website:
   title: "Peter M. Crosta"
   description: "Peter M. Crosta is a candidate for the Fair Haven, NJ Board of Education in 2025."
   site-url: https://www.petecrosta.com
-  repo-url: "https://github.com/pmcrosta/pmc-website"
-  google-analytics: "UA-FWYE2E48ZC"
+  repo-url: https://github.com/pmcrosta/pmc-website
+  cookie-consent:
+    type: implied
+    style: simple
   navbar:
     # logo: "path/to/your/logo.png" # Optional: Add a logo image
     left:
@@ -43,3 +45,6 @@ format:
       light: cosmo # A modern theme
       dark: darkly # Another modern theme
     css: styles.css # For custom CSS if needed
+    include-in-header:
+      - text: |
+          <script type="text/javascript" src="gtm.js"></script>
