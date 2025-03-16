@@ -1,0 +1,17 @@
+{
+  "hash": "5692d5e1b7e2cd85aa6c923c0efd6f1d",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Comparison Districts\"\noutput: \n  html_document:\n    code_folding: hide\ndate: \"2025-03-16\"\n---\n\n\n\n# Example Analysis: Comparison Districts\n\nThis document outlines the development of an updated set of comparison districts for Fair Haven.\n\n## Key Findings\n\n-   District factor groups are old\n-   More than just Rumson and LS.\n\n## Methodology\n\nData was sourced from the NJ Department of Education reports...\n\n\n\n\n\n\n\n## R Markdown\n\nThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.\n\nWhen you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nsummary(cars)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n     speed           dist       \n Min.   : 4.0   Min.   :  2.00  \n 1st Qu.:12.0   1st Qu.: 26.00  \n Median :15.0   Median : 36.00  \n Mean   :15.4   Mean   : 42.98  \n 3rd Qu.:19.0   3rd Qu.: 56.00  \n Max.   :25.0   Max.   :120.00  \n```\n\n\n:::\n:::\n\n\n\n## Including Plots\n\nYou can also embed plots, for example:\n\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](comparison_districts_files/figure-html/pressure-1.png){width=672}\n:::\n:::\n\n\n\nNote that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.\n",
+    "supporting": [
+      "comparison_districts_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

@@ -1,0 +1,100 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "[Write about your personal and professional background, your connection to Fair Haven, your experience relevant to the Board of Education, etc.]"
+  },
+  {
+    "objectID": "about.html#my-background",
+    "href": "about.html#my-background",
+    "title": "About",
+    "section": "",
+    "text": "[Write about your personal and professional background, your connection to Fair Haven, your experience relevant to the Board of Education, etc.]"
+  },
+  {
+    "objectID": "about.html#why-im-running",
+    "href": "about.html#why-im-running",
+    "title": "About",
+    "section": "Why I’m Running",
+    "text": "Why I’m Running\n[Elaborate on your motivations for running.]"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Peter M. Crosta",
+    "section": "",
+    "text": "Welcome to my campaign website! I’m Peter M. Crosta, and I’m running for the Fair Haven Board of Education in 2025 because I believe in a data-driven, outcome-oriented approach to ensuring the best possible education for all Fair Haven students.\n[Add a compelling introductory paragraph or two here.]"
+  },
+  {
+    "objectID": "research.html",
+    "href": "research.html",
+    "title": "Research and Analysis",
+    "section": "",
+    "text": "As part of my commitment to being data-driven, I’ll be sharing examples of research, data analysis, and relevant information here.\n\nComparison Districs\nEnrollments\nStandardized Test Scores\nInputs\n\n(Add more links as you create research examples)"
+  },
+  {
+    "objectID": "issues.html",
+    "href": "issues.html",
+    "title": "Issues",
+    "section": "",
+    "text": "My commitment is to address the key issues facing our schools with thoughtful consideration and a focus on what’s best for our students."
+  },
+  {
+    "objectID": "issues.html#fiscal-responsibility",
+    "href": "issues.html#fiscal-responsibility",
+    "title": "Issues",
+    "section": "Fiscal Responsibility",
+    "text": "Fiscal Responsibility\n[Your statement on budget and resource allocation.]"
+  },
+  {
+    "objectID": "issues.html#improving-communication-and-transparency",
+    "href": "issues.html#improving-communication-and-transparency",
+    "title": "Issues",
+    "section": "Improving Communication and Transparency",
+    "text": "Improving Communication and Transparency\n[Your statement on communication, referencing specific ideas.]"
+  },
+  {
+    "objectID": "issues.html#curriculum-enhancement",
+    "href": "issues.html#curriculum-enhancement",
+    "title": "Issues",
+    "section": "Curriculum Enhancement",
+    "text": "Curriculum Enhancement\n[Your statement on curriculum, perhaps referencing specific subjects or initiatives.]\n(Add more sections as needed)"
+  },
+  {
+    "objectID": "research/comparison_districts.html",
+    "href": "research/comparison_districts.html",
+    "title": "Comparison Districts",
+    "section": "",
+    "text": "This document outlines the development of an updated set of comparison districts for Fair Haven.\n\n\n\nDistrict factor groups are old\nMore than just Rumson and LS.\n\n\n\n\nData was sourced from the NJ Department of Education reports…\n\n\n\nThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.\nWhen you click the Knit button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:\n\nsummary(cars)\n\n     speed           dist       \n Min.   : 4.0   Min.   :  2.00  \n 1st Qu.:12.0   1st Qu.: 26.00  \n Median :15.0   Median : 36.00  \n Mean   :15.4   Mean   : 42.98  \n 3rd Qu.:19.0   3rd Qu.: 56.00  \n Max.   :25.0   Max.   :120.00  \n\n\n\n\n\nYou can also embed plots, for example:\n\n\n\n\n\n\n\n\n\nNote that the echo = FALSE parameter was added to the code chunk to prevent printing of the R code that generated the plot."
+  },
+  {
+    "objectID": "research/comparison_districts.html#key-findings",
+    "href": "research/comparison_districts.html#key-findings",
+    "title": "Comparison Districts",
+    "section": "",
+    "text": "District factor groups are old\nMore than just Rumson and LS."
+  },
+  {
+    "objectID": "research/comparison_districts.html#methodology",
+    "href": "research/comparison_districts.html#methodology",
+    "title": "Comparison Districts",
+    "section": "",
+    "text": "Data was sourced from the NJ Department of Education reports…"
+  },
+  {
+    "objectID": "research/comparison_districts.html#r-markdown",
+    "href": "research/comparison_districts.html#r-markdown",
+    "title": "Comparison Districts",
+    "section": "",
+    "text": "This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.\nWhen you click the Knit button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:\n\nsummary(cars)\n\n     speed           dist       \n Min.   : 4.0   Min.   :  2.00  \n 1st Qu.:12.0   1st Qu.: 26.00  \n Median :15.0   Median : 36.00  \n Mean   :15.4   Mean   : 42.98  \n 3rd Qu.:19.0   3rd Qu.: 56.00  \n Max.   :25.0   Max.   :120.00"
+  },
+  {
+    "objectID": "research/comparison_districts.html#including-plots",
+    "href": "research/comparison_districts.html#including-plots",
+    "title": "Comparison Districts",
+    "section": "",
+    "text": "You can also embed plots, for example:\n\n\n\n\n\n\n\n\n\nNote that the echo = FALSE parameter was added to the code chunk to prevent printing of the R code that generated the plot."
+  }
+]

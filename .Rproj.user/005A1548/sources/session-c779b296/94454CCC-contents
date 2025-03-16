@@ -1,0 +1,38 @@
+---
+title: "Comparison Districts"
+output:
+  html_document:
+    code_folding: hide
+date: "2025-03-16"
+---
+
+# Example Analysis: Comparison Districts
+
+This document outlines the development of an updated set of comparison districts for Fair Haven.
+
+## Key Findings
+
+-   District factor groups are old
+-   More than just Rumson and LS.
+
+## Methodology
+
+Data was sourced from NJ DOE, Federal Gov, etc.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Details
+
+TODO: 
+
+```{r cars}
+summary(cars)
+```
+
+## Plots
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
