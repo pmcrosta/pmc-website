@@ -6,7 +6,7 @@ As part of my commitment to being data-driven, I'll be sharing examples of resea
 
 TODO: 
 
-- [Comparison Districs](research/comparison_districts.md) 
+- [Comparison Districs](research/comparison_districts.html) 
 - [Enrollments](research/enrollment.md)
 - [Standardized Test Scores](research/test scores.md)
 - [Inputs](research/inputs.md)

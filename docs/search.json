@@ -4,35 +4,35 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "[Write about your personal and professional background, your connection to Fair Haven, your experience relevant to the Board of Education, etc.]"
+    "text": "TODO: Personal and professional background, connection to Fair Haven, experience relevant to the Board of Education, etc."
   },
   {
     "objectID": "about.html#my-background",
     "href": "about.html#my-background",
     "title": "About",
     "section": "",
-    "text": "[Write about your personal and professional background, your connection to Fair Haven, your experience relevant to the Board of Education, etc.]"
+    "text": "TODO: Personal and professional background, connection to Fair Haven, experience relevant to the Board of Education, etc."
   },
   {
     "objectID": "about.html#why-im-running",
     "href": "about.html#why-im-running",
     "title": "About",
     "section": "Why I’m Running",
-    "text": "Why I’m Running\n[Elaborate on your motivations for running.]"
+    "text": "Why I’m Running\nTODO: why running"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Peter M. Crosta",
     "section": "",
-    "text": "Welcome to my campaign website! I’m Peter M. Crosta, and I’m running for the Fair Haven Board of Education in 2025 because I believe in a data-driven, outcome-oriented approach to ensuring the best possible education for all Fair Haven students.\n[Add a compelling introductory paragraph or two here.]"
+    "text": "Welcome to my campaign website! I’m Peter M. Crosta, and I’m running for the Fair Haven Board of Education in 2025 because I believe in a data-driven, outcome-oriented approach to ensuring the best possible education for all Fair Haven students.\nTODO: intro paragraph"
   },
   {
     "objectID": "research.html",
     "href": "research.html",
     "title": "Research and Analysis",
     "section": "",
-    "text": "As part of my commitment to being data-driven, I’ll be sharing examples of research, data analysis, and relevant information here.\n\nComparison Districs\nEnrollments\nStandardized Test Scores\nInputs\n\n(Add more links as you create research examples)"
+    "text": "As part of my commitment to being data-driven, I’ll be sharing examples of research, data analysis, and relevant information here.\nTODO:\n\nComparison Districs\nEnrollments\nStandardized Test Scores\nInputs"
   },
   {
     "objectID": "issues.html",
@@ -46,21 +46,28 @@
     "href": "issues.html#fiscal-responsibility",
     "title": "Issues",
     "section": "Fiscal Responsibility",
-    "text": "Fiscal Responsibility\n[Your statement on budget and resource allocation.]"
+    "text": "Fiscal Responsibility\nTODO: Budgets and resource allocation"
   },
   {
     "objectID": "issues.html#improving-communication-and-transparency",
     "href": "issues.html#improving-communication-and-transparency",
     "title": "Issues",
     "section": "Improving Communication and Transparency",
-    "text": "Improving Communication and Transparency\n[Your statement on communication, referencing specific ideas.]"
+    "text": "Improving Communication and Transparency\nTODO: Communication, transparency"
   },
   {
-    "objectID": "issues.html#curriculum-enhancement",
-    "href": "issues.html#curriculum-enhancement",
+    "objectID": "issues.html#academic-statement",
+    "href": "issues.html#academic-statement",
     "title": "Issues",
-    "section": "Curriculum Enhancement",
-    "text": "Curriculum Enhancement\n[Your statement on curriculum, perhaps referencing specific subjects or initiatives.]\n(Add more sections as needed)"
+    "section": "Academic Statement",
+    "text": "Academic Statement\nTODO: Curriculum, academic philosophy"
+  },
+  {
+    "objectID": "issues.html#extracurricular-statement",
+    "href": "issues.html#extracurricular-statement",
+    "title": "Issues",
+    "section": "Extracurricular Statement",
+    "text": "Extracurricular Statement\nTODO: Social and behavioral philosophy"
   },
   {
     "objectID": "research/comparison_districts.html",
