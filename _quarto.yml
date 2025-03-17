@@ -13,9 +13,6 @@ website:
   site-url: "https://www.petecrosta.com"
   repo-url: https://github.com/pmcrosta/pmc-website
   google-analytics: "G-FWYE2E48ZC"
-  cookie-consent:
-    type: implied
-    style: simple
   navbar:
     # logo: "path/to/your/logo.png" # Optional: Add a logo image
     left:
