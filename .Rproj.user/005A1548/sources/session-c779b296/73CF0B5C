@@ -3,7 +3,7 @@
     "path": "~/Projects/pmc-website/about.qmd",
     "project_path": "about.qmd",
     "type": "quarto_markdown",
-    "hash": "2010062221",
+    "hash": "0",
     "contents": "",
     "dirty": false,
     "created": 1742087105080.0,
@@ -19,7 +19,7 @@
         "cursorPosition": "4,0",
         "scrollLine": "0",
         "rmdVisualCollapsedChunks": "",
-        "rmdVisualModeLocation": "2032:257"
+        "rmdVisualModeLocation": "388:258"
     },
     "folds": "",
     "lastKnownWriteTime": 1742230252,

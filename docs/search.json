@@ -1,5 +1,19 @@
 [
   {
+    "objectID": "research.html",
+    "href": "research.html",
+    "title": "Research and Analysis",
+    "section": "",
+    "text": "As part of my commitment to being data-driven and outcome-oriented, I’ll share examples of research, data analysis, and related insights on this page.\nTODO:\n\nBuilding a dataset\nComparison Districs\nEnrollments\nStandardized Test Scores\nInputs"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Peter M. Crosta",
+    "section": "",
+    "text": "Welcome to my campaign website! I’m Peter M. Crosta, and I’m running for the Fair Haven Board of Education in 2025 because I believe in a data-driven, outcome-oriented approach to ensuring the best possible education for all Fair Haven students.\n[photo coming!]\nBorn and raised in New Jersey, I spent formative summers on the Bayshore before making Fair Haven home in 2021 with my wife, Sarah, and our two children (ages 4 and 7) who are currently enrolled at Sickles Elementary School. I have expertise in educational evaluation and policy analysis, having earned a PhD in economics of education from Columbia University, and I spent a decade conducting research on higher-ed institutions serving diverse student populations. My vision for Fair Haven schools is to ensure every child has access to a high-quality education that prepares them for success in a rapidly changing world. My research has given me a deep understanding of resource allocation challenges in educational settings, which will be invaluable in addressing Fair Haven’s budget constraints and ensuring all students have the support they need. Beyond my professional experience, I also volunteer on the board of Fair Haven Rec Soccer. When not enjoying the beach with my family or watching the kids play soccer at Fair Haven fields, I work as a user experience researcher for a global technology company."
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
@@ -14,20 +28,6 @@
     "text": "We moved to Fair Haven in early 2021 during the Pandemic in search of a family-oriented community down the shore with excellent schools and in commuting distance to NYC. Fair Haven certainly fit the bill. Fast forward a few years and we are fully integrated into the FH community, with a first grader and pre-K-er both at Sickles.\nProfessionally, I spent the first half of my career working in education and related industries. During college, I worked as a research assistant at the Cornell Higher Education Research Institute (CHERI) studying determinants of faculty productivity. Shortly after, I spent a year at a policy evaluation firm measuring the impacts of federally funded early childhood centers. I then entered graduate school at Teachers College, Columbia University to pursue a degree in economics and education while working at the Community College Research Center (CCRC). A few years in, I decided that I needed some more grounded experience, and took two years off to be a mathematics and statistics teacher at a growing American school in Cancún, Mexico. I eventually returned to New York City and Columbia to finish graduate school before venturing out into the world of EdTech, where I worked as a researcher and data scientist at several startups. I’ve since left the education world professionally, but am still focused on research, data, and decision-making as a quantitative user experience researcher at a global technology company.\nAs I have been following the current Fair Haven district budget situation, and thinking about the long-term investments that me and my family are making in the community, it seemed like a natural next step to get more involved and to contribute a data-drive, outcome-oriented voice to these important issues facing our community and schools. It’s almost as if I have been preparing my whole life for this opportunity, and I am excited to get started.\nFor more info, check out my resume or Google Scholar profile."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Peter M. Crosta",
-    "section": "",
-    "text": "Welcome to my campaign website! I’m Peter M. Crosta, and I’m running for the Fair Haven Board of Education in 2025 because I believe in a data-driven, outcome-oriented approach to ensuring the best possible education for all Fair Haven students.\n[photo coming!]\nBorn and raised in New Jersey, I spent formative summers on the Bayshore before making Fair Haven home in 2021 with my wife, Sarah, and our two children (ages 4 and 7) who are currently enrolled at Sickles Elementary School. I have expertise in educational evaluation and policy analysis, having earned a PhD in economics of education from Columbia University, and I spent a decade conducting research on higher-ed institutions serving diverse student populations. My vision for Fair Haven schools is to ensure every child has access to a high-quality education that prepares them for success in a rapidly changing world. My research has given me a deep understanding of resource allocation challenges in educational settings, which will be invaluable in addressing Fair Haven’s budget constraints and ensuring all students have the support they need. Beyond my professional experience, I also volunteer on the board of Fair Haven Rec Soccer. When not enjoying the beach with my family or watching the kids play soccer at Fair Haven fields, I work as a user experience researcher for a global technology company."
-  },
-  {
-    "objectID": "research.html",
-    "href": "research.html",
-    "title": "Research and Analysis",
-    "section": "",
-    "text": "As part of my commitment to being data-driven, I’ll be sharing examples of research, data analysis, and relevant information here.\nTODO:\n\nBuilding a dataset\nComparison Districs\nEnrollments\nStandardized Test Scores\nInputs"
-  },
-  {
     "objectID": "issues.html",
     "href": "issues.html",
     "title": "Issues",
@@ -39,62 +39,27 @@
     "href": "issues.html#fiscal-responsibility",
     "title": "Issues",
     "section": "Fiscal Responsibility",
-    "text": "Fiscal Responsibility\nTODO: Budgets and resource allocation"
+    "text": "Fiscal Responsibility\nOur district faces significant budget challenges, and we must approach them with transparency and data-driven decision-making. My experience in research and data analysis will be invaluable in ensuring that every dollar spent directly benefits our students’ educational experience. We will prioritize maintaining essential programs and personnel, while exploring innovative solutions to optimize resource allocation and improve operational efficiencies. We must be thoughtful stewards of taxpayer dollars, focusing on long-term sustainability and the highest return on educational investment. I will work to ensure that any necessary cuts are made strategically, minimizing impact on student learning and maximizing equitable access to educational opportunities."
   },
   {
     "objectID": "issues.html#improving-communication-and-transparency",
     "href": "issues.html#improving-communication-and-transparency",
     "title": "Issues",
     "section": "Improving Communication and Transparency",
-    "text": "Improving Communication and Transparency\nTODO: Communication, transparency"
+    "text": "Improving Communication and Transparency\nEffective communication and transparency are vital for a strong school community. I will advocate for proactive, open dialogue between the Board, administration, teachers, parents, and students. We need to establish clear, accessible channels for sharing information about district policies, budget decisions, and academic progress. I will work to ensure that Board meetings are informative and accessible, and that community feedback is actively sought and valued. Building trust through clear and consistent communication is essential for fostering a collaborative and supportive learning environment."
   },
   {
     "objectID": "issues.html#academic-statement",
     "href": "issues.html#academic-statement",
     "title": "Issues",
     "section": "Academic Statement",
-    "text": "Academic Statement\nTODO: Curriculum, academic philosophy"
+    "text": "Academic Statement\nOur academic focus must be on providing a rigorous, well-rounded education that prepares all students for success in high school and beyond. I am committed to a curriculum that emphasizes critical thinking, problem-solving, and a deep understanding of core subjects. I will support the district’s efforts to align curriculum from Kindergarten through 8th grade, focusing on evidence-based practices and data-driven improvements. I will champion the articulation of curriculum and expectations with Rumson and RFH, ensuring a seamless transition for our students. Furthermore, I will prioritize professional development for our teachers, enabling them to provide differentiated instruction and support all learners, including mid-tier students and those with unique needs. We must foster a culture of continuous improvement, driven by data and a commitment to excellence."
   },
   {
     "objectID": "issues.html#extracurricular-statement",
     "href": "issues.html#extracurricular-statement",
     "title": "Issues",
     "section": "Extracurricular Statement",
-    "text": "Extracurricular Statement\nTODO: Social and behavioral philosophy"
-  },
-  {
-    "objectID": "research/comparison_districts.html",
-    "href": "research/comparison_districts.html",
-    "title": "Comparison Districts",
-    "section": "",
-    "text": "This document outlines the development of an updated set of comparison districts for Fair Haven.\n\n\n\nDistrict factor groups are old\nMore than just Rumson and LS.\n\n\n\n\nData was sourced from the NJ Department of Education reports…\n\n\n\nThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.\nWhen you click the Knit button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:\n\nsummary(cars)\n\n     speed           dist       \n Min.   : 4.0   Min.   :  2.00  \n 1st Qu.:12.0   1st Qu.: 26.00  \n Median :15.0   Median : 36.00  \n Mean   :15.4   Mean   : 42.98  \n 3rd Qu.:19.0   3rd Qu.: 56.00  \n Max.   :25.0   Max.   :120.00  \n\n\n\n\n\nYou can also embed plots, for example:\n\n\n\n\n\n\n\n\n\nNote that the echo = FALSE parameter was added to the code chunk to prevent printing of the R code that generated the plot."
-  },
-  {
-    "objectID": "research/comparison_districts.html#key-findings",
-    "href": "research/comparison_districts.html#key-findings",
-    "title": "Comparison Districts",
-    "section": "",
-    "text": "District factor groups are old\nMore than just Rumson and LS."
-  },
-  {
-    "objectID": "research/comparison_districts.html#methodology",
-    "href": "research/comparison_districts.html#methodology",
-    "title": "Comparison Districts",
-    "section": "",
-    "text": "Data was sourced from the NJ Department of Education reports…"
-  },
-  {
-    "objectID": "research/comparison_districts.html#r-markdown",
-    "href": "research/comparison_districts.html#r-markdown",
-    "title": "Comparison Districts",
-    "section": "",
-    "text": "This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.\nWhen you click the Knit button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:\n\nsummary(cars)\n\n     speed           dist       \n Min.   : 4.0   Min.   :  2.00  \n 1st Qu.:12.0   1st Qu.: 26.00  \n Median :15.0   Median : 36.00  \n Mean   :15.4   Mean   : 42.98  \n 3rd Qu.:19.0   3rd Qu.: 56.00  \n Max.   :25.0   Max.   :120.00"
-  },
-  {
-    "objectID": "research/comparison_districts.html#including-plots",
-    "href": "research/comparison_districts.html#including-plots",
-    "title": "Comparison Districts",
-    "section": "",
-    "text": "You can also embed plots, for example:\n\n\n\n\n\n\n\n\n\nNote that the echo = FALSE parameter was added to the code chunk to prevent printing of the R code that generated the plot."
+    "text": "Extracurricular Statement\nExtracurricular activities and a positive school climate are essential for the social, emotional, and behavioral development of our students. I believe in fostering an inclusive environment that supports the whole child, promoting well-being and a sense of belonging. I will advocate for programs that encourage teamwork, leadership, and personal growth, ensuring that all students have opportunities to participate and thrive. We must prioritize the health, wellness, and safety of our students, providing resources and support to address their social and emotional needs.\n\n\n\n\n\n\n\nTip\n\n\n\nElection day is Tuesday, November 5, 2025."
   }
 ]
