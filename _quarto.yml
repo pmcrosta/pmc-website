@@ -28,15 +28,20 @@ website:
       - text: "Research"
         href: research.qmd
     right:
-      - icon: github
-        href: https://github.com/pmcrosta/pmc-website 
+      - icon: envelope-fill
+        href: mailto:pmcrosta@gmail.com
       - icon: linkedin
         href: https://www.linkedin.com/in/pmcrosta/
+      - icon: mortarboard-fill
+        href: https://scholar.google.com/citations?user=M1or3F8AAAAJ&hl=en
+      - icon: github
+        href: https://github.com/pmcrosta/pmc-website 
+      
   page-footer:
     left: "© 2025 Peter M. Crosta. All rights reserved."
     center: "Data-driven, outcome-oriented"
     right:
-      - text: "Contact"
+      - icon: envelope-fill
         href: "mailto:pmcrosta@gmail.com"
   announcement: 
     icon: info-circle
