@@ -1,1 +1,7 @@
 /.quarto/
+
+# R stuff
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
