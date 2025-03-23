@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.petecrosta.com/research.html</loc>
-    <lastmod>2025-03-17T18:25:10.160Z</lastmod>
+    <loc>https://www.petecrosta.com/research/building_a_dataset.html</loc>
+    <lastmod>2025-03-23T18:50:14.527Z</lastmod>
   </url>
   <url>
-    <loc>https://www.petecrosta.com/index.html</loc>
-    <lastmod>2025-03-17T18:16:17.668Z</lastmod>
+    <loc>https://www.petecrosta.com/issues.html</loc>
+    <lastmod>2025-03-17T18:38:04.943Z</lastmod>
   </url>
   <url>
     <loc>https://www.petecrosta.com/about.html</loc>
     <lastmod>2025-03-17T16:50:52.699Z</lastmod>
   </url>
   <url>
-    <loc>https://www.petecrosta.com/issues.html</loc>
-    <lastmod>2025-03-17T18:38:04.943Z</lastmod>
+    <loc>https://www.petecrosta.com/index.html</loc>
+    <lastmod>2025-03-17T19:00:14.091Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.petecrosta.com/research.html</loc>
+    <lastmod>2025-03-18T21:27:58.345Z</lastmod>
   </url>
 </urlset>

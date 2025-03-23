@@ -1,0 +1,349 @@
+---
+title: "Building a dataset"
+author: "Peter M. Crosta"
+format:
+  html:
+    code-fold: true
+    df-print: paged
+    code-overflow: scroll
+---
+
+# Introduction
+
+To gain a better understanding of the current state of education in Fair Haven, I started by building a data set. This document shares the process I went through to combine state and federal resources to generate data sets that ultimately would enable the following:
+
+-   Creation of a set of suitable comparison school districts for Fair Haven
+
+-   An analysis of student outcomes, educational inputs, and their relationship over time
+
+In an effort to be as transparent as possible, this document will contain descriptions of source and derived data sets as well as code in the R programming language that one can use to reproduce results.
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+#| include: false
+#| eval: false
+options(width = 120)
+
+library(tidyverse)
+library(readxl)
+library(googlesheets4)
+library(googledrive)
+library(haven)
+library(cluster)
+library(MASS)
+library(ggpmisc)
+library(ggrepel)
+library(ggfortify)
+
+set.seed(2024)
+
+# Commonly used State ID numbers (staid) and Federal Local Education Authority (LEA) IDs
+# for FH, Little Silver, Rumson, and Shrewsbury
+fh_leaid <- "3404950"
+fh_staid <- "NJ-251440"
+
+ls_leaid <- "3408790"
+ls_staid <- "NJ-252720"
+
+rums_leaid <- "3414370"
+rums_staid <- "NJ-254570"
+
+shrews_leaid <- "3414970"
+shrews_staid <- "NJ-254770"
+```
+
+# ACS EDGE
+
+ACS EDGE, or the American Community Survey (ACS) [Education Demographic and Geographic Estimates (EDGE)](https://nces.ed.gov/programs/edge/Demographic/ACS), data contains district-level social, economic, housing, and demographic detail based on the ACS 5-year summary files. The latest available data was the [2018-22](https://nces.ed.gov/programs/edge/TableViewer/acsProfile/2022) data, and we use the Population Group: Total Population. The raw data that was downloaded from ACS came as zipped XLSX files. The zip files were uploaded to a Google Drive folder, where they could be accessed and parsed.
+
+```{r}
+#| label: Read ACS EDGE Files from Google Drive
+#| echo: false
+#| message: false
+#| warning: false
+#| eval: false
+
+#Auth Google Drive and Sheets
+drive_auth(path = "../pmcrosta-datascience-ed9fcc88faf6.json")
+gs4_auth(path = "../pmcrosta-datascience-ed9fcc88faf6.json")
+
+edge_zips <- drive_find(pattern='edge', type='zip') %>% dplyr::select(name, id)
+
+## download, unzip, and clean up files. create edge_* data frames.
+
+for (ii in 1:nrow(edge_zips)) {
+  
+  temp <- tempfile(fileext = ".zip")
+  dl <- drive_download(
+    as_id(edge_zips$id[ii]), path = temp, overwrite = TRUE)
+  out <- unzip(temp, exdir = tempdir())
+  
+  outtxt <- grep(pattern="txt$", x = out, value = T)
+  object_name <- str_remove(edge_zips$name[ii], ".zip")
+  assign(object_name, read.table(outtxt, sep="|", header=T) %>% dplyr::select(-ends_with("moe")))
+  
+  outxls <- grep(pattern="xlsx$", x = out, value = T)
+  data_dict <- read_excel(outxls, sheet="DP_TotalPop") %>% dplyr::filter(varname %in% colnames(get(object_name)))
+  newnames <- data_dict$varname
+  names(newnames) <- data_dict$vlabel
+  
+  duplicate_cols <- duplicated(as.list(get(object_name)))
+  df_unique <- get(object_name)[!duplicate_cols]
+  newnames <- newnames[newnames %in% colnames(df_unique)]
+  
+  assign(object_name, df_unique %>% dplyr::rename(all_of(newnames)))
+  print(object_name)
+}
+```
+
+```{r}
+#| label: Process EDGE data
+#| echo: false
+#| message: false
+#| warning: false
+#| eval: false
+
+#ls(pattern="edge*")
+
+edge_edattain_df <- edge_edattain %>%
+  dplyr::select(GeoId, Geography, LEAID, starts_with("Percent")) %>%
+  rename_with(~ gsub("\\.", "_", make.names(., unique = TRUE)))
+
+edge_employmentstatus_df <- edge_employmentstatus %>%
+  rename_with(~ gsub("\\.", "_", make.names(., unique = TRUE))) %>%
+  dplyr::select(LEAID, starts_with("Percent")) %>%
+  dplyr::select(LEAID, ends_with("__In_labor_force") | contains("Unemployment"))
+
+edge_enrollment_df <- edge_enrollment %>%
+  rename_with(~ gsub("\\.", "_", make.names(., unique = TRUE))) %>%
+  dplyr::select(LEAID, starts_with("Percent"))
+
+edge_householdstype_df <-  edge_householdstype %>%
+  rename_with(~ gsub("\\.", "_", make.names(., unique = TRUE))) %>%
+  dplyr::select(LEAID,
+                Percent__Estimate__HOUSEHOLDS_BY_TYPE__Total_households__Married_couple_household__With_children_of_the_householder_under_18_years,
+                Number__Estimate__HOUSEHOLDS_BY_TYPE__Total_households__Average_household_size,
+                Number__Estimate__HOUSEHOLDS_BY_TYPE__Total_households__Average_family_size)
+
+edge_housing_df <- edge_housing %>%
+  rename_with(~ gsub("\\.", "_", make.names(., unique = TRUE))) %>%
+  dplyr::select(LEAID, Number__Estimate__HOUSING_OCCUPANCY__Total_housing_units)
+
+edge_income_df <- edge_income %>%
+  rename_with(~ gsub("\\.", "_", make.names(., unique = TRUE))) %>%
+  dplyr::select(LEAID,
+                Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Total_households__Median_household_income__dollars_,
+                Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Total_households__Mean_household_income__dollars_,
+                Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Families__Median_family_income__dollars_,
+                Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Families__Mean_family_income__dollars_,
+                Percent__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Families___150_000_to__199_999,
+                Percent__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Families___200_000_or_more,
+                Percent__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Total_households___150_000_to__199_999,
+                Percent__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Total_households___200_000_or_more) %>%
+  dplyr::mutate(
+    Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Total_households__Median_household_income__dollars_ = str_replace(Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Total_households__Median_household_income__dollars_, fixed("250,000+"), "275000"),
+    Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Total_households__Mean_household_income__dollars_ = str_replace(Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Total_households__Mean_household_income__dollars_, fixed("250,000+"), "275000"),
+    Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Families__Median_family_income__dollars_ = str_replace(Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Families__Median_family_income__dollars_, fixed("250,000+"), "275000"),
+    Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Families__Mean_family_income__dollars_ = str_replace(Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Families__Mean_family_income__dollars_, fixed("250,000+"), "275000")
+  )
+
+edge_occupation_df <- edge_occupation %>%
+  rename_with(~ gsub("\\.", "_", make.names(., unique = TRUE))) %>%
+  dplyr::select(LEAID, starts_with("Percent"))
+
+edge_race_df <- edge_race %>%
+  rename_with(~ gsub("\\.", "_", make.names(., unique = TRUE))) %>%
+  dplyr::select(LEAID, starts_with("Percent__Estimate__Race_alone_or_in_combination_with_one_or_more_other_races"))
+
+edge_sex_age_df <- edge_sex_age %>%
+  rename_with(~ gsub("\\.", "_", make.names(., unique = TRUE))) %>%
+  dplyr::select(GeoId, Geography, LEAID, starts_with("Percent")) %>%
+  dplyr::select(LEAID, Percent__Estimate__SEX_AND_AGE__Total_population__Under_18_years)
+
+edge_df <- edge_edattain_df %>%
+  dplyr::filter(LEAID != "3499999") %>%
+  dplyr::left_join(edge_employmentstatus_df, by="LEAID") %>%
+  dplyr::left_join(edge_enrollment_df, by="LEAID") %>%
+  dplyr::left_join(edge_householdstype_df, by="LEAID") %>%
+  dplyr::left_join(edge_housing_df, by="LEAID") %>%
+  dplyr::left_join(edge_occupation_df, by="LEAID") %>%
+  dplyr::left_join(edge_race_df, by="LEAID") %>%
+  dplyr::left_join(edge_sex_age_df, by="LEAID") %>%
+  dplyr::left_join(edge_income_df, by="LEAID") %>%
+  dplyr::mutate(
+    Percent__Estimate__SCHOOL_ENROLLMENT__Population_3_years_and_over_enrolled_in_school__Nursery_school__preschool = as.numeric(Percent__Estimate__SCHOOL_ENROLLMENT__Population_3_years_and_over_enrolled_in_school__Nursery_school__preschool),
+    Percent__Estimate__SCHOOL_ENROLLMENT__Population_3_years_and_over_enrolled_in_school__Kindergarten = as.numeric(Percent__Estimate__SCHOOL_ENROLLMENT__Population_3_years_and_over_enrolled_in_school__Kindergarten),
+    Percent__Estimate__SCHOOL_ENROLLMENT__Population_3_years_and_over_enrolled_in_school__Elementary_school__grades_1_8_ = as.numeric(Percent__Estimate__SCHOOL_ENROLLMENT__Population_3_years_and_over_enrolled_in_school__Elementary_school__grades_1_8_),
+    Percent__Estimate__SCHOOL_ENROLLMENT__Population_3_years_and_over_enrolled_in_school__High_school__grades_9_12_ = as.numeric(Percent__Estimate__SCHOOL_ENROLLMENT__Population_3_years_and_over_enrolled_in_school__High_school__grades_9_12_),
+    Percent__Estimate__SCHOOL_ENROLLMENT__Population_3_years_and_over_enrolled_in_school__College_or_graduate_school = as.numeric(Percent__Estimate__SCHOOL_ENROLLMENT__Population_3_years_and_over_enrolled_in_school__College_or_graduate_school),
+    
+    Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Total_households__Median_household_income__dollars_ = as.numeric(Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Total_households__Median_household_income__dollars_),
+    Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Total_households__Mean_household_income__dollars_ = as.numeric(Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Total_households__Mean_household_income__dollars_),
+    Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Families__Median_family_income__dollars_ = as.numeric(Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Families__Median_family_income__dollars_),
+    Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Families__Mean_family_income__dollars_ = as.numeric(Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Families__Mean_family_income__dollars_)
+  )
+
+
+```
+
+```{r}
+#| eval: false
+#| include: false
+str(edge_df)
+
+#sheet_write(edge_df, ss="12WxkM2ieGB_r-A0O75tsSRBA0OpYQWZICGZE8GgTNQQ", sheet="edge_df")
+
+##### Correlations #####
+
+options(repr.plot.width=18, repr.plot.height=8)
+
+heatmap(cor(na.omit(edge_df[,-c(1:3)])))
+
+#####  Finding peer groups ##### 
+
+colnames(edge_df)
+
+##### Distance ##### 
+
+edge_df_scale <- scale(edge_df[,-c(1:3)])
+
+rownames(edge_df_scale) <- edge_df$LEAID
+
+## compute distance matrix
+edge_d <- dist(edge_df_scale, method = "euclidean")
+
+which(attr(edge_d, "Labels")==fh_leaid)
+
+dim(as.matrix(edge_d))
+
+# Find the indices of the closest districts
+closest_indices <- order(as.matrix(edge_d)[, 133])
+
+# Print the most similar districts
+most_similar_districts <- edge_df[closest_indices, ]
+head(most_similar_districts$Geography, 20)
+
+euclid_score <- data.frame(LEAID=as.character(most_similar_districts$LEAID)) %>% dplyr::mutate(euclid_score=1:n())
+
+table(euclid_50 %in% ccdnjk12$LEAID)
+
+# cos_similarities <- cosine(as.matrix(t(edge_df[,-c(1:3)])))
+# closest_indices <- order(as.matrix(cos_similarities)[, 133])
+
+# # Print the most similar districts
+# most_similar_districts <- edge_df[closest_indices, ]
+# tail(most_similar_districts$Geography, 20)
+
+## compute distance matrix
+edge_d2 <- dist(edge_df_scale, method = "minkowski")
+#Find the indices of the closest districts
+closest_indices2 <- order(as.matrix(edge_d2)[, 133])
+
+# Print the most similar districts
+most_similar_districts2 <- edge_df[closest_indices2, ]
+head(most_similar_districts2$Geography, 20)
+
+
+##### Hierarchial ##### 
+
+# Hierarchical clustering using Ward and Complete Linkage
+hc1 <- hclust(edge_d, method = "ward.D" )
+hc2 <- hclust(edge_d, method="complete")
+
+options(repr.plot.width=14, repr.plot.height=8)
+
+# Plot the obtained dendrogram
+plot(hc1, cex = 0.6, hang = -1)
+rect.hclust(hc1, k = 10) #, border = 2:5)
+
+options(repr.plot.width=14, repr.plot.height=8)
+
+# Plot the obtained dendrogram
+plot(hc2, cex = 0.6, hang = -1)
+rect.hclust(hc2, k = 10) #, border = 2:5)
+
+hc1_grp10 <- cutree(hc1, k = 10)
+fh1 <- hc1_grp10[fh_leaid]
+edge_df$hc1_grp10 <- hc1_grp10
+
+fh1
+
+edge_df %>% dplyr::filter(hc1_grp10==fh1) %>% pull(Geography)
+
+table(hc1_grp10)
+
+hc2_grp10 <- cutree(hc2, k = 10)
+fh2 <- hc2_grp10[fh_leaid]
+edge_df$hc2_grp10 <- hc2_grp10
+
+fh2
+
+table(hc2_grp10)
+
+edge_df %>% dplyr::filter(hc2_grp10==fh2) %>% pull(Geography)
+
+edge_df %>% dplyr::group_by(hc1_grp10) %>%
+  dplyr::select(-GeoId, -Geography, -LEAID) %>%
+  dplyr::summarise_all(\(x) round(mean(x), 1)) %>% t()
+
+#####  kMEANS ##### 
+
+km1 <- kmeans(edge_d, 15)
+fh3 <- km1$cluster[fh_leaid]
+edge_df$km15 <- km1$cluster
+
+table(km1$cluster)
+
+edge_df %>% dplyr::filter(km15==fh3) %>% pull(Geography)
+
+
+
+##### ### PCA ##### 
+
+# Perform PCA
+pcadat <- na.omit(edge_df[,-c(1:3)])
+rownames(pcadat) <- make.unique(na.omit(edge_df)$Geography)
+pca_result <- prcomp(pcadat, scale.=T, center = T)
+
+# Extract principal components
+pca_reduced <- pca_result$x[, 1:2]  # Keep first two components
+
+pca_result$sdev
+
+#Visualize the reduced data
+options(repr.plot.width=8, repr.plot.height=8)
+plot(pca_reduced, xlab = "PC1", ylab = "PC2", main = "PCA Plot")
+
+options(repr.plot.width=14, repr.plot.height=14)
+autoplot(pca_result, data = pcadat,color="hc1_grp10", label = TRUE, label.size = 3)
+
+colnames(fortify(pca_result))
+
+options(repr.plot.width=19, repr.plot.height=14)
+
+ggplot(data=fortify(pca_result) %>% dplyr::mutate(hc1_grp10=as.character(hc1_grp10), Geography=make.unique(na.omit(edge_df)$Geography)),
+       aes(x=PC1, y=PC2, color=hc1_grp10)) +
+  geom_point()+
+  scale_color_discrete(guide="none") +
+  geom_text_repel(aes(label=Geography), max.overlaps = 20) +
+  theme_minimal()
+
+pca_dist <- dist(pca_reduced)
+closest_indices3 <- order(as.matrix(pca_dist)[, 133])
+#rownames(pcadat)
+# Print the most similar districts
+most_similar_districts3 <- edge_df[closest_indices3, ]
+#head(most_similar_districts$Geography, 20)
+
+head(most_similar_districts3$Geography, 20)
+```
+
+```{r}
+#| eval: false
+#| include: false
+
+# easier access after all the data munging
+#edge_df <- read_sheet(ss="12WxkM2ieGB_r-A0O75tsSRBA0OpYQWZICGZE8GgTNQQ", sheet="edge_df")
+```
