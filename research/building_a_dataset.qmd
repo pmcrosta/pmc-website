@@ -13,17 +13,16 @@ format:
 To gain a better understanding of the current state of education in Fair Haven, I started by building a data set. This document shares the process I went through to combine state and federal resources to generate data sets that ultimately would enable the following:
 
 -   Creation of a set of suitable comparison school districts for Fair Haven
-
 -   An analysis of student outcomes, educational inputs, and their relationship over time
 
 In an effort to be as transparent as possible, this document will contain descriptions of source and derived data sets as well as code in the R programming language that one can use to reproduce results.
 
 ```{r}
 #| label: setup
+#| code-summary: Code - Load libraries
 #| message: false
 #| warning: false
-#| include: false
-#| eval: false
+#| eval: true
 options(width = 120)
 
 library(tidyverse)
@@ -36,6 +35,9 @@ library(MASS)
 library(ggpmisc)
 library(ggrepel)
 library(ggfortify)
+library(glue)
+library(DT)
+library(htmltools)
 
 set.seed(2024)
 
@@ -56,14 +58,16 @@ shrews_staid <- "NJ-254770"
 
 # ACS EDGE
 
-ACS EDGE, or the American Community Survey (ACS) [Education Demographic and Geographic Estimates (EDGE)](https://nces.ed.gov/programs/edge/Demographic/ACS), data contains district-level social, economic, housing, and demographic detail based on the ACS 5-year summary files. The latest available data was the [2018-22](https://nces.ed.gov/programs/edge/TableViewer/acsProfile/2022) data, and we use the Population Group: Total Population. The raw data that was downloaded from ACS came as zipped XLSX files. The zip files were uploaded to a Google Drive folder, where they could be accessed and parsed.
+ACS EDGE, or the American Community Survey (ACS) [Education Demographic and Geographic Estimates (EDGE)](https://nces.ed.gov/programs/edge/Demographic/ACS), data contains district-level social, economic, housing, and demographic detail based on the ACS 5-year summary files. I use this data to generate peer districts (comparison groups) for Fair Haven. The latest available data was the [2018-22](https://nces.ed.gov/programs/edge/TableViewer/acsProfile/2022) data, and I use the Population Group: Total Population. The raw data that was downloaded from ACS came as zipped XLSX files. The zip files were uploaded to a Google Drive folder, where they could be accessed and parsed. The collapsed code chunk below creates data frames from the raw ACS EDGE data.
 
 ```{r}
-#| label: Read ACS EDGE Files from Google Drive
-#| echo: false
+#| label: read-acs-edge
+#| echo: true
 #| message: false
 #| warning: false
-#| eval: false
+#| eval: true
+#| cache: true
+#| code-summary: Code - Read ACS EDGE Files from Google Drive
 
 #Auth Google Drive and Sheets
 drive_auth(path = "../pmcrosta-datascience-ed9fcc88faf6.json")
@@ -73,6 +77,7 @@ edge_zips <- drive_find(pattern='edge', type='zip') %>% dplyr::select(name, id)
 
 ## download, unzip, and clean up files. create edge_* data frames.
 
+obnames <- vector()
 for (ii in 1:nrow(edge_zips)) {
   
   temp <- tempfile(fileext = ".zip")
@@ -94,18 +99,33 @@ for (ii in 1:nrow(edge_zips)) {
   newnames <- newnames[newnames %in% colnames(df_unique)]
   
   assign(object_name, df_unique %>% dplyr::rename(all_of(newnames)))
-  print(object_name)
+
+  obnames <- c(obnames, object_name)
 }
+
+glue("Data frames created: ", paste(obnames, collapse=", "))
 ```
 
+Next, I isolate the variables that will be useful for generating peer districts. Major categories include:
+
+-   Educational attainment
+-   Employment status
+-   Educational enrollment
+-   Household type and size
+-   Housing occupancy
+-   Household income
+-   Occupation distribution
+-   Demographics (race, sex, age)
+
 ```{r}
-#| label: Process EDGE data
-#| echo: false
+#| label: process-edge-data
+#| echo: true
 #| message: false
 #| warning: false
-#| eval: false
-
-#ls(pattern="edge*")
+#| eval: true
+#| cache: true
+#| code-summary: Code - Process EDGE data and create district-level data set
+#| panel: center
 
 edge_edattain_df <- edge_edattain %>%
   dplyr::select(GeoId, Geography, LEAID, starts_with("Percent")) %>%
@@ -144,9 +164,7 @@ edge_income_df <- edge_income %>%
                 Percent__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Total_households___200_000_or_more) %>%
   dplyr::mutate(
     Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Total_households__Median_household_income__dollars_ = str_replace(Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Total_households__Median_household_income__dollars_, fixed("250,000+"), "275000"),
-    Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Total_households__Mean_household_income__dollars_ = str_replace(Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Total_households__Mean_household_income__dollars_, fixed("250,000+"), "275000"),
-    Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Families__Median_family_income__dollars_ = str_replace(Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Families__Median_family_income__dollars_, fixed("250,000+"), "275000"),
-    Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Families__Mean_family_income__dollars_ = str_replace(Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Families__Mean_family_income__dollars_, fixed("250,000+"), "275000")
+    Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Families__Median_family_income__dollars_ = str_replace(Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Families__Median_family_income__dollars_, fixed("250,000+"), "275000")
   )
 
 edge_occupation_df <- edge_occupation %>%
@@ -185,65 +203,368 @@ edge_df <- edge_edattain_df %>%
     Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Families__Mean_family_income__dollars_ = as.numeric(Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Families__Mean_family_income__dollars_)
   )
 
+colnames(edge_df) <- c(
+  "GeoId",
+  "Geography",
+  "LEAID",
+  "Edu_Less_9th",
+  "Edu_9th_12th_No_Diploma",
+  "Edu_HS_Grad",
+  "Edu_Some_College",
+  "Edu_Assoc_Degree",
+  "Edu_Bach_Degree",
+  "Edu_Grad_Prof_Degree",
+  "Edu_HS_or_Higher",
+  "Edu_Bach_or_Higher",
+  "Emp_Labor_Force",
+  "Emp_Fem_Labor_Force",
+  "Emp_Unemp_Rate",
+  "Enroll_Nursery",
+  "Enroll_Kindergarten",
+  "Enroll_Elem",
+  "Enroll_HS",
+  "Enroll_College",
+  "HH_Married_Children",
+  "HH_Avg_Size",
+  "Fam_Avg_Size",
+  "Housing_Units",
+  "Occ_Mgmt_Bus_Sci_Arts",
+  "Occ_Service",
+  "Occ_Sales_Office",
+  "Occ_Nat_Res_Const_Maint",
+  "Occ_Prod_Trans_Mat_Mov",
+  "Race_White",
+  "Race_Black",
+  "Race_Amer_Indian_Alaska",
+  "Race_Asian",
+  "Race_Hawaiian_Pacific",
+  "Race_Other",
+  "Pop_Under_18",
+  "HH_Med_Income",
+  "HH_Mean_Income",
+  "Fam_Med_Income",
+  "Fam_Mean_Income",
+  "Fam_Income_150k_199k",
+  "Fam_Income_200k_plus",
+  "HH_Income_150k_199k",
+  "HH_Income_200k_plus"
+)
 
+glue("Created `edge_df`. `edge_df` has {nrow(edge_df)} rows and {ncol(edge_df)} columns.")
 ```
+
+`edge_df` now has the following columns and definitions:
+
+-   **Identifiers:**
+
+    -   `GeoId`: Geographic identifier
+    -   `Geography`: District name
+    -   `LEAID`: Local education authority ID
+
+-   **Educational Attainment (percent of population age 25 and older) :**
+
+    -   `Edu_Less_9th`: Less than 9th grade
+    -   `Edu_9th_12th_No_Diploma`: 9th to 12th grade, no diploma
+    -   `Edu_HS_Grad`: High school graduate
+    -   `Edu_Some_College`: Some college, no degree
+    -   `Edu_Assoc_Degree`: Associate's degree
+    -   `Edu_Bach_Degree`: Bachelor's degree
+    -   `Edu_Grad_Prof_Degree`: Graduate or professional degree
+    -   `Edu_HS_or_Higher`: High school graduate or higher
+    -   `Edu_Bach_or_Higher`: Bachelor's degree or higher
+
+-   **Employment Status (percent of population 16 years and older):**
+
+    -   `Emp_Labor_Force`: In labor force
+    -   `Emp_Fem_Labor_Force`: Females in labor force
+    -   `Emp_Unemp_Rate`: Unemployment rate
+
+-   **School Enrollment (percent of population 3 years and older) :**
+
+    -   `Enroll_Nursery`: Nursery school
+    -   `Enroll_Kindergarten`: Kindergarten
+    -   `Enroll_Elem`: Elementary school
+    -   `Enroll_HS`: High school
+    -   `Enroll_College`: College or graduate school
+
+-   **Households:**
+
+    -   `HH_Married_Children`: Percent married couple households with children under 18 years
+    -   `HH_Avg_Size`: Average household size
+    -   `Fam_Avg_Size`: Average family size
+    -   `Housing_Units`: Total housing units
+
+-   **Occupation (percent civilians 16 years and older):**
+
+    -   `Occ_Mgmt_Bus_Sci_Arts`: Management, business, science, and arts
+    -   `Occ_Service`: Service occupations
+    -   `Occ_Sales_Office`: Sales and office occupations
+    -   `Occ_Nat_Res_Const_Maint`: Natural resources, construction, and maintenance
+    -   `Occ_Prod_Trans_Mat_Mov`: Production, transportation, and material moving
+
+-   **Race (percent):**
+
+    -   `Race_White`: White
+    -   `Race_Black`: Black or African American
+    -   `Race_Amer_Indian_Alaska`: American Indian and Alaska Native
+    -   `Race_Asian`: Asian
+    -   `Race_Hawaiian_Pacific`: Native Hawaiian and Other Pacific Islander
+    -   `Race_Other`: Some Other Race
+
+-   **Population (percent):**
+
+    -   `Pop_Under_18`: Population under 18 years
+
+-   **Income:**
+
+    -   `HH_Med_Income`: Median household income
+    -   `HH_Mean_Income`: Mean household income
+    -   `Fam_Med_Income`: Median family income
+    -   `Fam_Mean_Income`: Mean family income
+    -   `Fam_Income_150k_199k`: Percent with family income \$150,000 to \$199,999
+    -   `Fam_Income_200k_plus`: Percent with family income \$200,000 or more
+    -   `HH_Income_150k_199k`: Percent with household income \$150,000 to \$199,999
+    -   `HH_Income_200k_plus`: Percent with household income \$200,000 or more
+
+Finally, I serialize the `edge_df` data frame so that it can be accessed without having to rerun all this code. Here are links to an [RDS](datasets/edge_df.rds) file or a [CSV](datasets/edge_df.csv) file
+
+```{r}
+#| label: save-edge-data
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| code-summary: Code - Serialize ACD-EDGE dataset and make accessible
+#| dependson: process-edge-data
+
+saveRDS(edge_df, file="datasets/edge_df.rds")
+write_csv(edge_df, file="datasets/edge_df.csv")
+```
+
+```{r}
+#| label: show-edgedf
+#| echo: false
+#| message: false
+#| warning: false
+
+datatable(edge_df %>% dplyr::select(-GeoId),
+  options = list(
+    pageLength = 5,
+    searching = TRUE,
+    ordering = TRUE
+  ),
+  rownames = FALSE,
+  caption = tags$caption(
+    style = "caption-side: top; text-align: center;",
+    "ACS-EDGE Data")
+)
+```
+
+# Generating Peer Districts
+
+The main purpose of collecting the ACS-EDGE data is to generate a set of districts that can help us to understand trends in Fair Haven and not in isolation. Due to geographical proximity and social integration, the *de facto* peer group for Fair Haven has mostly consisted of Rumson Borough, Little Silver Borough, and Shrewsbury Borough. I will certainly be highlighting these districts as we proceed. However, it is also instructive to have a broader set of districts that serve a population that is similar to Fair Haven along numerous demographic characteristics. I use the ACS-EDGE data to generate such a set of districts.
+
+::: callout-note
+## Why not use District Factor Groups?
+
+For years, people have used [District Factor Groups](https://nj.gov/education/finance/rda/dfg.shtml) (DFGs) for the purpose of comparing students’ performance on statewide assessments across demographically similar school districts. However, the School Performance Reports no longer compare districts using this measure, and no updates have been made to the DFGs since the groupings were finalized in 2004.
+:::
+
+## Approaches
+
+I leverage a number of techniques to generate peer districts for Fair Haven using these data. This exercise is both an art and science, as it is both grounded in data and subject to a number of researcher choices. To that end, a few sets of comparison districts will be created. Note that the final comparison data sets will be filtered to only include PK-8 districts like Fair Haven; this will happen later though since it requires yet another data source. In addition, the following section is not a "full academic" treatment of these approaches, meaning that the primary end is to be useful, not necessarily to fully account for all methodological nuances. However, I will compare district characteristics across various peer sets.
+
+### Euclidean distance
+
+One simple, albeit somewhat naive, approach to identifying peer districts is to find the districts that are "closest" to each other given the district characteristics that were identified above. To do this, I
+
+1.  Standardize all of our variables
+2.  Compute a distance matrix (Euclidean distance in multidimensional space)
+3.  Rank districts in terms of their "proximity" to Fair Haven
+
+One downside to this strategy is that there are a number of highly correlated variables in the data set, and the distance matrix may overweight importance of these characteristics. For example, there are a number of income-based measures, and thus this approach may over-index on the household incomes of district residents. However, it may also produce a reasonable peer set.
+
+```{r}
+#| label: euclidean
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| code-summary: Code - Using Euclidean distance
+
+# Standardize variables
+edge_df_scale <- scale(edge_df[,-c(1:3)])
+rownames(edge_df_scale) <- edge_df$LEAID
+
+## compute the distance matrix
+edge_dist <- dist(edge_df_scale, method = "euclidean")
+
+# Find the indices of the closest districts
+closest_indices_euclid <- order(as.matrix(edge_dist)[, which(attr(edge_dist, "Labels")==fh_leaid)])
+
+# Reorder edge_df so the most similar districts are on top
+similar_districts_euclid <- edge_df[closest_indices_euclid, ] %>% dplyr::mutate(euclid_score=1:n()) %>% dplyr::select(LEAID, Geography, euclid_score)
+
+# Print table
+datatable(similar_districts_euclid,
+  options = list(
+    pageLength = 10,
+    searching = TRUE,
+    ordering = TRUE
+  ),
+  rownames = FALSE,
+  caption = tags$caption(
+    style = "caption-side: top; text-align: center;",
+    "Most similar districts by Euclidean distance")
+)
+```
+
+### Mahalanobis distance
+
+A second smiple distance-based approach is to use the [Mahalanobis](https://en.wikipedia.org/wiki/Mahalanobis_distance) distance, as it is capable of taking into coniderations the correlations present in the data set. To do this, I
+
+1.  Standardize all of our variables
+2.  Compute a distance matrix (Mahalanobis pairwise distances)
+3.  Rank districts in terms of their "proximity" to Fair Haven
+
+```{r}
+#| label: mahalanobis
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| code-summary: Code - Using Mahalanobis distance
+
+# Standardize variables
+edge_df_scale <- scale(edge_df[,-c(1:3)])
+rownames(edge_df_scale) <- edge_df$LEAID
+
+mahalanobis_dist_matrix <- function(data) {
+  cov_matrix <- cov(data)
+  n <- nrow(data)
+  dist_matrix <- matrix(0, nrow = n, ncol = n)
+
+  for (i in 1:n) {
+    for (j in 1:n) {
+      dist_matrix[i, j] <- mahalanobis(data[i, ], data[j, ], cov_matrix)
+    }
+  }
+  return(dist_matrix)
+}
+
+## compute the distance matrix
+dist_mat_mah <- mahalanobis_dist_matrix(na.omit(edge_df_scale))
+rownames(dist_mat_mah) <- dimnames(na.omit(edge_df_scale))[[1]]
+
+# Find the indices of the closest districts
+closest_indices_mah <- order(as.matrix(dist_mat_mah)[, which(rownames(dist_mat_mah)==fh_leaid)])
+
+# Print the most similar districts
+similar_districts_mah <- (edge_df %>% dplyr::filter(LEAID %in% rownames(dist_mat_mah))) [closest_indices_mah, ] %>% dplyr::mutate(mah_score=1:n()) %>% dplyr::select(LEAID, Geography, mah_score)
+
+# Print table
+datatable(similar_districts_mah,
+  options = list(
+    pageLength = 10,
+    searching = TRUE,
+    ordering = TRUE
+  ),
+  rownames = FALSE,
+  caption = tags$caption(
+    style = "caption-side: top; text-align: center;",
+    "Most similar districts by Mahalanobis distance")
+)
+```
+
+### Principal Components
+
+TODO
 
 ```{r}
 #| eval: false
 #| include: false
-str(edge_df)
+#| label: pca
+#| echo: true
+#| message: false
+#| warning: false
+#| cache: true
+#| code-summary: Code - Using Principal Components
 
-#sheet_write(edge_df, ss="12WxkM2ieGB_r-A0O75tsSRBA0OpYQWZICGZE8GgTNQQ", sheet="edge_df")
 
-##### Correlations #####
+# Perform PCA
+pcadat <- na.omit(edge_df[,-c(1:3)])
+rownames(pcadat) <- make.unique(na.omit(edge_df)$Geography)
+pca_result <- prcomp(pcadat, scale.=T, center = T)
 
-options(repr.plot.width=18, repr.plot.height=8)
+# Extract principal components
+pca_reduced <- pca_result$x[, 1:2]  # Keep first two components
 
-heatmap(cor(na.omit(edge_df[,-c(1:3)])))
+pca_result$sdev
 
-#####  Finding peer groups ##### 
+pc_scores <- pca_result$x
 
-colnames(edge_df)
-
-##### Distance ##### 
-
-edge_df_scale <- scale(edge_df[,-c(1:3)])
-
-rownames(edge_df_scale) <- edge_df$LEAID
+# Scale the principal component scores
+scaled_pc_scores <- scale(pca_reduced)
 
 ## compute distance matrix
-edge_d <- dist(edge_df_scale, method = "euclidean")
+edge_d <- dist(scaled_pc_scores, method = "euclidean")
 
-which(attr(edge_d, "Labels")==fh_leaid)
+which(attr(edge_d, "Labels")=="Fair Haven Borough School District, NJ")
 
 dim(as.matrix(edge_d))
 
 # Find the indices of the closest districts
-closest_indices <- order(as.matrix(edge_d)[, 133])
+closest_indices <- order(as.matrix(edge_d)[, which(attr(edge_d, "Labels")=="Fair Haven Borough School District, NJ")])
 
 # Print the most similar districts
 most_similar_districts <- edge_df[closest_indices, ]
 head(most_similar_districts$Geography, 20)
 
-euclid_score <- data.frame(LEAID=as.character(most_similar_districts$LEAID)) %>% dplyr::mutate(euclid_score=1:n())
+```
 
-table(euclid_50 %in% ccdnjk12$LEAID)
+### Clustering
 
-# cos_similarities <- cosine(as.matrix(t(edge_df[,-c(1:3)])))
-# closest_indices <- order(as.matrix(cos_similarities)[, 133])
+TODO
 
-# # Print the most similar districts
-# most_similar_districts <- edge_df[closest_indices, ]
-# tail(most_similar_districts$Geography, 20)
+K-means
 
-## compute distance matrix
-edge_d2 <- dist(edge_df_scale, method = "minkowski")
-#Find the indices of the closest districts
-closest_indices2 <- order(as.matrix(edge_d2)[, 133])
+Hierarchical
 
+```{r}
+#| eval: false
+#| include: false
+
+
+# Apply k-means
+kmeans_result <- kmeans(scaled_pc_scores, centers = 3)
+
+# Access cluster assignments
+clusters <- kmeans_result$cluster
+
+#Visualize the reduced data
+plot(pca_reduced, xlab = "PC1", ylab = "PC2", main = "PCA Plot")
+
+autoplot(pca_result, data = pcadat, label = TRUE, label.size = 3)
+
+colnames(fortify(pca_result))
+
+ggplot(data=fortify(pca_result) %>% dplyr::mutate(hc1_grp10=as.character(hc1_grp10), Geography=make.unique(na.omit(edge_df)$Geography)),
+       aes(x=PC1, y=PC2, color=hc1_grp10)) +
+  geom_point()+
+  scale_color_discrete(guide="none") +
+  geom_text_repel(aes(label=Geography), max.overlaps = 20) +
+  theme_minimal()
+
+pca_dist <- dist(pca_reduced)
+closest_indices3 <- order(as.matrix(pca_dist)[, 133])
+#rownames(pcadat)
 # Print the most similar districts
-most_similar_districts2 <- edge_df[closest_indices2, ]
-head(most_similar_districts2$Geography, 20)
+most_similar_districts3 <- edge_df[closest_indices3, ]
+
+head(most_similar_districts3$Geography, 20)
 
 
 ##### Hierarchial ##### 
@@ -288,62 +609,4 @@ edge_df %>% dplyr::group_by(hc1_grp10) %>%
   dplyr::select(-GeoId, -Geography, -LEAID) %>%
   dplyr::summarise_all(\(x) round(mean(x), 1)) %>% t()
 
-#####  kMEANS ##### 
-
-km1 <- kmeans(edge_d, 15)
-fh3 <- km1$cluster[fh_leaid]
-edge_df$km15 <- km1$cluster
-
-table(km1$cluster)
-
-edge_df %>% dplyr::filter(km15==fh3) %>% pull(Geography)
-
-
-
-##### ### PCA ##### 
-
-# Perform PCA
-pcadat <- na.omit(edge_df[,-c(1:3)])
-rownames(pcadat) <- make.unique(na.omit(edge_df)$Geography)
-pca_result <- prcomp(pcadat, scale.=T, center = T)
-
-# Extract principal components
-pca_reduced <- pca_result$x[, 1:2]  # Keep first two components
-
-pca_result$sdev
-
-#Visualize the reduced data
-options(repr.plot.width=8, repr.plot.height=8)
-plot(pca_reduced, xlab = "PC1", ylab = "PC2", main = "PCA Plot")
-
-options(repr.plot.width=14, repr.plot.height=14)
-autoplot(pca_result, data = pcadat,color="hc1_grp10", label = TRUE, label.size = 3)
-
-colnames(fortify(pca_result))
-
-options(repr.plot.width=19, repr.plot.height=14)
-
-ggplot(data=fortify(pca_result) %>% dplyr::mutate(hc1_grp10=as.character(hc1_grp10), Geography=make.unique(na.omit(edge_df)$Geography)),
-       aes(x=PC1, y=PC2, color=hc1_grp10)) +
-  geom_point()+
-  scale_color_discrete(guide="none") +
-  geom_text_repel(aes(label=Geography), max.overlaps = 20) +
-  theme_minimal()
-
-pca_dist <- dist(pca_reduced)
-closest_indices3 <- order(as.matrix(pca_dist)[, 133])
-#rownames(pcadat)
-# Print the most similar districts
-most_similar_districts3 <- edge_df[closest_indices3, ]
-#head(most_similar_districts$Geography, 20)
-
-head(most_similar_districts3$Geography, 20)
-```
-
-```{r}
-#| eval: false
-#| include: false
-
-# easier access after all the data munging
-#edge_df <- read_sheet(ss="12WxkM2ieGB_r-A0O75tsSRBA0OpYQWZICGZE8GgTNQQ", sheet="edge_df")
 ```

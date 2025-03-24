@@ -1,1 +1,6 @@
 /* css styles */
+.cell-output {
+  background-color: #e0f7fa;
+  padding: 10px;
+  border-radius: 5px;
+}
