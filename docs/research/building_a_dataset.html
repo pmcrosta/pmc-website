@@ -76,6 +76,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -129,7 +132,7 @@ gtag('config', 'G-FWYE2E48ZC', { 'anonymize_ip': true});
 <link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -198,8 +201,36 @@ gtag('config', 'G-FWYE2E48ZC', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#acs-edge" id="toc-acs-edge" class="nav-link" data-scroll-target="#acs-edge">ACS EDGE</a></li>
+  <li><a href="#generating-peer-districts" id="toc-generating-peer-districts" class="nav-link" data-scroll-target="#generating-peer-districts">Generating Peer Districts</a>
+  <ul class="collapse">
+  <li><a href="#approaches" id="toc-approaches" class="nav-link" data-scroll-target="#approaches">Approaches</a>
+  <ul class="collapse">
+  <li><a href="#euclidean-distance" id="toc-euclidean-distance" class="nav-link" data-scroll-target="#euclidean-distance">Euclidean distance</a></li>
+  <li><a href="#mahalanobis-distance" id="toc-mahalanobis-distance" class="nav-link" data-scroll-target="#mahalanobis-distance">Mahalanobis distance</a></li>
+  <li><a href="#principal-components" id="toc-principal-components" class="nav-link" data-scroll-target="#principal-components">Principal Components</a></li>
+  <li><a href="#clustering" id="toc-clustering" class="nav-link" data-scroll-target="#clustering">Clustering</a></li>
+  <li><a href="#recap-of-peer-set-approaches" id="toc-recap-of-peer-set-approaches" class="nav-link" data-scroll-target="#recap-of-peer-set-approaches">Recap of Peer Set Approaches</a></li>
+  </ul></li>
+  <li><a href="#comparing-peer-sets" id="toc-comparing-peer-sets" class="nav-link" data-scroll-target="#comparing-peer-sets">Comparing Peer Sets</a></li>
+  </ul></li>
+  <li><a href="#common-core-data-2023-24" id="toc-common-core-data-2023-24" class="nav-link" data-scroll-target="#common-core-data-2023-24">Common Core Data (2023-24)</a></li>
+  <li><a href="#financial-data-user-friendly-budgets" id="toc-financial-data-user-friendly-budgets" class="nav-link" data-scroll-target="#financial-data-user-friendly-budgets">Financial Data (User Friendly Budgets)</a></li>
+  <li><a href="#report-card-data" id="toc-report-card-data" class="nav-link" data-scroll-target="#report-card-data">Report Card Data</a></li>
+  <li><a href="#bring-the-data-together" id="toc-bring-the-data-together" class="nav-link" data-scroll-target="#bring-the-data-together">Bring the data together</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -330,9 +361,7 @@ gtag('config', 'G-FWYE2E48ZC', { 'anonymize_ip': true});
 <li>Occupation distribution</li>
 <li>Demographics (race, sex, age)</li>
 </ul>
-<div class="panel-center panel-grid">
-<div class="g-col-24 g-col-lg-20 g-start-lg-2">
-<div class="cell panel-center">
+<div class="cell">
 <details class="code-fold">
 <summary>Code - Process EDGE data and create district-level data set</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>edge_edattain_df <span class="ot">&lt;-</span> edge_edattain <span class="sc">%&gt;%</span></span>
@@ -462,8 +491,6 @@ gtag('config', 'G-FWYE2E48ZC', { 'anonymize_ip': true});
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Created `edge_df`. `edge_df` has 557 rows and 44 columns.</code></pre>
-</div>
-</div>
 </div>
 </div>
 <p><code>edge_df</code> now has the following columns and definitions:</p>
@@ -623,10 +650,9 @@ Why not use District Factor Groups?
 <p>A second smiple distance-based approach is to use the <a href="https://en.wikipedia.org/wiki/Mahalanobis_distance">Mahalanobis</a> distance, as it is capable of taking into coniderations the correlations present in the data set. To do this, I</p>
 <ol type="1">
 <li>Standardize all of our variables</li>
-<li>Compute a distance matrix (Euclidean distance in multidimensional space)</li>
+<li>Compute a distance matrix (Mahalanobis pairwise distances)</li>
 <li>Rank districts in terms of their “proximity” to Fair Haven</li>
 </ol>
-<p>One downside to this strategy is that there are a number of highly correlated variables in the data set, and the distance matrix may overweight importance of these characteristics. For example, there are a number of income-based measures, and thus this approach may over-index on the household incomes of district residents. However, it may also produce a reasonable peer set.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code - Using Mahalanobis distance</summary>
@@ -678,17 +704,1211 @@ Why not use District Factor Groups?
 </section>
 <section id="principal-components" class="level3">
 <h3 class="anchored" data-anchor-id="principal-components">Principal Components</h3>
-<p>TODO</p>
+<p>Another strategy for identifying peer districts is a dimensionality reduction technique called Principal Components Analysis. This is actually the same technique used to develop the original District Factor Groups. Though here I am using more data and more recent data. The central idea is to reduce our 40-dimensional (40-column) data set into a smaller set of components (or dimensions) that are maximally different from each other and uncorrelated with each other. These new components would contain the essence of the larger set of columns. As in the DFG calculation, I expect the first principal component to contain the variance associated with socioeconomic status (SES).</p>
+<p>The general procedure is to:</p>
+<ol type="1">
+<li>Compute the principal components on the data set</li>
+<li>Assess which dimensions load in which principal components</li>
+<li>Rank order component of interest, and find districts surrounding Fair Haven</li>
+</ol>
+<p>If the first one or two components is not sufficient, we are in clustering territory, which will be addressed later.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code - Using Principal Components</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform PCA</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>pcadat <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(edge_df[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)])</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(pcadat) <span class="ot">&lt;-</span> <span class="fu">make.unique</span>(<span class="fu">na.omit</span>(edge_df)<span class="sc">$</span>Geography)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>pca_result <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(pcadat, <span class="at">scale.=</span>T, <span class="at">center =</span> T)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#round(pca_result$sdev^2/sum(pca_result$sdev^2), 2) #first two ~49% variance, 37+12</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract principal components</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>pc_all_scores <span class="ot">&lt;-</span> pca_result<span class="sc">$</span>x</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualize the reduced data</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">#autoplot(pca_result, data = pcadat, label = TRUE, label.size = 3)</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Get loadings</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>pca_loadings <span class="ot">&lt;-</span> pca_result<span class="sc">$</span>rotation</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Transform loadings into a long format data frame</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>loadings_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pca_loadings)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>loadings_df<span class="sc">$</span>Variable <span class="ot">&lt;-</span> <span class="fu">rownames</span>(pca_loadings)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>loadings_long <span class="ot">&lt;-</span> reshape2<span class="sc">::</span><span class="fu">melt</span>(loadings_df, <span class="at">id.vars =</span> <span class="st">"Variable"</span>, <span class="at">variable.name =</span> <span class="st">"PC"</span>, <span class="at">value.name =</span> <span class="st">"Loading"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>In <a href="#fig-pca" class="quarto-xref">Figure&nbsp;1</a>, it is clear that Component 1 (PC1) is loading on income and education dimensions, which are qualitatively aligned with SES. However, Component 2 (PC2) is loading on other potentially relevant dimensions, such as family size and the population under 18. Note the differences below in the districts that surround Fair Haven for both PC1 and PC2.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">PCA Heatmap</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">PC1 Peers</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">PC2 Peers</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create heatmap</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(loadings_long <span class="sc">%&gt;%</span> <span class="fu">filter</span>(PC <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"PC1"</span>, <span class="st">"PC2"</span>)), <span class="fu">aes</span>(<span class="at">x =</span> PC, <span class="at">y =</span> Variable, <span class="at">fill =</span> Loading)) <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"blue"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"orange"</span>) <span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"PCA Loadings"</span>, <span class="at">x=</span><span class="st">""</span>, <span class="at">y=</span><span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-pca" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pca-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="building_a_dataset_files/figure-html/fig-pca-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Loadings from first two components of the PCA."><img src="building_a_dataset_files/figure-html/fig-pca-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pca-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Loadings from first two components of the PCA.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Geography</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">LEAID</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">PC1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Millburn Township School District, NJ</td>
+<td style="text-align: right;">3410200</td>
+<td style="text-align: right;">-10.411675</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mountain Lakes Borough School District, NJ</td>
+<td style="text-align: right;">3411010</td>
+<td style="text-align: right;">-9.711065</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ho-Ho-Kus Borough School District, NJ</td>
+<td style="text-align: right;">3407320</td>
+<td style="text-align: right;">-9.626996</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Rumson Borough School District, NJ</td>
+<td style="text-align: right;">3414370</td>
+<td style="text-align: right;">-9.209720</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mendham Township School District, NJ</td>
+<td style="text-align: right;">3409930</td>
+<td style="text-align: right;">-9.202445</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Glen Ridge Borough School District, NJ</td>
+<td style="text-align: right;">3405940</td>
+<td style="text-align: right;">-9.059415</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Essex Fells Borough School District, NJ</td>
+<td style="text-align: right;">3404830</td>
+<td style="text-align: right;">-8.979597</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">The Chathams School District, NJ</td>
+<td style="text-align: right;">3400004</td>
+<td style="text-align: right;">-8.695617</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Tenafly Borough School District, NJ</td>
+<td style="text-align: right;">3416110</td>
+<td style="text-align: right;">-8.536804</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Rumson-Fair Haven Regional School District, NJ</td>
+<td style="text-align: right;">3414400</td>
+<td style="text-align: right;">-8.515454</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Montgomery Township School District, NJ</td>
+<td style="text-align: right;">3410590</td>
+<td style="text-align: right;">-8.108375</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Alpine Borough School District, NJ</td>
+<td style="text-align: right;">3400870</td>
+<td style="text-align: right;">-8.000970</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Fair Haven Borough School District, NJ</td>
+<td style="text-align: right;">3404950</td>
+<td style="text-align: right;">-7.712313</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Haddonfield Borough School District, NJ</td>
+<td style="text-align: right;">3406390</td>
+<td style="text-align: right;">-7.674239</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Upper Saddle River Borough School District, NJ</td>
+<td style="text-align: right;">3416620</td>
+<td style="text-align: right;">-7.633540</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ridgewood Village School District, NJ</td>
+<td style="text-align: right;">3413830</td>
+<td style="text-align: right;">-7.588964</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Westfield Town School District, NJ</td>
+<td style="text-align: right;">3417760</td>
+<td style="text-align: right;">-7.373926</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Franklin Lakes Borough School District, NJ</td>
+<td style="text-align: right;">3405370</td>
+<td style="text-align: right;">-7.373073</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mendham Borough School District, NJ</td>
+<td style="text-align: right;">3409900</td>
+<td style="text-align: right;">-7.316649</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Saddle River Borough School District, NJ</td>
+<td style="text-align: right;">3414520</td>
+<td style="text-align: right;">-7.240713</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Northern Highlands Regional School District, NJ</td>
+<td style="text-align: right;">3411730</td>
+<td style="text-align: right;">-7.175552</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Englewood Cliffs Borough School District, NJ</td>
+<td style="text-align: right;">3404770</td>
+<td style="text-align: right;">-7.154654</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Old Tappan Borough School District, NJ</td>
+<td style="text-align: right;">3412180</td>
+<td style="text-align: right;">-7.150173</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Princeton Public Schools, NJ</td>
+<td style="text-align: right;">3413410</td>
+<td style="text-align: right;">-7.139619</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Glen Rock Borough School District, NJ</td>
+<td style="text-align: right;">3405970</td>
+<td style="text-align: right;">-7.072432</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Livingston Township School District, NJ</td>
+<td style="text-align: right;">3408820</td>
+<td style="text-align: right;">-7.045882</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Little Silver Borough School District, NJ</td>
+<td style="text-align: right;">3408790</td>
+<td style="text-align: right;">-7.029836</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Spring Lake Borough School District, NJ</td>
+<td style="text-align: right;">3415570</td>
+<td style="text-align: right;">-6.758940</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sea Girt Borough School District, NJ</td>
+<td style="text-align: right;">3414730</td>
+<td style="text-align: right;">-6.757415</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bernards Township School District, NJ</td>
+<td style="text-align: right;">3401650</td>
+<td style="text-align: right;">-6.747703</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">North Caldwell Borough School District, NJ</td>
+<td style="text-align: right;">3411520</td>
+<td style="text-align: right;">-6.698899</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Allendale Borough School District, NJ</td>
+<td style="text-align: right;">3400750</td>
+<td style="text-align: right;">-6.688122</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Haworth Borough School District, NJ</td>
+<td style="text-align: right;">3406960</td>
+<td style="text-align: right;">-6.651762</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cranbury Township School District, NJ</td>
+<td style="text-align: right;">3403540</td>
+<td style="text-align: right;">-6.582753</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Woodcliff Lake Borough School District, NJ</td>
+<td style="text-align: right;">3418210</td>
+<td style="text-align: right;">-6.522853</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Demarest Borough School District, NJ</td>
+<td style="text-align: right;">3403810</td>
+<td style="text-align: right;">-6.400957</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Chester Township School District, NJ</td>
+<td style="text-align: right;">3403060</td>
+<td style="text-align: right;">-6.282110</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Berkeley Heights Township School District, NJ</td>
+<td style="text-align: right;">3401530</td>
+<td style="text-align: right;">-6.257151</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">West Windsor-Plainsboro Regional School District, NJ</td>
+<td style="text-align: right;">3417700</td>
+<td style="text-align: right;">-6.117316</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Harrington Park Borough School District, NJ</td>
+<td style="text-align: right;">3406840</td>
+<td style="text-align: right;">-6.088235</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Oradell Borough School District, NJ</td>
+<td style="text-align: right;">3412240</td>
+<td style="text-align: right;">-6.002043</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Hoboken City School District, NJ</td>
+<td style="text-align: right;">3407350</td>
+<td style="text-align: right;">-5.993618</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">West Morris Regional School District, NJ</td>
+<td style="text-align: right;">3417550</td>
+<td style="text-align: right;">-5.992230</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Geography</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">LEAID</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">PC2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Essex Fells Borough School District, NJ</td>
+<td style="text-align: right;">3404830</td>
+<td style="text-align: right;">-4.491514</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mountain Lakes Borough School District, NJ</td>
+<td style="text-align: right;">3411010</td>
+<td style="text-align: right;">-4.330542</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Atlantic City School District, NJ</td>
+<td style="text-align: right;">3400960</td>
+<td style="text-align: right;">-4.181530</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Prospect Park Borough School District, NJ</td>
+<td style="text-align: right;">3413470</td>
+<td style="text-align: right;">-4.138570</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">East Orange City School District, NJ</td>
+<td style="text-align: right;">3404230</td>
+<td style="text-align: right;">-4.082559</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Tenafly Borough School District, NJ</td>
+<td style="text-align: right;">3416110</td>
+<td style="text-align: right;">-4.038517</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Glen Rock Borough School District, NJ</td>
+<td style="text-align: right;">3405970</td>
+<td style="text-align: right;">-4.027628</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Closter Borough School District, NJ</td>
+<td style="text-align: right;">3403390</td>
+<td style="text-align: right;">-3.951740</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">West New York Town School District, NJ</td>
+<td style="text-align: right;">3417580</td>
+<td style="text-align: right;">-3.933710</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Edison Township School District, NJ</td>
+<td style="text-align: right;">3404500</td>
+<td style="text-align: right;">-3.803715</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Irvington Township School District, NJ</td>
+<td style="text-align: right;">3407680</td>
+<td style="text-align: right;">-3.795309</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Carteret Borough School District, NJ</td>
+<td style="text-align: right;">3402820</td>
+<td style="text-align: right;">-3.735424</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hillside Township School District, NJ</td>
+<td style="text-align: right;">3407290</td>
+<td style="text-align: right;">-3.707357</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">The Chathams School District, NJ</td>
+<td style="text-align: right;">3400004</td>
+<td style="text-align: right;">-3.678910</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Jersey City School District, NJ</td>
+<td style="text-align: right;">3407830</td>
+<td style="text-align: right;">-3.656509</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Livingston Township School District, NJ</td>
+<td style="text-align: right;">3408820</td>
+<td style="text-align: right;">-3.603430</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Englewood Cliffs Borough School District, NJ</td>
+<td style="text-align: right;">3404770</td>
+<td style="text-align: right;">-3.595088</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ho-Ho-Kus Borough School District, NJ</td>
+<td style="text-align: right;">3407320</td>
+<td style="text-align: right;">-3.483365</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Montgomery Township School District, NJ</td>
+<td style="text-align: right;">3410590</td>
+<td style="text-align: right;">-3.356629</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Dunellen Borough School District, NJ</td>
+<td style="text-align: right;">3404020</td>
+<td style="text-align: right;">-3.356055</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pennsauken Township School District, NJ</td>
+<td style="text-align: right;">3412870</td>
+<td style="text-align: right;">-3.314050</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ridgewood Village School District, NJ</td>
+<td style="text-align: right;">3413830</td>
+<td style="text-align: right;">-3.294897</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Old Tappan Borough School District, NJ</td>
+<td style="text-align: right;">3412180</td>
+<td style="text-align: right;">-3.150906</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Glen Ridge Borough School District, NJ</td>
+<td style="text-align: right;">3405940</td>
+<td style="text-align: right;">-3.077981</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Summit City School District, NJ</td>
+<td style="text-align: right;">3415900</td>
+<td style="text-align: right;">-3.067085</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Chesterfield Township School District, NJ</td>
+<td style="text-align: right;">3403090</td>
+<td style="text-align: right;">-3.039654</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Fairfield Township School District (Cumberland County), NJ</td>
+<td style="text-align: right;">3405040</td>
+<td style="text-align: right;">-2.971418</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">South Brunswick Township School District, NJ</td>
+<td style="text-align: right;">3415210</td>
+<td style="text-align: right;">-2.892730</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Westfield Town School District, NJ</td>
+<td style="text-align: right;">3417760</td>
+<td style="text-align: right;">-2.843798</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Vineland City School District, NJ</td>
+<td style="text-align: right;">3416800</td>
+<td style="text-align: right;">-2.806937</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Fair Haven Borough School District, NJ</td>
+<td style="text-align: right;">3404950</td>
+<td style="text-align: right;">-2.805696</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Rumson-Fair Haven Regional School District, NJ</td>
+<td style="text-align: right;">3414400</td>
+<td style="text-align: right;">-2.785839</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Rumson Borough School District, NJ</td>
+<td style="text-align: right;">3414370</td>
+<td style="text-align: right;">-2.765871</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Haddonfield Borough School District, NJ</td>
+<td style="text-align: right;">3406390</td>
+<td style="text-align: right;">-2.760032</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Haworth Borough School District, NJ</td>
+<td style="text-align: right;">3406960</td>
+<td style="text-align: right;">-2.742526</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">West Windsor-Plainsboro Regional School District, NJ</td>
+<td style="text-align: right;">3417700</td>
+<td style="text-align: right;">-2.691472</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Fairview Borough School District, NJ</td>
+<td style="text-align: right;">3405070</td>
+<td style="text-align: right;">-2.684199</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">North Plainfield Borough School District, NJ</td>
+<td style="text-align: right;">3411640</td>
+<td style="text-align: right;">-2.671727</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">South Orange-Maplewood School District, NJ</td>
+<td style="text-align: right;">3415330</td>
+<td style="text-align: right;">-2.658134</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">North Bergen Township School District, NJ</td>
+<td style="text-align: right;">3411460</td>
+<td style="text-align: right;">-2.637642</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Lindenwold Borough School District, NJ</td>
+<td style="text-align: right;">3408640</td>
+<td style="text-align: right;">-2.635257</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Moonachie Borough School District, NJ</td>
+<td style="text-align: right;">3410680</td>
+<td style="text-align: right;">-2.613409</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">North Brunswick Township School District, NJ</td>
+<td style="text-align: right;">3411490</td>
+<td style="text-align: right;">-2.562681</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Northern Highlands Regional School District, NJ</td>
+<td style="text-align: right;">3411730</td>
+<td style="text-align: right;">-2.547138</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Upper Saddle River Borough School District, NJ</td>
+<td style="text-align: right;">3416620</td>
+<td style="text-align: right;">-2.542895</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">North Caldwell Borough School District, NJ</td>
+<td style="text-align: right;">3411520</td>
+<td style="text-align: right;">-2.522219</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Lawnside Borough School District, NJ</td>
+<td style="text-align: right;">3408340</td>
+<td style="text-align: right;">-2.511872</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Allendale Borough School District, NJ</td>
+<td style="text-align: right;">3400750</td>
+<td style="text-align: right;">-2.500940</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Woodcliff Lake Borough School District, NJ</td>
+<td style="text-align: right;">3418210</td>
+<td style="text-align: right;">-2.447929</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Northern Valley Regional School District, NJ</td>
+<td style="text-align: right;">3411760</td>
+<td style="text-align: right;">-2.405472</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Teaneck Township School District, NJ</td>
+<td style="text-align: right;">3416080</td>
+<td style="text-align: right;">-2.402477</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Joint Base McGuire-Dix-Lakehurst, NJ</td>
+<td style="text-align: right;">3434001</td>
+<td style="text-align: right;">-2.400950</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">South River Borough School District, NJ</td>
+<td style="text-align: right;">3415390</td>
+<td style="text-align: right;">-2.389881</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Deerfield Township School District, NJ</td>
+<td style="text-align: right;">3403660</td>
+<td style="text-align: right;">-2.250812</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Belleville Town School District, NJ</td>
+<td style="text-align: right;">3401350</td>
+<td style="text-align: right;">-2.234456</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Harrison Township School District, NJ</td>
+<td style="text-align: right;">3406900</td>
+<td style="text-align: right;">-2.218924</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Roselle Borough School District, NJ</td>
+<td style="text-align: right;">3414280</td>
+<td style="text-align: right;">-2.196363</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bernards Township School District, NJ</td>
+<td style="text-align: right;">3401650</td>
+<td style="text-align: right;">-2.180229</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Warren Township School District, NJ</td>
+<td style="text-align: right;">3416980</td>
+<td style="text-align: right;">-2.161228</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Franklin Township School District, NJ</td>
+<td style="text-align: right;">3405490</td>
+<td style="text-align: right;">-2.141408</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Leonia Borough School District, NJ</td>
+<td style="text-align: right;">3408520</td>
+<td style="text-align: right;">-2.124835</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section id="clustering" class="level3">
 <h3 class="anchored" data-anchor-id="clustering">Clustering</h3>
-<p>TODO</p>
-<p>K-means</p>
-<p>Hierarchical</p>
-
-
+<p>A final approach to identifying peer districts is cluster analysis. Cluster analysis leverages distance functions to separate districts based on similarity, with the goal of creating groups of high similarity <em>within</em> clusters and high dissimilarity <em>between</em> clusters. I will explore both K-means and hierarchical clustering techniques, looking at a few examples of each.</p>
+<section id="k-means-clusters" class="level4">
+<h4 class="anchored" data-anchor-id="k-means-clusters">K-means clusters</h4>
+<p>K-means clustering requires a distance matrix as input, and we have already created Euclidean and Mahalanobis distance matrices. The PCA results from earlier can also be converted to distance matrix and thus clustered. Both scaled and un-scaled PCA results are clustered. The un-scaled version should over-weight PC1, and the scaled version should treat PC1 and PC2 more equally. The tab set below shows the resulting peer groups from a relatively simple K-means routine, assuming 10 clusters.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code - K-means clustering</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## distance matrix from earlier</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Euclidean: edge_dist (557)</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Mahalanobis: dist_mat_mah (555)</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># PCA: pc_all_scores (needs dist, scaled and unscaled) (555)</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Scale the principal component scores</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>scaled_pc_scores <span class="ot">&lt;-</span> <span class="fu">scale</span>(pc_all_scores[,<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)])</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>pc_dist_scaled <span class="ot">&lt;-</span> <span class="fu">dist</span>(scaled_pc_scores)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>pc_dist_unscaled <span class="ot">&lt;-</span> <span class="fu">dist</span>(pc_all_scores[,<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)])</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply k-means</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>km_pc_scaled <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(pc_dist_scaled, <span class="at">centers =</span> <span class="dv">10</span>)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>km_pc_unscaled <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(pc_dist_unscaled, <span class="at">centers =</span> <span class="dv">10</span>)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>km_euclid <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(edge_dist, <span class="at">centers =</span> <span class="dv">10</span>)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>km_maha <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(dist_mat_mah, <span class="at">centers =</span> <span class="dv">10</span>)</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Access cluster assignments</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>clusters_pc_scaled <span class="ot">&lt;-</span> km_pc_scaled<span class="sc">$</span>cluster</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>clusters_pc_unscaled <span class="ot">&lt;-</span> km_pc_unscaled<span class="sc">$</span>cluster</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>clusters_euclid <span class="ot">&lt;-</span> km_euclid<span class="sc">$</span>cluster</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>clusters_maha <span class="ot">&lt;-</span> km_maha<span class="sc">$</span>cluster</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>fh_pc_scaled <span class="ot">&lt;-</span> clusters_pc_scaled[<span class="st">"Fair Haven Borough School District, NJ"</span>]</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>fh_pc_unscaled <span class="ot">&lt;-</span> clusters_pc_unscaled[<span class="st">"Fair Haven Borough School District, NJ"</span>]</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>fh_euclid <span class="ot">&lt;-</span> clusters_euclid[fh_leaid]</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>fh_maha <span class="ot">&lt;-</span> clusters_maha[fh_leaid]</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>mat_pc_scaled <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">names</span>(clusters_pc_scaled[clusters_pc_scaled<span class="sc">==</span>fh_pc_scaled])) <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="st">"PC Scaled"</span><span class="ot">=</span>value)</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>mat_pc_unscaled <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">names</span>(clusters_pc_unscaled[clusters_pc_unscaled<span class="sc">==</span>fh_pc_unscaled]))  <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="st">"PC Unscaled"</span><span class="ot">=</span>value)</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>mat_euclid <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">names</span>(clusters_euclid[clusters_euclid<span class="sc">==</span>fh_euclid]))  <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="st">"Euclidean"</span><span class="ot">=</span>value) <span class="sc">%&gt;%</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(edge_df <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Geography, LEAID) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">LEAID=</span><span class="fu">as.character</span>(LEAID)), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Euclidean"</span><span class="ot">=</span><span class="st">"LEAID"</span>))</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>mat_maha <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">names</span>(clusters_maha[clusters_maha<span class="sc">==</span>fh_maha]))  <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="st">"Mahalanobis"</span><span class="ot">=</span>value) <span class="sc">%&gt;%</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(edge_df <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Geography, LEAID) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">LEAID=</span><span class="fu">as.character</span>(LEAID)), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Mahalanobis"</span><span class="ot">=</span><span class="st">"LEAID"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">PC Scaled</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">PC Unscaled</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false">Euclidean</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-4" role="tab" aria-controls="tabset-2-4" aria-selected="false">Mahalanobis</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">PC Scaled</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Allendale Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Alpine Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bernards Township School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Closter Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Englewood Cliffs Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Essex Fells Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Fair Haven Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Franklin Lakes Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Glen Ridge Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Glen Rock Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Haddonfield Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Haworth Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ho-Ho-Kus Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Livingston Township School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mendham Township School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Millburn Township School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Montgomery Township School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mountain Lakes Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">North Caldwell Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Northern Highlands Regional School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Old Tappan Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ridgewood Village School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Rumson Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Rumson-Fair Haven Regional School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Summit City School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Tenafly Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">The Chathams School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Upper Saddle River Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">West Windsor-Plainsboro Regional School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Westfield Town School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Woodcliff Lake Borough School District, NJ</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">PC Unscaled</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Allendale Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Alpine Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bernards Township School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Englewood Cliffs Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Essex Fells Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Fair Haven Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Franklin Lakes Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Glen Ridge Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Glen Rock Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Haddonfield Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Haworth Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ho-Ho-Kus Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Little Silver Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Livingston Township School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mendham Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mendham Township School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Millburn Township School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Montgomery Township School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mountain Lakes Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">North Caldwell Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Northern Highlands Regional School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Old Tappan Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Princeton Public Schools, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ridgewood Village School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Rumson Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Rumson-Fair Haven Regional School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Saddle River Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Tenafly Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">The Chathams School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Upper Saddle River Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Westfield Town School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Woodcliff Lake Borough School District, NJ</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Euclidean</th>
+<th style="text-align: left;">Geography</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">3400780</td>
+<td style="text-align: left;">Allenhurst Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3400870</td>
+<td style="text-align: left;">Alpine Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3401110</td>
+<td style="text-align: left;">Avalon Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3404770</td>
+<td style="text-align: left;">Englewood Cliffs Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3404830</td>
+<td style="text-align: left;">Essex Fells Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3404950</td>
+<td style="text-align: left;">Fair Haven Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3405940</td>
+<td style="text-align: left;">Glen Ridge Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3406720</td>
+<td style="text-align: left;">Harding Township School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3407320</td>
+<td style="text-align: left;">Ho-Ho-Kus Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3407350</td>
+<td style="text-align: left;">Hoboken City School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3409930</td>
+<td style="text-align: left;">Mendham Township School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3410200</td>
+<td style="text-align: left;">Millburn Township School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3410590</td>
+<td style="text-align: left;">Montgomery Township School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3411010</td>
+<td style="text-align: left;">Mountain Lakes Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3413410</td>
+<td style="text-align: left;">Princeton Public Schools, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3414160</td>
+<td style="text-align: left;">Rockleigh Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3414370</td>
+<td style="text-align: left;">Rumson Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3414400</td>
+<td style="text-align: left;">Rumson-Fair Haven Regional School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3414520</td>
+<td style="text-align: left;">Saddle River Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3414730</td>
+<td style="text-align: left;">Sea Girt Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3415570</td>
+<td style="text-align: left;">Spring Lake Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3415810</td>
+<td style="text-align: left;">Stone Harbor Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3416110</td>
+<td style="text-align: left;">Tenafly Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3400004</td>
+<td style="text-align: left;">The Chathams School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3418210</td>
+<td style="text-align: left;">Woodcliff Lake Borough School District, NJ</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="tabset-2-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-4-tab">
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Mahalanobis</th>
+<th style="text-align: left;">Geography</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">3400720</td>
+<td style="text-align: left;">Allamuchy Township School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3400930</td>
+<td style="text-align: left;">Asbury Park City School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3401140</td>
+<td style="text-align: left;">Avon-by-the-Sea Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3401290</td>
+<td style="text-align: left;">Beach Haven Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3402130</td>
+<td style="text-align: left;">Bradley Beach Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3402700</td>
+<td style="text-align: left;">Cape May City School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3404230</td>
+<td style="text-align: left;">East Orange City School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3404950</td>
+<td style="text-align: left;">Fair Haven Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3405070</td>
+<td style="text-align: left;">Fairview Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3406090</td>
+<td style="text-align: left;">Green Township School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3406420</td>
+<td style="text-align: left;">Hainesport Township School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3407170</td>
+<td style="text-align: left;">Highland Park Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3407200</td>
+<td style="text-align: left;">Highlands Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3407650</td>
+<td style="text-align: left;">Interlaken Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3407860</td>
+<td style="text-align: left;">Keansburg Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3408160</td>
+<td style="text-align: left;">Lakehurst Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3408671</td>
+<td style="text-align: left;">Longport Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3409960</td>
+<td style="text-align: left;">Merchantville Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3410380</td>
+<td style="text-align: left;">Monmouth Beach Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3410890</td>
+<td style="text-align: left;">Mount Ephraim Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3411520</td>
+<td style="text-align: left;">North Caldwell Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3411550</td>
+<td style="text-align: left;">North Haledon Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3412030</td>
+<td style="text-align: left;">Ocean Gate Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3412270</td>
+<td style="text-align: left;">Orange City Township School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3413140</td>
+<td style="text-align: left;">Plainfield City School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3413380</td>
+<td style="text-align: left;">Port Republic City School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3413470</td>
+<td style="text-align: left;">Prospect Park Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3414220</td>
+<td style="text-align: left;">Roosevelt Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3414250</td>
+<td style="text-align: left;">Roseland Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3414760</td>
+<td style="text-align: left;">Sea Isle City School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3414820</td>
+<td style="text-align: left;">Seaside Park Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3415000</td>
+<td style="text-align: left;">Somerdale Borough School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3416320</td>
+<td style="text-align: left;">Tuckerton Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3416590</td>
+<td style="text-align: left;">Upper Pittsgrove Township School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3417400</td>
+<td style="text-align: left;">West Cape May Borough School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3417730</td>
+<td style="text-align: left;">Westampton Township School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3417910</td>
+<td style="text-align: left;">White Township School District, NJ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3417940</td>
+<td style="text-align: left;">Wildwood City School District, NJ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3418000</td>
+<td style="text-align: left;">Willingboro Township School District, NJ</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="hierarchical" class="level4">
+<h4 class="anchored" data-anchor-id="hierarchical">Hierarchical</h4>
 </section>
 </section>
+<section id="recap-of-peer-set-approaches" class="level3">
+<h3 class="anchored" data-anchor-id="recap-of-peer-set-approaches">Recap of Peer Set Approaches</h3>
+</section>
+</section>
+<section id="comparing-peer-sets" class="level2">
+<h2 class="anchored" data-anchor-id="comparing-peer-sets">Comparing Peer Sets</h2>
+</section>
+</section>
+<section id="common-core-data-2023-24" class="level1">
+<h1>Common Core Data (2023-24)</h1>
+</section>
+<section id="financial-data-user-friendly-budgets" class="level1">
+<h1>Financial Data (User Friendly Budgets)</h1>
+</section>
+<section id="report-card-data" class="level1">
+<h1>Report Card Data</h1>
+</section>
+<section id="bring-the-data-together" class="level1">
+<h1>Bring the data together</h1>
+
+
 </section>
 
 </main> <!-- /main -->
@@ -1277,6 +2497,38 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","descPosition":"bottom","loop":false,"openEffect":"zoom","closeEffect":"zoom"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
