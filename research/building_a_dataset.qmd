@@ -1,6 +1,7 @@
 ---
 title: "Building a dataset"
 author: "Peter M. Crosta"
+date: last-modified
 format:
   html:
     code-fold: true
@@ -58,6 +59,66 @@ rums_staid <- "NJ-254570"
 shrews_leaid <- "3414970"
 shrews_staid <- "NJ-254770"
 ```
+
+# Common Core of Data
+
+The first data set I leverage is the [Common Core of Data](https://nces.ed.gov/ccd/files.asp#Fiscal:2,LevelId:5,Page:1), a directory of PK-12 schools curated by the Federal Government. The most recent data is specific to the 2023-24 school year, which is suitable for the purpose of building a directory of public, non-charter NJ districts that that offer grades PK/K-8 like Fair Haven.
+
+```{r}
+#| label: read-ccd
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| code-summary: Code - Read Common Core of Data
+
+url <- "https://nces.ed.gov/ccd/Data/zip/ccd_lea_029_2324_w_0a_050824.zip"
+
+temp_file <- tempfile(fileext = ".zip") 
+download.file(url, destfile = temp_file, mode = "wb") 
+out <- unzip(temp_file, exdir = tempdir())
+
+outcsv <- grep(pattern="csv$", x = out, value = T) 
+ccd <- read_csv(outcsv)
+
+# Create subset of public NJ K-8
+ccdnjk12 <- ccd  %>%  
+  dplyr::filter(ST=="NJ", LEA_TYPE==1, CHARTER_LEA=="NOTCHR") %>% 
+  dplyr::filter(G_9_OFFERED=="No", G_10_OFFERED=="No", G_11_OFFERED=="No", G_12_OFFERED=="No", G_13_OFFERED=="No") %>% 
+  dplyr::filter(GSLO != "05", ! GSHI %in% c("04", "05")) %>%
+  dplyr::select(SCHOOL_YEAR, ST, LEA_NAME, ST_LEAID, LEAID, LSTREET1, LSTREET2, LSTREET3, LCITY, LZIP, WEBSITE, G_PK_OFFERED, GSLO, GSHI)
+
+# Serialize
+saveRDS(ccdnjk12, file="datasets/ccdnjk12.rds")
+write_csv(ccdnjk12, file="datasets/ccdnjk12.csv")
+```
+
+I identify `{r} nrow(ccdnjk12)` public, non-charter NJ districts that that offer grades PK/K-8 like Fair Haven. These are saved as [RDS](datasets/ccdnjk12.rds) or [CSV](datasets/ccdnjk12.csv) files for easy access.
+
+<details>
+
+<summary>Click to show/hide table of districts</summary>
+
+```{r}
+#| label: nj-ccd
+#| echo: false
+#| results: asis
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| code-summary: Code - Table of PK/K-8 NJ Public Districts
+#| dependson: read-ccd
+
+rmarkdown::paged_table(ccdnjk12,
+  options = list(
+    rows.print = 5
+  )
+)
+```
+
+</details>
 
 # ACS EDGE
 
@@ -328,7 +389,7 @@ glue("Created `edge_df`. `edge_df` has {nrow(edge_df)} rows and {ncol(edge_df)} 
     -   `HH_Income_150k_199k`: Percent with household income \$150,000 to \$199,999
     -   `HH_Income_200k_plus`: Percent with household income \$200,000 or more
 
-Finally, I serialize the `edge_df` data frame so that it can be accessed without having to rerun all this code. Here are links to an [RDS](datasets/edge_df.rds) file or a [CSV](datasets/edge_df.csv) file
+Finally, I serialize the `edge_df` data frame so that it can be accessed without having to rerun all this code. Here are links to an [RDS](datasets/edge_df.rds) file or a [CSV](datasets/edge_df.csv) file.
 
 ```{r}
 #| label: save-edge-data
@@ -337,12 +398,16 @@ Finally, I serialize the `edge_df` data frame so that it can be accessed without
 #| warning: false
 #| eval: true
 #| cache: true
-#| code-summary: Code - Serialize ACD-EDGE dataset and make accessible
+#| code-summary: Code - Serialize ACS-EDGE dataset and make accessible
 #| dependson: process-edge-data
 
 saveRDS(edge_df, file="datasets/edge_df.rds")
 write_csv(edge_df, file="datasets/edge_df.csv")
 ```
+
+<details>
+
+<summary>Click to show/hide ACS-EDGE data</summary>
 
 ```{r}
 #| label: show-edgedf
@@ -363,6 +428,7 @@ datatable(edge_df %>% dplyr::select(-GeoId),
     "ACS-EDGE Data")
 )
 ```
+</details>
 
 # Generating Peer Districts
 
@@ -414,7 +480,7 @@ similar_districts_euclid <- edge_df[closest_indices_euclid, ] %>% dplyr::mutate(
 # Print table
 datatable(similar_districts_euclid,
   options = list(
-    pageLength = 10,
+    pageLength = 5,
     searching = TRUE,
     ordering = TRUE
   ),
@@ -473,7 +539,7 @@ similar_districts_mah <- (edge_df %>% dplyr::filter(LEAID %in% rownames(dist_mat
 # Print table
 datatable(similar_districts_mah,
   options = list(
-    pageLength = 10,
+    pageLength = 5,
     searching = TRUE,
     ordering = TRUE
   ),
@@ -535,7 +601,8 @@ In @fig-pca, it is clear that Component 1 (PC1) is loading on income and educati
 
 ::: panel-tabset
 #### PCA Heatmap
-``` {r}
+
+```{r}
 #| eval: true
 #| include: true
 #| label: fig-pca
@@ -560,7 +627,7 @@ ggplot(loadings_long %>% filter(PC %in% c("PC1", "PC2")), aes(x = PC, y = Variab
 
 #### PC1 Peers
 
-``` {r}
+```{r}
 #| eval: true
 #| include: true
 #| label: pc1-peers
@@ -579,12 +646,16 @@ fh_pcaid <- which(pc_all_scores_df$LEAID == fh_leaid)
 
 table_dat1 <- pc_all_scores_df[(max(0,fh_pcaid-30)):(fh_pcaid+30), c("Geography", "LEAID", "PC1")]
 
-knitr::kable(table_dat1, format = "html", row.names = FALSE)
+rmarkdown::paged_table(table_dat1,
+  options = list(
+    rows.print = 10
+  )
+)
 ```
 
 #### PC2 Peers
 
-``` {r}
+```{r}
 #| eval: true
 #| include: true
 #| label: pc2-peers
@@ -603,7 +674,11 @@ fh_pcaid <- which(pc_all_scores_df$LEAID == fh_leaid)
 
 table_dat2 <- pc_all_scores_df[(max(0,fh_pcaid-30)):(fh_pcaid+30), c("Geography", "LEAID", "PC2")]
 
-knitr::kable(table_dat2, format = "html", row.names = FALSE)
+rmarkdown::paged_table(table_dat2,
+  options = list(
+    rows.print = 10
+  )
+)
 ```
 :::
 
@@ -613,7 +688,7 @@ A final approach to identifying peer districts is cluster analysis. Cluster anal
 
 #### K-means clusters
 
-K-means clustering requires a distance matrix as input, and we have already created Euclidean and Mahalanobis distance matrices. The PCA results from earlier can also be converted to distance matrix and thus clustered. Both scaled and un-scaled PCA results are clustered. The un-scaled version should over-weight PC1, and the scaled version should treat PC1 and PC2 more equally. The tab set below shows the resulting peer groups from a relatively simple K-means routine, assuming 10 clusters.
+K-means clustering requires a distance matrix as input, and we have already created Euclidean and Mahalanobis distance matrices. We can also apply distance calculations to the PCA results in order to generate clusters based on the reduced dimensionality provided by principal components. Both scaled and un-scaled PCA results are clustered. The un-scaled version should over-weight PC1, and the scaled version should treat PC1 and PC2 more equally. The tab set below shows the resulting peer groups from a standard K-means routine that assumes 10 clusters (a full treatment of K-means that searches for the optimal number of clusters is omitted in this document). 
 
 ```{r}
 #| label: kmeans-dev
@@ -661,36 +736,9 @@ mat_maha <- as_tibble(names(clusters_maha[clusters_maha==fh_maha]))  %>% rename(
 ```
 
 ::: panel-tabset
-##### PC Scaled
-``` {r}
-#| eval: true
-#| include: true
-#| label: kmpc-scaled
-#| echo: false
-#| message: false
-#| warning: false
-#| cache: true
-#| dependson: kmeans-dev
-
-knitr::kable(mat_pc_scaled)
-```
-
-##### PC Unscaled
-``` {r}
-#| eval: true
-#| include: true
-#| label: kmpc-unscaled
-#| echo: false
-#| message: false
-#| warning: false
-#| cache: true
-#| dependson: kmeans-dev
-
-knitr::kable(mat_pc_unscaled)
-```
-
 ##### Euclidean
-``` {r}
+
+```{r}
 #| eval: true
 #| include: true
 #| label: kmeuclid
@@ -700,11 +748,16 @@ knitr::kable(mat_pc_unscaled)
 #| cache: true
 #| dependson: kmeans-dev
 
-knitr::kable(mat_euclid)
+rmarkdown::paged_table(mat_euclid %>% dplyr::select(Geography),
+  options = list(
+    rows.print = 10
+  )
+)
 ```
 
 ##### Mahalanobis
-``` {r}
+
+```{r}
 #| eval: true
 #| include: true
 #| label: kmmaha
@@ -714,7 +767,49 @@ knitr::kable(mat_euclid)
 #| cache: true
 #| dependson: kmeans-dev
 
-knitr::kable(mat_maha)
+rmarkdown::paged_table(mat_maha %>% dplyr::select(Geography),
+  options = list(
+    rows.print = 10
+  )
+)
+```
+
+##### PC Scaled
+
+```{r}
+#| eval: true
+#| include: true
+#| label: kmpc-scaled
+#| echo: false
+#| message: false
+#| warning: false
+#| cache: true
+#| dependson: kmeans-dev
+
+rmarkdown::paged_table(mat_pc_scaled,
+  options = list(
+    rows.print = 10
+  )
+)
+```
+
+##### PC Unscaled
+
+```{r}
+#| eval: true
+#| include: true
+#| label: kmpc-unscaled
+#| echo: false
+#| message: false
+#| warning: false
+#| cache: true
+#| dependson: kmeans-dev
+
+rmarkdown::paged_table(mat_pc_unscaled,
+  options = list(
+    rows.print = 10
+  )
+)
 ```
 :::
 
@@ -770,10 +865,8 @@ edge_df %>% dplyr::group_by(hc1_grp10) %>%
 
 ## Comparing Peer Sets
 
-# Common Core Data (2023-24) #
+# Financial Data (User Friendly Budgets)
 
-# Financial Data (User Friendly Budgets) #
+# Report Card Data
 
-# Report Card Data #
-
-# Bring the data together #
+# Bring the data together

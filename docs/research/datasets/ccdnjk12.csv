@@ -1,0 +1,268 @@
+SCHOOL_YEAR,ST,LEA_NAME,ST_LEAID,LEAID,LSTREET1,LSTREET2,LSTREET3,LCITY,LZIP,WEBSITE,G_PK_OFFERED,GSLO,GSHI
+2023-2024,NJ,Great Meadows Regional School District,NJ-411785,3400008,281 Route 46,NA,NA,Great Meadows,07838,http://www.gmrsd.com,Yes,PK,08
+2023-2024,NJ,Absecon Public Schools District,NJ-010010,3400660,800 Irelan Avenue,NA,NA,Absecon,08201,http://www.abseconschools.org/,Yes,PK,08
+2023-2024,NJ,Alexandria Township School District,NJ-190020,3400690,557 County Road 513,NA,NA,Pittstown,08867,http://www.alexandriaschools.org,Yes,PK,08
+2023-2024,NJ,Allamuchy Township School District,NJ-410030,3400720,20 Johnsonburg Road,NA,NA,Allamuchy,07820,http://www.aes.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Allendale Public School District,NJ-030040,3400750,100 Brookside Avenue,NA,NA,Allendale,07401,http://www.allendalek8.com,Yes,PK,08
+2023-2024,NJ,Alloway Twp School District,NJ-330060,3400810,43 Cedar Street,NA,NA,ALLOWAY,08001,http://www.allowayschool.org,Yes,PK,08
+2023-2024,NJ,Alpha Borough School District,NJ-410070,3400840,817 North Blvd.,NA,NA,Alpha,08865,http://www.apsedu.org,Yes,PK,08
+2023-2024,NJ,Alpine Public School District,NJ-030080,3400870,500 Hillside Ave.,NA,NA,Alpine,07620,http://www.alpineschool.org,No,KG,08
+2023-2024,NJ,Andover Regional School District,NJ-370090,3400900,707 Limecrest Rd.,NA,NA,Newton,07860,http://www.andoverregional.org,Yes,PK,08
+2023-2024,NJ,Atlantic Highlands School District,NJ-250130,3401020,140 First Avenue,NA,NA,Atlantic Highlands,07716,http://ahes.tridistrict.org/,Yes,PK,06
+2023-2024,NJ,Avon Boro School District,NJ-250180,3401140,505 LINCOLN AVE,NA,NA,AVON,07717,http://WWW.AVONSCHOOL.COM,Yes,PK,08
+2023-2024,NJ,Barrington School District,NJ-070190,3401170,311 Reading Avenue,NA,NA,Barrington,08007,http://www.barringtonschools.net,Yes,PK,08
+2023-2024,NJ,Bay Head Borough School District,NJ-290210,3401230,145 Grove Street,NA,NA,Bay Head,08742,http://www.bayheadschool.org,No,KG,08
+2023-2024,NJ,Beach Haven School District,NJ-290230,3401290,700 North Beach Ave.,NA,NA,Beach Haven,08008,http://www.BeachHavenSchool.com,Yes,PK,06
+2023-2024,NJ,Bedminster Township Public School District,NJ-350240,3401320,234 Somerville Road,NA,NA,Bedminster,07921,http://www.bedminsterschool.org,Yes,PK,08
+2023-2024,NJ,Bellmawr Public School District,NJ-070260,3401380,256 Anderson Ave,NA,NA,Bellmawr,08031,http://www.bellmawrschools.org,Yes,PK,08
+2023-2024,NJ,Belmar Elementary School District,NJ-250270,3401410,1101 Main St,NA,NA,Belmar,07719,http://www.belmar.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Berkeley Township School District,NJ-290320,3401560,53 Central Parkway,NA,NA,Bayville,08721,http://www.btboe.org,Yes,PK,06
+2023-2024,NJ,Berlin Borough School District,NJ-070330,3401590,215 South Franklin Avenue,NA,NA,Berlin,08009,http://www.bcsberlin.org,Yes,PK,08
+2023-2024,NJ,Berlin Township School District,NJ-070340,3401620,225 Grove Avenue,NA,NA,West Berlin,08091,http://www.btwpschools.org,Yes,PK,08
+2023-2024,NJ,Bethlehem Township School District,NJ-190370,3401710,280 Asbury West Portal Road,NA,NA,Asbury,08802,http://www.btschools.org,Yes,PK,08
+2023-2024,NJ,Beverly City School District,NJ-050380,3401740,601 Bentley Ave.,NA,NA,Beverly,08010,http://www.beverlycityschool.org,Yes,PK,08
+2023-2024,NJ,Blairstown Elementary Township School District,NJ-410400,3401800,1 Sunset Hill Road,NA,NA,Blairstown,07825,http://www.blairstownelem.net,Yes,PK,06
+2023-2024,NJ,Bloomingdale School District,NJ-310420,3401860,225 Glenwild Avenue,NA,NA,Bloomingdale,07403,http://www.bloomingdaleschools.org,Yes,PK,08
+2023-2024,NJ,Bloomsbury Borough School District,NJ-190430,3401890,20 Main Street,NA,NA,Bloomsbury,08804,http://www.bburyes.org,Yes,PK,08
+2023-2024,NJ,Boonton Township School District,NJ-270460,3401980,11 Valley Road,NA,NA,Boonton Township,07005,http://www.rvsnj.org,Yes,PK,08
+2023-2024,NJ,Bradley Beach School District,NJ-250500,3402130,515 Brinley Avenue,NA,NA,Bradley Beach,07720,http://www.bbesnj.org,Yes,PK,08
+2023-2024,NJ,Branchburg Township School District,NJ-350510,3402160,240 Baird Road,NA,NA,Branchburg,08876,http://www.branchburg.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Brielle Boro School District,NJ-250560,3402310,605 UNION LANE,NA,NA,BRIELLE,08730,http://www.brielleschool.org,Yes,PK,08
+2023-2024,NJ,Brigantine Public School District,NJ-010570,3402340,301 East Evans Boulevard,NA,NA,Brigantine,08203,http://www.brigantineschools.org,Yes,PK,08
+2023-2024,NJ,Brooklawn Public School District,NJ-070580,3402370,301 Haakon Road,NA,NA,Brooklawn,08030,http://www.alicecostello.com,Yes,PK,08
+2023-2024,NJ,Byram Township School District,NJ-370640,3402550,12 Mansfield Drive,NA,NA,Stanhope,07874,http://www.byramschools.org,Yes,PK,08
+2023-2024,NJ,Califon Borough School District,NJ-190670,3402610,6 School St,NA,NA,Califon,07830,http://www.califonschool.org,Yes,PK,08
+2023-2024,NJ,Cape May City School District,NJ-090710,3402700,921 Lafayette Street,NA,NA,Cape May,08204,http://www.cmcboe.org,Yes,PK,06
+2023-2024,NJ,Carlstadt Public School District,NJ-030740,3402790,550 WASHINGTON STREET,NA,NA,CARLSTADT,07072,http://www.carlstadt.org,Yes,PK,08
+2023-2024,NJ,Chester Township School District,NJ-270820,3403060,50 North Road,Building 4,NA,Chester,07930,http://www.chester-nj.org,Yes,PK,08
+2023-2024,NJ,Chesterfield Township School District,NJ-050830,3403090,30 Saddle Way,NA,NA,Chesterfield,08515,http://www.chesterfieldschool.com,Yes,PK,06
+2023-2024,NJ,Clementon Elementary School District,NJ-070880,3403240,4 Audubon Avenue,NA,NA,Clementon,08021,http://clementon.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Clinton-Glen Gardner School District,NJ-190910,3403330,10 School Street,NA,NA,Clinton,08809,http://cpsnj.org,Yes,PK,08
+2023-2024,NJ,Clinton Township School District,NJ-190920,3403360,128 Cokesbury Road,NA,NA,Lebanon,08833,http://www.ctsdnj.org,Yes,PK,08
+2023-2024,NJ,Closter Public School District,NJ-030930,3403390,340 Homans Avenue,NA,NA,Closter,07624,http://www.closterschools.org,Yes,PK,08
+2023-2024,NJ,Colts Neck Township School District,NJ-250945,3403450,70 Conover Road,NA,NA,Colts Neck,07722,http://www.coltsneckschools.org,Yes,PK,08
+2023-2024,NJ,Commercial Township School District,NJ-110950,3403480,1308 North Avenue,NA,NA,Port Norris,08349,http://www.commercialschools.org,Yes,PK,08
+2023-2024,NJ,Cranbury Township School District,NJ-230970,3403540,23 North Main Street,NA,NA,Cranbury,08512,http://www.cranburyschool.org,Yes,PK,08
+2023-2024,NJ,Deal Boro School District,NJ-251000,3403630,201 Roseld Ave,NA,NA,Deal,07723,http://www.dealschool.org,No,KG,08
+2023-2024,NJ,Deerfield Township School District,NJ-111020,3403660,419 MORTON AVENUE,NA,NA,ROSENHAYN,08352,http://www.deerfield.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Delanco Township School District,NJ-051030,3403690,1301 Burlington Avenue,NA,NA,Delanco,08075,http://www.delanco.com,Yes,PK,08
+2023-2024,NJ,Delaware Township School District,NJ-191040,3403720,501 Rosemont Ringoes Road,NA,NA,Sergeantsville,08557,http://www.dtsk8.org,Yes,PK,08
+2023-2024,NJ,Demarest School District,NJ-031070,3403810,568 Piermont Road,NA,NA,Demarest,07627,http://demarestpublicschools.org,Yes,PK,08
+2023-2024,NJ,Dennis Township School District,NJ-091080,3403840,601 HAGAN ROAD,NA,NA,CLERMONT,08210,http://www.dtschools.org,Yes,PK,08
+2023-2024,NJ,Denville Township K-8 School District,NJ-271090,3403870,1 St. Mary's Place,2nd Floor,NA,Denville,07834,http://www.denville.org,Yes,PK,08
+2023-2024,NJ,Downe Township School District,NJ-111120,3403960,220 Main Street,NA,NA,Newport,08345,http://www.downeschool.org,Yes,PK,08
+2023-2024,NJ,Eagleswood Township School District,NJ-291150,3404050,511 Route 9,NA,NA,West Creek,08092,http://www.eagleswood.org,Yes,PK,06
+2023-2024,NJ,East Amwell Township School District,NJ-191160,3404080,43 Wertsville Road,NA,NA,Ringoes,08551,http://www.eastamwell.org,Yes,PK,08
+2023-2024,NJ,East Greenwich Township School District,NJ-151180,3404140,559 Kings Highway,NA,NA,Mickleton,08056,http://www.eastgreenwich.k12.nj.us,Yes,PK,06
+2023-2024,NJ,East Hanover Township School District,NJ-271190,3404170,20 School Avenue,NA,NA,East Hanover,07936,http://www.easthanoverschools.org,Yes,PK,08
+2023-2024,NJ,East Newark School District,NJ-171200,3404200,501-11 North Third Street,NA,NA,East Newark,07029,http://www.eastnewarkschool.org,No,KG,08
+2023-2024,NJ,East Rutherford School District,NJ-031230,3404290,250 Grove Street,NA,NA,East Rutherford,07073,http://www.erboe.net,Yes,PK,08
+2023-2024,NJ,Eastampton Township School District,NJ-051250,3404350,1 Student Drive,NA,NA,Eastampton,08060,http://www.etsdnj.us,Yes,PK,08
+2023-2024,NJ,Eatontown Public School District,NJ-251260,3404410,5 Grant Avenue,NA,NA,Eatontown,07724,http://www.eatontown.org,Yes,PK,08
+2023-2024,NJ,Edgewater School District,NJ-031270,3404440,251 Undercliff Ave,NA,NA,Edgewater,07020,http://www.edgewaterschools.org,Yes,PK,06
+2023-2024,NJ,Edgewater Park Township School District,NJ-051280,3404470,25 Washington Avenue,NA,NA,Edgewater Park,08010,http://www.edgewaterparksd.org,Yes,PK,08
+2023-2024,NJ,Egg Harbor City School District,NJ-011300,3404530,730 Havana Avenue,NA,NA,Egg Harbor City,08215,http://www.eggharborcityschools.com,Yes,PK,08
+2023-2024,NJ,Elk Township School District,NJ-151330,3404620,900 Clems Run,NA,NA,Glassboro,08028,http://www.auraelementary.us,Yes,PK,06
+2023-2024,NJ,Elsinboro Township School District,NJ-331350,3404680,631 Salem-Ft. Elfsborg Rd.,NA,NA,Salem,08079,http://www.elsinboroschool.org,No,KG,08
+2023-2024,NJ,Englewood Cliffs School District,NJ-031380,3404770,143 Charlotte Place,NA,NA,Englewood Cliffs,07632,http://www.englewoodcliffs.org,Yes,PK,08
+2023-2024,NJ,Essex Fells School District,NJ-131400,3404830,102 HAWTHORNE ROAD,NA,NA,ESSEX FELLS,07021,http://www.efsk-6.org,Yes,PK,06
+2023-2024,NJ,Estell Manor School District,NJ-011410,3404860,128 Cape May Avenue,NA,NA,Estell Manor,08319,http://www.estellmanorschool.com,Yes,PK,08
+2023-2024,NJ,Evesham Township School District,NJ-051420,3404890,25 S. Maple Avenue,NA,NA,Marlton,08053,http://www.evesham.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Fair Haven School District,NJ-251440,3404950,224 Hance Road,Fair Haven,NA,Fair Haven,07704,http://www.fairhaven.edu,Yes,PK,08
+2023-2024,NJ,Fairfield Public School District,NJ-131465,3405010,277 Fairfield Road,Suite 208,NA,Fairfield,07004,http://www.fpsk6.org,Yes,PK,06
+2023-2024,NJ,Fairfield Township School District,NJ-111460,3405040,375 Gouldtown-Woodruff Rd.,NA,NA,Bridgeton,08302,http://www.fairfield.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Fairview Public School District,NJ-031470,3405070,130 Hamilton Avenue,NA,NA,Fairview,07022,http://www.fairviewps.org,Yes,PK,08
+2023-2024,NJ,Farmingdale Public School District,NJ-251490,3405130,49 Academy Street,NA,NA,Farmingdale,07727,http://www.farmingdaleschool.com,Yes,PK,08
+2023-2024,NJ,Flemington-Raritan Regional School District,NJ-191510,3405190,50 Court Street,NA,NA,Flemington,08822,http://www.frsd.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Florham Park School District,NJ-271530,3405250,67 Ridgedale Aveune,NA,NA,Florham Park,07932,http://www.fpks.org,Yes,PK,08
+2023-2024,NJ,Folsom Borough School District,NJ-011540,3405280,1357 Mays Landing Road,NA,NA,Folsom,08037,http://www.folsomschool.org/,Yes,PK,08
+2023-2024,NJ,Frankford Township Consolidated School District,NJ-371560,3405340,2 Pines Road,NA,NA,Branchville,07826,http://www.frankfordschool.org,Yes,PK,08
+2023-2024,NJ,Franklin Lakes School District,NJ-031580,3405370,490 Pulis Avenue,NA,NA,Franklin Lakes,07417,http://www.franklinlakes.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Franklin Borough School District,NJ-371570,3405400,50 Washington Avenue,NA,NA,Franklin,07416,http://www.fboe.org,Yes,PK,08
+2023-2024,NJ,Township of Franklin School District,NJ-151590,3405430,3228 Coles Mill Road,NA,NA,Franklinville,08322,http://www.franklintwpschools.org,Yes,PK,06
+2023-2024,NJ,Franklin Township School District,NJ-191600,3405460,226 Quakertown Road,NA,NA,Quakertown,08868,http://www.ftschool.org,Yes,PK,08
+2023-2024,NJ,Franklin Township School District,NJ-411620,3405520,52 Asbury-Broadway Road,NA,NA,Washington,07882,http://www.franklinschool.org,Yes,PK,06
+2023-2024,NJ,Fredon Township School District,NJ-371630,3405550,459 Route #94S,NA,NA,Newton,07860,http://www.fredon.org,Yes,PK,06
+2023-2024,NJ,Freehold Borough School District,NJ-251640,3405580,280 Park Avenue,NA,NA,Freehold,07728,http://www.freeholdboro.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Freehold Township School District,NJ-251660,3405640,384 West Main Street,NA,NA,Freehold,07728,http://www.freeholdtwp.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Frelinghuysen Township School District,NJ-411670,3405670,780 Route 94,NA,NA,Newton,07860,http://WWW.FRELINGHUYSENSCHOOL.ORG,Yes,PK,06
+2023-2024,NJ,Frenchtown Borough School District,NJ-191680,3405700,902 Harrison St.,NA,NA,Frenchtown,08822,http://www.dvrhs.org/FTSD,Yes,PK,08
+2023-2024,NJ,Galloway Township Public School District,NJ-011690,3405730,101 S REEDS ROAD,NA,NA,GALLOWAY,08205,http://WWW.GTPS.K12.NJ.US,Yes,PK,08
+2023-2024,NJ,Garwood Boro,NJ-391710,3405790,400 Second Avenue,NA,NA,Garwood,07027,http://www.garwoodschools.org,Yes,PK,08
+2023-2024,NJ,Gibbsboro Elementary School District,NJ-071720,3405850,37 Kirkwood Rd.,NA,NA,Gibbsboro,08026,http://www.gibbsboroschool.org,Yes,PK,08
+2023-2024,NJ,Gloucester Township Public Schools,NJ-071780,3406030,17 Erial Road,NA,NA,Blackwood,08012,http://www.gloucestertownshipschools.org,Yes,PK,08
+2023-2024,NJ,Green Township School District,NJ-371800,3406090,69 Mackerley Road,NA,NA,Greendell,07839,http://www.greenhills.org,Yes,PK,08
+2023-2024,NJ,Green Brook Township Public School District,NJ-351810,3406120,132 Jefferson Avenue,NA,NA,Green Brook,08812,http://www.gbtps.org,Yes,PK,08
+2023-2024,NJ,Greenwich Township School District,NJ-111820,3406150,839 YE GREATE STREET,NA,NA,GREENWICH,08323,http://www.greenwichstowcreekpartnershipschools.org,Yes,PK,08
+2023-2024,NJ,Greenwich Township School District,NJ-151830,3406180,415 Swedesboro Road,NA,NA,Gibbstown,08027,http://www.greenwich.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Greenwich Township School District,NJ-411840,3406210,101 Wyndham Farm Boulevard,NA,NA,Stewartsville,08886,http://www.gtsd.net,Yes,PK,08
+2023-2024,NJ,Guttenberg School District,NJ-171850,3406240,301 69th Street,NA,NA,Guttenberg,07093,http://www.alkschool.org,Yes,PK,08
+2023-2024,NJ,Hainesport Township School District,NJ-051910,3406420,211 Broad St.,NA,NA,Hainesport,08036,http://www.hainesport.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Haledon Public School District,NJ-311920,3406450,91 Henry Street,NA,NA,Haledon,07508,http://www.haledon.org,Yes,PK,08
+2023-2024,NJ,Hamburg School District,NJ-371930,3406480,30 Linwood Ave.,NA,NA,Hamburg,07419,http://www.hamburgschool.com,Yes,PK,08
+2023-2024,NJ,Hamilton Township School District,NJ-011940,3406510,1876 DR. DENNIS FOREMAN DR.,NA,NA,MAYS LANDING,08330,http://www.hamiltonschools.org,Yes,PK,08
+2023-2024,NJ,Hampton Township School District,NJ-371980,3406630,1 School Road,NA,NA,Newton,07860,http://www.mckeown.org,Yes,PK,06
+2023-2024,NJ,Hanover Township School District,NJ-272000,3406690,61 Highland Avenue,NA,NA,Whippany,07981,http://www.hanovertwpschools.com,Yes,PK,08
+2023-2024,NJ,Harding Township School District,NJ-272010,3406720,34 Lees Hill Road,NA,NA,New Vernon,07976,http://www.hardingtwp.org,Yes,PK,08
+2023-2024,NJ,Hardyston Township School District,NJ-372030,3406780,183 Wheatsworth Road,NA,NA,Hamburg,07419,http://www.htps.org,Yes,PK,08
+2023-2024,NJ,Harmony Township School District,NJ-412040,3406810,2551 BELVIDERE ROAD,NA,NA,PHILLIPSBURG,08865,http://www.htesd.org,Yes,PK,08
+2023-2024,NJ,Harrington Park School District,NJ-032050,3406840,191 Harriot Avenue,NA,NA,Harrington Park,07640,http://www.hpsd.org,Yes,PK,08
+2023-2024,NJ,Harrison Township School District,NJ-152070,3406900,120 N. Main Street,NA,NA,Mullica Hill,08062,http://www.harrisontwp.k12.nj.us,Yes,PK,06
+2023-2024,NJ,Haworth Public School District,NJ-032090,3406960,205 Valley Road,NA,NA,Haworth,07641,http://www.haworth.org,Yes,PK,08
+2023-2024,NJ,High Bridge Borough School District,NJ-192140,3407110,40 Fairview Ave,NA,NA,HIGH BRIDGE,08829,http://www.hbschools.org,Yes,PK,08
+2023-2024,NJ,Highlands Borough School District,NJ-252160,3407200,360 Navesink Ave,NA,NA,Highlands,07732,http://www.HighlandsElementary.org,Yes,PK,06
+2023-2024,NJ,Hillsdale School District,NJ-032180,3407260,32 RUCKMAN ROAD,NA,NA,HILLSDALE,07642,http://www.hillsdaleschools.com,Yes,PK,08
+2023-2024,NJ,Ho-Ho-Kus School District,NJ-032200,3407320,70 Lloyd Road,NA,NA,Ho-Ho-Kus,07423,http://www.hohokus.org,Yes,PK,08
+2023-2024,NJ,Holland Township School District,NJ-192220,3407380,710 Milford Warren Glen Rd.,NA,NA,Milford,08848,http://www.hollandschool.org,Yes,PK,08
+2023-2024,NJ,Hope Township School District,NJ-412250,3407470,320 Johnsonburg Road,NA,NA,Hope,07844,http://www.hope-elem.org,Yes,PK,08
+2023-2024,NJ,Hopewell Township School District,NJ-112270,3407500,122 Sewall Road,NA,NA,Bridgeton,08302,http://hopewellcrest.org,Yes,PK,08
+2023-2024,NJ,Howell Township Public School District,NJ-252290,3407560,4567 US Route 9,Suite D,NA,Howell Twp,07731,http://www.howell.k12.nj.us/,Yes,PK,08
+2023-2024,NJ,Island Heights School District,NJ-292350,3407710,115 Summit Avenue,NA,NA,Island Heights,08732,http://www.islandheights.k12.nj.us,Yes,PK,06
+2023-2024,NJ,Jamesburg Public School District,NJ-232370,3407770,13 AUGUSTA STREET,NA,NA,JAMESBURG,08831,http://www.jamesburg.org,Yes,PK,08
+2023-2024,NJ,Kingwood Township School District,NJ-192450,3408010,880 COUNTY RD 519,NA,NA,Frenchtown,08825,http://WWW.KINGWOODSCHOOL.ORG,Yes,PK,08
+2023-2024,NJ,Knowlton Township School District,NJ-412470,3408070,80 Route 46,NA,NA,Delaware,07833,http://www.knowltonschool.com,Yes,PK,06
+2023-2024,NJ,Lafayette Township School District,NJ-372490,3408130,178 Beaver Run Road,NA,NA,Lafayette,07848,http://www.ltes.org,Yes,PK,08
+2023-2024,NJ,Lakehurst School District,NJ-292500,3408160,401 UNION AVENUE,NA,NA,LAKEHURST,08733,http://www.lakehurstschool.org,Yes,PK,08
+2023-2024,NJ,Laurel Springs School District,NJ-072540,3408280,623 Grand Ave.,NA,NA,Laurel Springs,08021,http://www.laurelspringschool.org,Yes,PK,06
+2023-2024,NJ,Lavallette Borough School District,NJ-292550,3408310,105 Brooklyn Avenue,NA,NA,Lavallette,08735,http://www.lavallettek12.org,Yes,PK,08
+2023-2024,NJ,Lawnside School District,NJ-072560,3408340,426   East Charleston Avenue,NA,NA,Lawnside,08045,http://lawnside.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Lawrence Township School District,NJ-112570,3408370,225 Main Street,NA,NA,Cedarville,08311,http://www.myronlpowell.org,Yes,PK,08
+2023-2024,NJ,Lebanon Borough School District,NJ-192590,3408430,6 Maple Street,NA,NA,Lebanon,08833,http://www.lebanonschool.org,Yes,PK,06
+2023-2024,NJ,Lebanon Township School District,NJ-192600,3408460,70 Bunnvale Road,NA,NA,Califon,07830,http://www.lebtwpk8.org,Yes,PK,08
+2023-2024,NJ,Lincoln Park School District,NJ-272650,3408580,92 Ryerson Road,NA,NA,Lincoln Park,07035,http://www.lincolnparkboe.org,Yes,PK,08
+2023-2024,NJ,Linwood City School District,NJ-012680,3408670,51 Belhaven Avenue,NA,NA,Linwood,08221,http://www.linwoodschools.org,Yes,PK,08
+2023-2024,NJ,Little Egg Harbor Township School District,NJ-292690,3408700,307 Frog Pond Road,NA,NA,Little Egg Harbor,08087,http://www.lehsd.org,Yes,PK,06
+2023-2024,NJ,Little Falls Township Public School District,NJ-312700,3408730,Little Falls School # 1,32 Stevens Ave.,NA,Little Falls,07424,http://www.lfschools.org,Yes,PK,08
+2023-2024,NJ,Little Ferry Public School District,NJ-032710,3408760,130 Liberty Street,NA,NA,Little Ferry,07643,http://www.lfboe.org,Yes,PK,08
+2023-2024,NJ,Little Silver Boro School District,NJ-252720,3408790,124 WILLOW DRIVE,NA,NA,LITTLE SILVER,07739,http://WWW.LITTLESILVERSCHOOLS.ORG,Yes,PK,08
+2023-2024,NJ,Logan Township School District,NJ-152750,3408880,110 School Lane,NA,NA,Logan Township,08085,http://www.logantownshipschools.org,Yes,PK,08
+2023-2024,NJ,Long Beach Island Consolidated School District,NJ-292760,3408910,201 20TH STREET,NA,NA,SHIP BOTTOM,08008,http://www.lbischools.org,Yes,PK,06
+2023-2024,NJ,Lopatcong Township School District,NJ-412790,3409000,321 Stonehenge Drive,NA,NA,Phillipsburg,08865,http://www.lopatsd.org,Yes,PK,08
+2023-2024,NJ,The Lower Alloways Creek School District,NJ-332800,3409030,967 Main Street - Canton,NA,NA,Salem,08079,http://www.lacschool.org,Yes,PK,08
+2023-2024,NJ,Lower Township Elementary School District,NJ-092840,3409150,905 Seashore Road,Administration,NA,Cape May,08204,http://www.lowertwpschools.com,Yes,PK,06
+2023-2024,NJ,Lumberton Township Board of Education,NJ-052850,3409180,33 Municipal Drive,NA,NA,Lumberton,08048,http://www.lumberton.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Magnolia School District,NJ-072890,3409300,420 N. Warwick Rd,NA,NA,Magnolia,08049,http://www.magnoliaschools.org,Yes,PK,08
+2023-2024,NJ,Manalapan-Englishtown Regional School District,NJ-252920,3409390,54 Main Street,NA,NA,Englishtown,07726,http://www.mersnj.us/,Yes,PK,08
+2023-2024,NJ,Mannington Township School District,NJ-332950,3409480,495 Route 45,NA,NA,Salem,08079,http://manningtonschool.org,Yes,PK,08
+2023-2024,NJ,Mansfield Township School District,NJ-052960,3409510,200 Mansfied Road East,NA,NA,Columbus,08022,http://www.mansfieldschool.com,Yes,PK,06
+2023-2024,NJ,Mansfield Township Elementary School District,NJ-412970,3409540,50 Port Murray Road,NA,NA,Port Murray,07865,http://www.mansfieldtsd.org,Yes,PK,06
+2023-2024,NJ,Mantua Township School District,NJ-152990,3409600,684 Main Street,NA,NA,Sewell,08080,http://www.mantuaschools.com,Yes,PK,06
+2023-2024,NJ,Margate City School District,NJ-013020,3409690,8103 Winchester Avenue,NA,NA,Margate,08402,http://www.margateschools.org,Yes,PK,08
+2023-2024,NJ,Marlboro Township School District,NJ-253030,3409720,1980 Township Drive,NA,NA,Marlboro,07746,http://www.mtps.org,Yes,PK,08
+2023-2024,NJ,Maurice River Township School District,NJ-113050,3409780,3593 RT 47,NA,NA,PORT ELIZABETH,08348,http://WWW.MRTES.COM,Yes,PK,08
+2023-2024,NJ,Maywood School District,NJ-033060,3409810,452 Maywood Avenue,NA,NA,Maywood,07607,http://WWW.MAYWOODSCHOOLS.ORG,Yes,PK,08
+2023-2024,NJ,Medford Lakes School District,NJ-053070,3409840,44 Neeta Trail,NA,NA,Medford Lakes,08055,http://www.medford-lakes.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Medford Township School District,NJ-053080,3409870,137 Hartford Road,NA,NA,Medford,08055,http://www.medford.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Mendham Borough School District,NJ-273090,3409900,12 HILLTOP ROAD,NA,NA,MENDHAM,07945,http://www.mendhamboro.org,Yes,PK,08
+2023-2024,NJ,Mendham Township School District,NJ-273100,3409930,18 West Main Street,NA,NA,Brookside,07926,http://www.mendhamtwp.org,Yes,PK,08
+2023-2024,NJ,Merchantville School District,NJ-073110,3409960,130 S. Centre Street,NA,NA,Merchantville,08109,http://www.merchantvilleschool.org,Yes,PK,08
+2023-2024,NJ,Millstone Township School District,NJ-253200,3410230,5 Dawson Court,NA,NA,Millstone Township,08535,http://www.millstone.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Milltown School District,NJ-233220,3410290,21 West Church Street,NA,NA,Milltown,08850,http://www.milltownps.org,Yes,PK,08
+2023-2024,NJ,Mine Hill Township School District,NJ-273240,3410350,42 Canfield Avenue,NA,NA,Mine Hill,07803,http://www.minehillcas.org,Yes,PK,06
+2023-2024,NJ,Monmouth Beach School District,NJ-253250,3410380,7 Hastings Place,NA,NA,Monmouth Beach,07750,http://WWW.MBSCHOOL.ORG,Yes,PK,08
+2023-2024,NJ,Montague Township School District,NJ-373300,3410530,475 ROUTE 206,NA,NA,MONTAGUE,07827,http://WWW.MONTAGUESCHOOL.ORG,Yes,PK,08
+2023-2024,NJ,Montvale Board of Education School District,NJ-033330,3410620,47 Spring Valley Road,NA,NA,Montvale,07645,http://www.montvalek8.org,Yes,PK,08
+2023-2024,NJ,Moonachie School District,NJ-033350,3410680,20 West Park Street,NA,NA,Moonachie,07074,http://www.moonachieschool.org,Yes,PK,08
+2023-2024,NJ,Morris Plains School District,NJ-273380,3410770,520 SPEEDWELL AVENUE,Suite 116,NA,MORRIS PLAINS,07950,http://sites.google.com/mpsdk8.org/mpsdk8/home,Yes,PK,08
+2023-2024,NJ,Mount Arlington Public School District,NJ-273410,3410860,235 Howard Boulevard,NA,NA,Mount Arlington,07856,http://www.mtartlingtonk8.org,Yes,PK,08
+2023-2024,NJ,Mt. Ephraim School District,NJ-073420,3410890,225 W. Kings Highway,NA,NA,Mt. Ephraim,08059,http://www.mtephraimschools.com,Yes,PK,08
+2023-2024,NJ,Mount Holly Township Public School District,NJ-053430,3410920,331 Levis Drive,NA,NA,Mt. Holly,08060,http://www.mtholly.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Mount Laurel Township School District,NJ-053440,3410950,330 Mount Laurel Road,NA,NA,Mount Laurel,08054,http://mtlaurelschools.org,Yes,PK,08
+2023-2024,NJ,Mountainside School District,NJ-393470,3411040,1497 Woodacres Drive,NA,NA,Mountainside,07092,http://www.mountainsideschools.org,Yes,PK,08
+2023-2024,NJ,Mullica Township School District,NJ-013480,3411070,500 Elwood Road,NA,NA,Elwood,08217,http://www.mullicaschools.com,Yes,PK,08
+2023-2024,NJ,National Park Boro School District,NJ-153490,3411100,516 Lakehurst Avenue,NA,NA,National Park,08063,http://www.npelem.com,Yes,PK,06
+2023-2024,NJ,Neptune City School District,NJ-253500,3411130,210 West Sylvania Ave.,NA,NA,Neptune City,07753,http://www.neptunecityschool.org,Yes,PK,08
+2023-2024,NJ,Netcong School District,NJ-273520,3411190,26 College Road,NA,NA,Netcong,07857,http://www.netcongschool.org,Yes,PK,08
+2023-2024,NJ,New Hanover Township,NJ-053540,3411250,122 Fort Dix Street,NA,NA,Wrightstown,08562,http://newhanover.k12.nj.us,Yes,PK,08
+2023-2024,NJ,North Caldwell School District,NJ-133630,3411520,132A Gould Avenue,NA,NA,North Caldwell,07006,http://www.ncboe.org,Yes,PK,06
+2023-2024,NJ,North Haledon School District,NJ-313640,3411550,201 Squaw Brook Rd.,NA,NA,North Haledon,07508,http://www.nhschools.net/nh,Yes,PK,08
+2023-2024,NJ,North Hanover Township School District,NJ-053650,3411580,331 Monmouth Road,NA,NA,Wrightstown,08562,http://www.nhanover.com,Yes,PK,06
+2023-2024,NJ,North Wildwood School District,NJ-093680,3411670,1201 Atlantic Avenue,NA,NA,North Wildwood,08260,http://www.mmace.com,Yes,PK,08
+2023-2024,NJ,Northfield City School District,NJ-013720,3411790,2000 New Road,NA,NA,Northfield,08225,http://www.ncs-nj.org,Yes,PK,08
+2023-2024,NJ,Northvale Public School District,NJ-033730,3411820,441 TAPPAN ROAD,NA,NA,NORTHVALE,07647,http://www.NORTHVALESCHOOL.ORG,No,KG,08
+2023-2024,NJ,Norwood Public School District,NJ-033740,3411850,177 Summit Street,NA,NA,Norwood,07648,http://www.wearenorwood.org,Yes,PK,08
+2023-2024,NJ,Oakland Public School District,NJ-033760,3411910,315 Ramapo Valley Road,NA,NA,Oakland,07436,http://www.oaklandschoolsnj.org,Yes,PK,08
+2023-2024,NJ,Ocean Gate School District,NJ-293800,3412030,126 West Arverne Avenue,NA,NA,Ocean Gate,08740,http://www.oceangateschool.net,Yes,PK,06
+2023-2024,NJ,Ocean Township School District,NJ-293820,3412090,64 Railroad Avenue,NA,NA,Waretown,08758,http://www.otsdk6.org,Yes,PK,06
+2023-2024,NJ,Oceanport School District,NJ-253830,3412120,29 Wolf Hill Avenue,NA,NA,Oceanport,07757,http://oceanportschools.org,Yes,PK,08
+2023-2024,NJ,Ogdensburg Borough School District,NJ-373840,3412150,100 Main Street,NA,NA,Ogdensburg,07439,http://www.obboe.org,Yes,PK,08
+2023-2024,NJ,Old Tappan Public School District,NJ-033850,3412180,277 Old Tappan Rd.,NA,NA,Old Tappan,07675,http://www.oldtappanschools.org,Yes,PK,08
+2023-2024,NJ,Oldmans Township School District,NJ-333860,3412210,10 FREED ROAD,NA,NA,PEDRICKTOWN,08067,http://WWW.OLDMANS.ORG,Yes,PK,08
+2023-2024,NJ,Oradell Public School District,NJ-033870,3412240,350 Prospect Avenue,NA,NA,Oradell,07649,http://oradellschool.org,Yes,PK,06
+2023-2024,NJ,Oxford Township School District,NJ-413890,3412300,17 Kent Street,NA,NA,Oxford,07863,http://www.oxfordcentral.org,Yes,PK,08
+2023-2024,NJ,Long Hill Township School District,NJ-274000,3412660,759 Valley Road,NA,NA,Gillette,07933,http://www.longhill.org,Yes,PK,08
+2023-2024,NJ,Pohatcong Township School District,NJ-414200,3413260,240 Route 519,NA,NA,Phillipsburg,08865,http://www.pohatcong.org,Yes,PK,08
+2023-2024,NJ,Port Republic School District,NJ-014240,3413380,137 Pomona Avenue,NA,NA,Port Republic,08241,http://www.portnj.org,No,KG,08
+2023-2024,NJ,Prospect Park Public School District,NJ-314270,3413470,94 Brown Avenue,NA,NA,Prospect Park,07508,http://www.prospectparknj.com,Yes,PK,08
+2023-2024,NJ,Quinton Township School District,NJ-334280,3413500,8 ROBINSON STREET,NA,NA,QUINTON,08072,http://www.quintonschool.info,Yes,PK,08
+2023-2024,NJ,Readington Township School District,NJ-194350,3413710,52  Readington Road,NA,NA,Whitehouse Station,08889,http://www.readington.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Red Bank Borough Public School District,NJ-254360,3413740,76 Branch Avenue,NA,NA,Red Bank,07701,http://www.rbb.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Ringwood School District,NJ-314400,3413860,121 Carletondale Road,NA,NA,Ringwood,07456,http://www.njrps.org,No,KG,08
+2023-2024,NJ,River Edge School District,NJ-034410,3413890,410 Bogert Road,NA,NA,River Edge,07661,http://www.riveredgeschools.org,Yes,PK,06
+2023-2024,NJ,River Vale Public School District,NJ-034430,3413950,609 Westwood Avenue,NA,NA,River Vale,07675,http://www.rivervaleschools.com,Yes,PK,08
+2023-2024,NJ,Riverdale School District,NJ-274440,3413980,52 Newark Pompton Tpk.,NA,NA,Riverdale,07457,http://www.rpsnj.org,Yes,PK,08
+2023-2024,NJ,Riverton School District,NJ-054460,3414040,600 Fifth Street,Riverton School,NA,Riverton,08077,http://www.riverton.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Rochelle Park School District,NJ-034470,3414070,300 Rochelle Ave,NA,NA,Rochelle Park,07662,http://www.rochellepark.org,Yes,PK,08
+2023-2024,NJ,Rockaway Borough School District,NJ-274480,3414100,103 East Main Street,NA,NA,Rockaway,07866,http://www.rockboro.org,Yes,PK,08
+2023-2024,NJ,Rockaway Township School District,NJ-274490,3414130,16 School Road,NA,NA,Hibernia,07842,http://www.rocktwp.net,Yes,PK,08
+2023-2024,NJ,Roseland School District,NJ-134530,3414250,100 Passaic Avenue,NA,NA,Roseland,07068,http://www.roselandnjboe.org,Yes,PK,06
+2023-2024,NJ,Rumson Borough School District,NJ-254570,3414370,60 Forrest Avenue,NA,NA,Rumson,07760,http://www.rumsonschool.org,Yes,PK,08
+2023-2024,NJ,Runnemede Public School District,NJ-074590,3414430,24 N. Black Horse Pike - 2nd Floor,NA,NA,Runnemede,08078,http://www.runnemedeschools.org,Yes,PK,08
+2023-2024,NJ,Sandyston-Walpack Consolidated School District,NJ-374650,3414610,100 Route 560,NA,NA,Layton,07851,http://www.sandystonwalpack.org,No,KG,06
+2023-2024,NJ,Sea Girt Borough School District,NJ-254690,3414730,451 Bell Place,NA,NA,Sea Girt,08750,http://www.seagirt.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Seaside Heights School District,NJ-294710,3414790,1200 BAY BLVD,NA,NA,SEASIDE HEIGHTS,08751,http://www.sshschool.org/,Yes,PK,06
+2023-2024,NJ,Shamong Township School District,NJ-054740,3414880,295 Indian Mills Road,NA,NA,Shamong,08088,http://www.shamongschools.org,Yes,PK,08
+2023-2024,NJ,Shrewsbury Borough School District,NJ-254770,3414970,20 Obre Place,NA,NA,Shrewsbury,07702,http://www.sbs.k12.nj.us/sbs,Yes,PK,08
+2023-2024,NJ,Somerdale School District,NJ-074790,3415000,301 Grace Street,NA,NA,Somerdale,08083,http://www.somerdale-park.org,Yes,PK,08
+2023-2024,NJ,Somers Point School District,NJ-014800,3415030,121 W. New York Avenue,NA,NA,Somers Point,08244,http://www.sptsd.org,Yes,PK,08
+2023-2024,NJ,South Bound Brook Public School District,NJ-354850,3415180,122 Elizabeth Street,NA,NA,South Bound Brook,08880,http://www.southboundbrookk8.org,Yes,PK,08
+2023-2024,NJ,South Hackensack School District,NJ-034870,3415240,1 Dyer Avenue,Memorial School,NA,South Hackensack,07606,http://www.shmemorial.org,Yes,PK,08
+2023-2024,NJ,South Harrison Township School District,NJ-154880,3415270,904 Mullica Hill Road,NA,NA,Harrisonville,08039,http://www.southharrison.k12.nj.us,Yes,PK,06
+2023-2024,NJ,Southampton Township School District,NJ-054930,3415420,Betty L. Wright Administration Building,177 Main Street,NA,Southampton,08088,http://www.southampton.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Spring Lake Borough,NJ-254980,3415570,411 Tuttle Avenue,NA,NA,Spring Lake,07762,http://www.hwmountz.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Spring Lake Heights School District,NJ-254990,3415600,1110 Highway 71,NA,NA,Spring Lake Heights,07762,http://www.slheights.org,Yes,PK,08
+2023-2024,NJ,Springfield Township School District,NJ-055010,3415660,2146 Jacksonville-Jobstown Rd,NA,NA,Jobstown,08041,http://www.springfieldschool.org,Yes,PK,06
+2023-2024,NJ,Stafford Township School District,NJ-295020,3415690,250 North Main Street,NA,NA,Manahawkin,08050,http://www.staffordschools.org,Yes,PK,06
+2023-2024,NJ,Stanhope School District,NJ-375030,3415720,24 Valley Road,NA,NA,Stanhope,07874,http://www.stanhopeschools.org,Yes,PK,08
+2023-2024,NJ,Stillwater Township School District,NJ-375040,3415750,904 Stillwater Road,NA,NA,Stillwater,07875,http://www.stillwaterschool.net,Yes,PK,06
+2023-2024,NJ,Stow Creek Township School District,NJ-115070,3415840,11 GUM TREE CORNER ROAD,NA,NA,BRIDGETON,08302,http://www.greenwichstowcreekpartnershipschools.org,Yes,PK,08
+2023-2024,NJ,Stratford School District,NJ-075080,3415870,111 Warwick Road,NA,NA,Stratford,08084,http://www.stratford.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Sussex-Wantage Regional School District,NJ-375100,3415960,27 Bank Street,NA,NA,Sussex,07461,http://www.swregional.org,Yes,PK,08
+2023-2024,NJ,Swedesboro-Woolwich School District,NJ-155120,3415990,15 FREDRICK BLVD,NA,NA,WOOLWICH TWP,08085,http://WWW.SWEDESBORO-WOOLWICH.COM,Yes,PK,06
+2023-2024,NJ,Tabernacle Township School District,NJ-055130,3416020,132 New Road,NA,NA,Tabernacle,08088,http://www.tabschools.org,Yes,PK,08
+2023-2024,NJ,Tewksbury Township School District,NJ-195180,3416170,173 Old Turnpike Road,NA,NA,Califon,07830,http://www.tewksburyschools.org,Yes,PK,08
+2023-2024,NJ,Tinton Falls School District,NJ-255185,3416200,658 Tinton Avenue,NA,NA,Tinton Falls,07724,http://www.tfschools.org,Yes,PK,08
+2023-2024,NJ,Totowa Public School District,NJ-315200,3416260,294 Totowa Road,NA,NA,Totowa,07512,http://www.totowa.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Tuckerton Borough School District,NJ-295220,3416320,217 Marine Street,NA,NA,Tuckerton,08087,http://www.tesnj.com,Yes,PK,06
+2023-2024,NJ,Union Beach Public School District,NJ-255230,3416350,1207 Florence Ave,NA,NA,Union Beach,07735,http://www.unionbeachschools.org,Yes,PK,08
+2023-2024,NJ,Union Township School District,NJ-195270,3416440,149 Perryville Road,NA,NA,Hampton,08827,http://www.uniontwpschool.org,Yes,PK,08
+2023-2024,NJ,Upper Deerfield Township School District,NJ-115300,3416530,1385 Highway 77,NA,NA,Seabrook,08302,http://www.udts.org,Yes,PK,08
+2023-2024,NJ,UPPER PITTSGROVE TWP School District,NJ-335320,3416590,235 Pine Tavern Rd.,NA,NA,Monroeville,08343,http://www.upsnj.org/,Yes,PK,08
+2023-2024,NJ,Upper Saddle River School District,NJ-035330,3416620,395 West Saddle River Road,NA,NA,Upper Saddle River,07458,http://www.usrschoolsk8.com,Yes,PK,08
+2023-2024,NJ,Upper Township School District,NJ-095340,3416650,525 Perry Road,NA,NA,Petersburg,08270,http://www.upperschools.org,Yes,PK,08
+2023-2024,NJ,Ventnor City School District,NJ-015350,3416680,400 N. Lafayette Avenue,NA,NA,Ventnor City,08406,http://www.veccnj.org,Yes,PK,08
+2023-2024,NJ,Voorhees Township School District,NJ-075400,3416830,329 Rt. 73,NA,NA,Voorhees,08043,http://www.voorhees.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Wanaque School District,NJ-315440,3416950,973A Ringwood Avenue,NA,NA,Haskell,07420,http://www.wanaqueps.org,Yes,PK,08
+2023-2024,NJ,Warren Township School District,NJ-355470,3416980,213 Mt. Horeb Road,NA,NA,Warren,07059,http://www.warrentboe.org,Yes,PK,08
+2023-2024,NJ,Washington Borough School District,NJ-415480,3417010,300 West Stewart Street,NA,NA,Washington,07882,http://www.washboroschools.org,Yes,PK,06
+2023-2024,NJ,Washington Township School District,NJ-275520,3417130,53 West Mill Road,NA,NA,Long Valley,07853,http://www.wtschools.org,Yes,PK,08
+2023-2024,NJ,Washington Township School District,NJ-415530,3417160,1 East Front St.,NA,NA,Washington,07882,http://www.washtwpsd.org,Yes,PK,06
+2023-2024,NJ,Watchung Borough School District,NJ-355540,3417190,1 Dr. Parenty Way,NA,NA,Watchung,07069,http://www.watchungschools.com,Yes,PK,08
+2023-2024,NJ,Waterford Township School District,NJ-075560,3417250,1106 Old White Horse Pike,NA,NA,Waterford,08089,http://www.wtsd.org,Yes,PK,06
+2023-2024,NJ,Wenonah  Boro School District,NJ-155590,3417340,200 N. Clinton Avenue,NA,NA,Wenonah,08090,http://www.wenonahsd.org,Yes,PK,06
+2023-2024,NJ,West Cape May School District,NJ-095610,3417400,301 MOORE STREET,NA,NA,WEST CAPE MAY,08204,http://wcmschool.net,Yes,PK,06
+2023-2024,NJ,West Long Branch School District,NJ-255640,3417490,135 Locust Avenue,NA,NA,West Long Branch,07764,http://www.wlbschools.com,Yes,PK,08
+2023-2024,NJ,Woodland Park School District,NJ-315690,3417640,853 McBride Avenue,NA,NA,Woodland Park,07424,http://www.wpschools.org,Yes,PK,08
+2023-2024,NJ,Westampton Township Public School District,NJ-055720,3417730,700 Rancocas Road,NA,NA,Westampton,08060,http://www.westamptonschools.org,Yes,PK,08
+2023-2024,NJ,Westville Boro Public School District,NJ-155740,3417790,101 Birch Street,NA,NA,Westville,08093,http://www.westvillesd.com,Yes,PK,06
+2023-2024,NJ,Weymouth Township School District,NJ-015760,3417850,1202 Eleventh Avenue,NA,NA,Dorothy,08317,http://www.weymouthtownshipschool.com,Yes,PK,08
+2023-2024,NJ,Wharton Borough School District,NJ-275770,3417880,137 EAST CENTRAL AVENUE,NA,NA,WHARTON,07885,http://www.wbps.org,Yes,PK,08
+2023-2024,NJ,White Township Consolidated School District,NJ-415780,3417910,565 CR 519,NA,NA,Belvidere,07823,http://www.whitetwpsd.org,Yes,PK,08
+2023-2024,NJ,Wildwood Crest Borough School District,NJ-095800,3417970,9100 PACIFIC AVENUE,NA,NA,WILDWOOD CREST,08260,http://WWW.CRESTMEM.EDU,Yes,PK,08
+2023-2024,NJ,Winfield Township,NJ-395810,3418030,7 1/2 Gulfstream Avenue,NA,NA,Winfield Twp,07036,http://www.winfieldschool.org,Yes,PK,08
+2023-2024,NJ,Woodbine School District,NJ-095840,3418090,801 Webster St.,NA,NA,Woodbine,08270,http://woodbineschool.com,Yes,PK,08
+2023-2024,NJ,Woodbury Heights Public School District,NJ-155870,3418180,100 Academy Avenue,NA,NA,Woodbury Heights,08097,http://www.woodburyhtselem.com,Yes,PK,06
+2023-2024,NJ,Woodcliff Lake School District,NJ-035880,3418210,134 Woodcliff Avenue,NA,NA,Woodcliff Lake,07677,http://www.woodcliff-lake.com,Yes,PK,08
+2023-2024,NJ,Woodland Township School District,NJ-055890,3418240,2 John Bowker Jr. Blvd.,NA,NA,Chatsworth,08019,http://www.woodlandboe.org,Yes,PK,08
+2023-2024,NJ,Woodlynne School District,NJ-075900,3418270,131 Elm Avenue,NA,NA,Woodlynne,08107,http://www.woodlynne.k12.nj.us,Yes,PK,08
+2023-2024,NJ,Wyckoff Township Public School District,NJ-035920,3418360,241 Morse Avenue,NA,NA,Wyckoff,07481,http://www.wyckoffps.org,Yes,PK,08
