@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Peter M. Crosta">
-<meta name="dcterms.date" content="2025-03-27">
+<meta name="dcterms.date" content="2025-03-29">
 
 <title>Building a dataset | Peter M. Crosta – Peter M. Crosta</title>
 <style>
@@ -218,9 +218,8 @@ gtag('config', 'G-FWYE2E48ZC', { 'anonymize_ip': true});
   <li><a href="#mahalanobis-distance" id="toc-mahalanobis-distance" class="nav-link" data-scroll-target="#mahalanobis-distance">Mahalanobis distance</a></li>
   <li><a href="#principal-components" id="toc-principal-components" class="nav-link" data-scroll-target="#principal-components">Principal Components</a></li>
   <li><a href="#clustering" id="toc-clustering" class="nav-link" data-scroll-target="#clustering">Clustering</a></li>
-  <li><a href="#recap-of-peer-set-approaches" id="toc-recap-of-peer-set-approaches" class="nav-link" data-scroll-target="#recap-of-peer-set-approaches">Recap of Peer Set Approaches</a></li>
-  </ul></li>
   <li><a href="#comparing-peer-sets" id="toc-comparing-peer-sets" class="nav-link" data-scroll-target="#comparing-peer-sets">Comparing Peer Sets</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#financial-data-user-friendly-budgets" id="toc-financial-data-user-friendly-budgets" class="nav-link" data-scroll-target="#financial-data-user-friendly-budgets">Financial Data (User Friendly Budgets)</a></li>
   <li><a href="#report-card-data" id="toc-report-card-data" class="nav-link" data-scroll-target="#report-card-data">Report Card Data</a></li>
@@ -254,7 +253,7 @@ gtag('config', 'G-FWYE2E48ZC', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 27, 2025</p>
+      <p class="date">March 29, 2025</p>
     </div>
   </div>
   
@@ -292,22 +291,23 @@ gtag('config', 'G-FWYE2E48ZC', { 'anonymize_ip': true});
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(htmltools)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2024</span>)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Commonly used State ID numbers (staid) and Federal Local Education Authority (LEA) IDs</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># for FH, Little Silver, Rumson, and Shrewsbury</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>fh_leaid <span class="ot">&lt;-</span> <span class="st">"3404950"</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>fh_staid <span class="ot">&lt;-</span> <span class="st">"NJ-251440"</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>ls_leaid <span class="ot">&lt;-</span> <span class="st">"3408790"</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>ls_staid <span class="ot">&lt;-</span> <span class="st">"NJ-252720"</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>rums_leaid <span class="ot">&lt;-</span> <span class="st">"3414370"</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>rums_staid <span class="ot">&lt;-</span> <span class="st">"NJ-254570"</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>shrews_leaid <span class="ot">&lt;-</span> <span class="st">"3414970"</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>shrews_staid <span class="ot">&lt;-</span> <span class="st">"NJ-254770"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2024</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Commonly used State ID numbers (staid) and Federal Local Education Authority (LEA) IDs</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># for FH, Little Silver, Rumson, and Shrewsbury</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>fh_leaid <span class="ot">&lt;-</span> <span class="st">"3404950"</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>fh_staid <span class="ot">&lt;-</span> <span class="st">"NJ-251440"</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>ls_leaid <span class="ot">&lt;-</span> <span class="st">"3408790"</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>ls_staid <span class="ot">&lt;-</span> <span class="st">"NJ-252720"</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>rums_leaid <span class="ot">&lt;-</span> <span class="st">"3414370"</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>rums_staid <span class="ot">&lt;-</span> <span class="st">"NJ-254570"</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>shrews_leaid <span class="ot">&lt;-</span> <span class="st">"3414970"</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>shrews_staid <span class="ot">&lt;-</span> <span class="st">"NJ-254770"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -847,7 +847,7 @@ Figure&nbsp;1: Loadings from first two components of the PCA.
 <p>A final approach to identifying peer districts is cluster analysis. Cluster analysis leverages distance functions to separate districts based on similarity, with the goal of creating groups of high similarity <em>within</em> clusters and high dissimilarity <em>between</em> clusters. I will explore both K-means and hierarchical clustering techniques, looking at a few examples of each.</p>
 <section id="k-means-clusters" class="level4">
 <h4 class="anchored" data-anchor-id="k-means-clusters">K-means clusters</h4>
-<p>K-means clustering requires a distance matrix as input, and we have already created Euclidean and Mahalanobis distance matrices. We can also apply distance calculations to the PCA results in order to generate clusters based on the reduced dimensionality provided by principal components. Both scaled and un-scaled PCA results are clustered. The un-scaled version should over-weight PC1, and the scaled version should treat PC1 and PC2 more equally. The tab set below shows the resulting peer groups from a standard K-means routine that assumes 10 clusters (a full treatment of K-means that searches for the optimal number of clusters is omitted in this document).</p>
+<p>K-means clustering requires a distance matrix as input, and we have already created Euclidean and Mahalanobis distance matrices. We can also apply distance calculations to the PCA results in order to generate clusters based on the reduced dimensionality provided by principal components. Both scaled and un-scaled PCA results are clustered. The un-scaled version should over-weight PC1, and the scaled version should treat PC1 and PC2 more equally. The tabs below show the resulting peer groups from a standard K-means routine that assumes 10 clusters (a full treatment of K-means that searches for the optimal number of clusters is omitted in this document). Each tab includes a list of districts that were clustered alongside Fair Haven given the particular distance matrix as input.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code - K-means clustering</summary>
@@ -938,14 +938,169 @@ Figure&nbsp;1: Loadings from first two components of the PCA.
 </section>
 <section id="hierarchical" class="level4">
 <h4 class="anchored" data-anchor-id="hierarchical">Hierarchical</h4>
+<p>Another clustering strategy is called Hierarchical Clustering, which generates a full tree of districts based on similarity. One advantage of this technique is that one does not have to determine <em>a priori</em> how many clusters there are in the data. The tree can be cut at any level in order to find clusters of appropriate size.</p>
+<p>As with K-means, the input to the hierarchical clustering routine is a distance matrix. There is another parameter included in the model to instruct how the clustering algorithm should combine districts with each other and with groups. This is often called the “method”, and here will explore a few methods. Again as with K-means, a full treatment of cluster analysis is not provided here. Rather, this exercise is to generate candidate sets of peers that will be qualitatively assessed in the next section.</p>
+<p>The first tab below shows a partial dendrogram highlighting part of the full tree that contains a decent-sized cluster around Fair Haven. The other two tabs show the resulting peer groups from different clustering inputs.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code - Hierarchical clustering</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>find_min_cluster <span class="ot">&lt;-</span> <span class="cf">function</span>(hc, <span class="at">target_observation =</span> <span class="st">"Fair Haven Borough"</span>, <span class="at">min_size =</span> <span class="dv">50</span>, <span class="at">verbose=</span><span class="cn">FALSE</span>) {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Function to find where to cut tree to generate smallest cluster with FH that has at least 50 districts</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(hc<span class="sc">$</span>labels)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  min_k <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  min_cluster_size <span class="ot">&lt;-</span> <span class="cn">Inf</span> </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>n) {</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    clusters <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hc, <span class="at">k =</span> k)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    target_cluster <span class="ot">&lt;-</span> clusters[<span class="fu">names</span>(clusters) <span class="sc">==</span> target_observation]</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    cluster_members <span class="ot">&lt;-</span> <span class="fu">names</span>(clusters[clusters <span class="sc">==</span> target_cluster])</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    cluster_size <span class="ot">&lt;-</span> <span class="fu">length</span>(cluster_members)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (cluster_size <span class="sc">&gt;=</span> min_size <span class="sc">&amp;&amp;</span> cluster_size <span class="sc">&lt;</span> min_cluster_size) {</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>      min_k <span class="ot">&lt;-</span> k</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>      min_cluster_size <span class="ot">&lt;-</span> cluster_size</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  final_clusters <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hc, <span class="at">k =</span> min_k)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(final_clusters)) {</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check the size of the cluster that "Fair Haven Borough" belongs to.</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    target_cluster <span class="ot">&lt;-</span> final_clusters[<span class="fu">names</span>(final_clusters) <span class="sc">==</span> target_observation]</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    cluster_members <span class="ot">&lt;-</span> <span class="fu">names</span>(final_clusters[final_clusters <span class="sc">==</span> target_cluster]) <span class="co"># contains peers</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (verbose) {</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>      <span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Size of cluster containing Fair Haven Borough:"</span>, <span class="fu">length</span>(cluster_members)))</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>      <span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Number of Clusters:"</span>, <span class="fu">length</span>(<span class="fu">unique</span>(final_clusters))))</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (verbose) <span class="fu">print</span>(<span class="st">"No cluster found with size &gt;= 50 containing Fair Haven Borough."</span>)</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(min_k)) {</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">final_clusters=</span>final_clusters, <span class="at">target_cluster=</span>target_cluster, <span class="at">cluster_members=</span>cluster_members))</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Distance matrices:</span></span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a><span class="co">#   pc_dist_scaled</span></span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a><span class="co">#   pc_dist_unscaled</span></span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a><span class="co">#   edge_dist</span></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a><span class="co">#   dist_mat_mah (SKIP_)</span></span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Hierarchical clustering using Ward and WPGMA Linkage</span></span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a><span class="do">## Euclidean</span></span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>hc_euclid_ward <span class="ot">&lt;-</span> <span class="fu">hclust</span>(edge_dist, <span class="at">method =</span> <span class="st">"ward.D2"</span> )</span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>hc_euclid_mcquitty <span class="ot">&lt;-</span> <span class="fu">hclust</span>(edge_dist, <span class="at">method=</span><span class="st">"mcquitty"</span>)</span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>hc_euclid_ward_clusters <span class="ot">&lt;-</span> <span class="fu">find_min_cluster</span>(hc_euclid_ward, <span class="at">min_size =</span> <span class="dv">50</span>, <span class="at">target_observation =</span> fh_leaid)</span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>hc_euclid_mcquitty_clusters <span class="ot">&lt;-</span> <span class="fu">find_min_cluster</span>(hc_euclid_mcquitty, <span class="at">min_size =</span> <span class="dv">50</span>, <span class="at">target_observation =</span> fh_leaid)</span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a><span class="do">## PC scaled</span></span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>hc_pc_dist_scaled_ward <span class="ot">&lt;-</span> <span class="fu">hclust</span>(pc_dist_scaled, <span class="at">method =</span> <span class="st">"ward.D2"</span> )</span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a>hc_pc_dist_scaled_mcquitty <span class="ot">&lt;-</span> <span class="fu">hclust</span>(pc_dist_scaled, <span class="at">method=</span><span class="st">"mcquitty"</span>)</span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a>hc_pc_dist_scaled_ward_clusters <span class="ot">&lt;-</span> <span class="fu">find_min_cluster</span>(hc_pc_dist_scaled_ward, <span class="at">min_size =</span> <span class="dv">50</span>, <span class="at">target_observation =</span> <span class="st">"Fair Haven Borough School District, NJ"</span>)</span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a>hc_pc_dist_scaled_mcquitty_clusters <span class="ot">&lt;-</span> <span class="fu">find_min_cluster</span>(hc_pc_dist_scaled_mcquitty, <span class="at">min_size =</span> <span class="dv">50</span>, <span class="at">target_observation =</span> <span class="st">"Fair Haven Borough School District, NJ"</span>)</span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a><span class="do">## PC unscaled</span></span>
+<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>hc_pc_dist_unscaled_ward <span class="ot">&lt;-</span> <span class="fu">hclust</span>(pc_dist_unscaled, <span class="at">method =</span> <span class="st">"ward.D2"</span> )</span>
+<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>hc_pc_dist_unscaled_mcquitty <span class="ot">&lt;-</span> <span class="fu">hclust</span>(pc_dist_unscaled, <span class="at">method=</span><span class="st">"mcquitty"</span>)</span>
+<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a>hc_pc_dist_unscaled_ward_clusters <span class="ot">&lt;-</span> <span class="fu">find_min_cluster</span>(hc_pc_dist_unscaled_ward, <span class="at">min_size =</span> <span class="dv">50</span>, <span class="at">target_observation =</span> <span class="st">"Fair Haven Borough School District, NJ"</span>)</span>
+<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>hc_pc_dist_unscaled_mcquitty_clusters <span class="ot">&lt;-</span> <span class="fu">find_min_cluster</span>(hc_pc_dist_unscaled_mcquitty, <span class="at">min_size =</span> <span class="dv">40</span>, <span class="at">target_observation =</span> <span class="st">"Fair Haven Borough School District, NJ"</span>)</span>
+<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-72"><a href="#cb13-72" aria-hidden="true" tabindex="-1"></a><span class="co"># Create cluster indicators </span></span>
+<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a>edge_df <span class="ot">&lt;-</span> edge_df <span class="sc">%&gt;%</span> </span>
+<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb13-75"><a href="#cb13-75" aria-hidden="true" tabindex="-1"></a>    <span class="at">hc_euclid_ward =</span> LEAID <span class="sc">%in%</span> hc_euclid_ward_clusters<span class="sc">$</span>cluster_members,</span>
+<span id="cb13-76"><a href="#cb13-76" aria-hidden="true" tabindex="-1"></a>    <span class="at">hc_euclid_mcquitty =</span> LEAID <span class="sc">%in%</span> hc_euclid_mcquitty_clusters<span class="sc">$</span>cluster_members,</span>
+<span id="cb13-77"><a href="#cb13-77" aria-hidden="true" tabindex="-1"></a>    <span class="at">hc_pc_dist_scaled_ward =</span> Geography <span class="sc">%in%</span> hc_pc_dist_scaled_ward_clusters<span class="sc">$</span>cluster_members,</span>
+<span id="cb13-78"><a href="#cb13-78" aria-hidden="true" tabindex="-1"></a>    <span class="at">hc_pc_dist_scaled_mcquitty =</span> Geography <span class="sc">%in%</span> hc_pc_dist_scaled_mcquitty_clusters<span class="sc">$</span>cluster_members,</span>
+<span id="cb13-79"><a href="#cb13-79" aria-hidden="true" tabindex="-1"></a>    <span class="at">hc_pc_dist_unscaled_ward =</span> Geography <span class="sc">%in%</span> hc_pc_dist_unscaled_ward_clusters<span class="sc">$</span>cluster_members,</span>
+<span id="cb13-80"><a href="#cb13-80" aria-hidden="true" tabindex="-1"></a>    <span class="at">hc_pc_dist_unscaled_mcquitty =</span> Geography <span class="sc">%in%</span> hc_pc_dist_unscaled_mcquitty_clusters<span class="sc">$</span>cluster_members,</span>
+<span id="cb13-81"><a href="#cb13-81" aria-hidden="true" tabindex="-1"></a>    <span class="at">LEAID =</span> <span class="fu">as.character</span>(LEAID)</span>
+<span id="cb13-82"><a href="#cb13-82" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-84"><a href="#cb13-84" aria-hidden="true" tabindex="-1"></a>ccdnjk12 <span class="ot">&lt;-</span> ccdnjk12 <span class="sc">%&gt;%</span> </span>
+<span id="cb13-85"><a href="#cb13-85" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(edge_df, <span class="at">by =</span> <span class="st">"LEAID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Dendrogram</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Euclidean Ward Peers</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-3" role="tab" aria-controls="tabset-3-3" aria-selected="false">PC Unscaled Ward Peers</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># visualize the tree</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># fviz_dend(hc_euclid_ward, k = 4, color_labels_by_k = TRUE, cex=.1, type="circular")</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>viztree <span class="ot">&lt;-</span> <span class="cf">function</span>(datain, members, distfun, clustfun) {</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  datain <span class="ot">&lt;-</span> datain <span class="sc">%&gt;%</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(LEAID <span class="sc">%in%</span> members)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  datain_scale <span class="ot">&lt;-</span> <span class="fu">scale</span>(datain[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)])</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames</span>(datain_scale) <span class="ot">&lt;-</span> datain<span class="sc">$</span>LEAID</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  datain_dist <span class="ot">&lt;-</span> <span class="fu">dist</span>(datain_scale, <span class="at">method =</span> distfun)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  newclust <span class="ot">&lt;-</span> <span class="fu">hclust</span>(datain_dist, <span class="at">method =</span> <span class="st">"ward.D2"</span> )</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  newclust<span class="sc">$</span>labels <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">" School District, NJ"</span>, <span class="st">""</span>, datain<span class="sc">$</span>Geography)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fviz_dend</span>(newclust, <span class="at">cex=</span>.<span class="dv">4</span>, <span class="at">horiz=</span>T)</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="fu">viztree</span>(edge_df, hc_euclid_ward_clusters<span class="sc">$</span>cluster_members, <span class="st">"euclidean"</span>, <span class="st">"ward.D2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-dendro" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dendro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="building_a_dataset_files/figure-html/fig-dendro-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Partial dendrogram from Ward clustering (Euclidean)"><img src="building_a_dataset_files/figure-html/fig-dendro-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dendro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Partial dendrogram from Ward clustering (Euclidean)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div class="cell">
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["LEA_NAME"],"name":[1],"type":["chr"],"align":["left"]}],"data":[{"1":"Allendale Public School District"},{"1":"Alpine Public School District"},{"1":"Bay Head Borough School District"},{"1":"Boonton Township School District"},{"1":"Chester Township School District"},{"1":"Closter Public School District"},{"1":"Colts Neck Township School District"},{"1":"Cranbury Township School District"},{"1":"Demarest School District"},{"1":"Edgewater School District"},{"1":"Englewood Cliffs School District"},{"1":"Essex Fells School District"},{"1":"Fair Haven School District"},{"1":"Franklin Lakes School District"},{"1":"Harding Township School District"},{"1":"Harrington Park School District"},{"1":"Haworth Public School District"},{"1":"Ho-Ho-Kus School District"},{"1":"Little Silver Boro School District"},{"1":"Marlboro Township School District"},{"1":"Mendham Borough School District"},{"1":"Mendham Township School District"},{"1":"Millstone Township School District"},{"1":"Monmouth Beach School District"},{"1":"Mountainside School District"},{"1":"North Caldwell School District"},{"1":"Old Tappan Public School District"},{"1":"Oradell Public School District"},{"1":"Long Hill Township School District"},{"1":"River Edge School District"},{"1":"River Vale Public School District"},{"1":"Rumson Borough School District"},{"1":"Sea Girt Borough School District"},{"1":"Shrewsbury Borough School District"},{"1":"Spring Lake Borough"},{"1":"Tewksbury Township School District"},{"1":"Upper Saddle River School District"},{"1":"Warren Township School District"},{"1":"Washington Township School District"},{"1":"Woodcliff Lake School District"},{"1":"Wyckoff Township Public School District"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-3-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-3-tab">
+<div class="cell">
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["LEA_NAME"],"name":[1],"type":["chr"],"align":["left"]}],"data":[{"1":"Alexandria Township School District"},{"1":"Allendale Public School District"},{"1":"Alpine Public School District"},{"1":"Bay Head Borough School District"},{"1":"Bethlehem Township School District"},{"1":"Boonton Township School District"},{"1":"Branchburg Township School District"},{"1":"Brielle Boro School District"},{"1":"Chester Township School District"},{"1":"Chesterfield Township School District"},{"1":"Clinton Township School District"},{"1":"Closter Public School District"},{"1":"Colts Neck Township School District"},{"1":"Cranbury Township School District"},{"1":"Demarest School District"},{"1":"Denville Township K-8 School District"},{"1":"East Greenwich Township School District"},{"1":"East Hanover Township School District"},{"1":"Edgewater School District"},{"1":"Elk Township School District"},{"1":"Englewood Cliffs School District"},{"1":"Essex Fells School District"},{"1":"Evesham Township School District"},{"1":"Fair Haven School District"},{"1":"Fairfield Public School District"},{"1":"Flemington-Raritan Regional School District"},{"1":"Florham Park School District"},{"1":"Franklin Lakes School District"},{"1":"Fredon Township School District"},{"1":"Freehold Township School District"},{"1":"Green Township School District"},{"1":"Green Brook Township Public School District"},{"1":"Greenwich Township School District"},{"1":"Hanover Township School District"},{"1":"Harding Township School District"},{"1":"Harrington Park School District"},{"1":"Harrison Township School District"},{"1":"Haworth Public School District"},{"1":"Hillsdale School District"},{"1":"Ho-Ho-Kus School District"},{"1":"Linwood City School District"},{"1":"Little Silver Boro School District"},{"1":"Manalapan-Englishtown Regional School District"},{"1":"Marlboro Township School District"},{"1":"Medford Lakes School District"},{"1":"Medford Township School District"},{"1":"Mendham Borough School District"},{"1":"Mendham Township School District"},{"1":"Millstone Township School District"},{"1":"Monmouth Beach School District"},{"1":"Montvale Board of Education School District"},{"1":"Morris Plains School District"},{"1":"Mount Laurel Township School District"},{"1":"Mountainside School District"},{"1":"North Caldwell School District"},{"1":"Northvale Public School District"},{"1":"Norwood Public School District"},{"1":"Oakland Public School District"},{"1":"Old Tappan Public School District"},{"1":"Oradell Public School District"},{"1":"Long Hill Township School District"},{"1":"Readington Township School District"},{"1":"Ringwood School District"},{"1":"River Edge School District"},{"1":"River Vale Public School District"},{"1":"Riverton School District"},{"1":"Rockaway Township School District"},{"1":"Roseland School District"},{"1":"Rumson Borough School District"},{"1":"Sea Girt Borough School District"},{"1":"Shrewsbury Borough School District"},{"1":"South Harrison Township School District"},{"1":"Spring Lake Borough"},{"1":"Springfield Township School District"},{"1":"Swedesboro-Woolwich School District"},{"1":"Tewksbury Township School District"},{"1":"Upper Saddle River School District"},{"1":"Voorhees Township School District"},{"1":"Warren Township School District"},{"1":"Washington Township School District"},{"1":"Watchung Borough School District"},{"1":"Wenonah  Boro School District"},{"1":"Woodcliff Lake School District"},{"1":"Wyckoff Township Public School District"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </section>
 </section>
-<section id="recap-of-peer-set-approaches" class="level3">
-<h3 class="anchored" data-anchor-id="recap-of-peer-set-approaches">Recap of Peer Set Approaches</h3>
+<section id="comparing-peer-sets" class="level3">
+<h3 class="anchored" data-anchor-id="comparing-peer-sets">Comparing Peer Sets</h3>
 </section>
-</section>
-<section id="comparing-peer-sets" class="level2">
-<h2 class="anchored" data-anchor-id="comparing-peer-sets">Comparing Peer Sets</h2>
 </section>
 </section>
 <section id="financial-data-user-friendly-budgets" class="level1">
@@ -1546,7 +1701,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","loop":false,"selector":".lightbox","descPosition":"bottom","openEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","openEffect":"zoom","selector":".lightbox","loop":false,"descPosition":"bottom"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {

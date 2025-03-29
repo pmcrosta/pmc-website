@@ -42,6 +42,7 @@ library(ggfortify)
 library(glue)
 library(DT)
 library(htmltools)
+library(factoextra)
 
 set.seed(2024)
 
@@ -688,7 +689,7 @@ A final approach to identifying peer districts is cluster analysis. Cluster anal
 
 #### K-means clusters
 
-K-means clustering requires a distance matrix as input, and we have already created Euclidean and Mahalanobis distance matrices. We can also apply distance calculations to the PCA results in order to generate clusters based on the reduced dimensionality provided by principal components. Both scaled and un-scaled PCA results are clustered. The un-scaled version should over-weight PC1, and the scaled version should treat PC1 and PC2 more equally. The tab set below shows the resulting peer groups from a standard K-means routine that assumes 10 clusters (a full treatment of K-means that searches for the optimal number of clusters is omitted in this document). 
+K-means clustering requires a distance matrix as input, and we have already created Euclidean and Mahalanobis distance matrices. We can also apply distance calculations to the PCA results in order to generate clusters based on the reduced dimensionality provided by principal components. Both scaled and un-scaled PCA results are clustered. The un-scaled version should over-weight PC1, and the scaled version should treat PC1 and PC2 more equally. The tabs below show the resulting peer groups from a standard K-means routine that assumes 10 clusters (a full treatment of K-means that searches for the optimal number of clusters is omitted in this document). Each tab includes a list of districts that were clustered alongside Fair Haven given the particular distance matrix as input.
 
 ```{r}
 #| label: kmeans-dev
@@ -815,55 +816,199 @@ rmarkdown::paged_table(mat_pc_unscaled,
 
 #### Hierarchical
 
+Another clustering strategy is called Hierarchical Clustering, which generates a full tree of districts based on similarity. One advantage of this technique is that one does not have to determine *a priori* how many clusters there are in the data. The tree can be cut at any level in order to find clusters of appropriate size.
+
+As with K-means, the input to the hierarchical clustering routine is a distance matrix. There is another parameter included in the model to instruct how the clustering algorithm should combine districts with each other and with groups. This is often called the "method", and here will explore a few methods. Again as with K-means, a full treatment of cluster analysis is not provided here. Rather, this exercise is to generate candidate sets of peers that will be qualitatively assessed in the next section.
+
+The first tab below shows a partial dendrogram highlighting part of the full tree that contains a decent-sized cluster around Fair Haven. The other two tabs show the resulting peer groups from different clustering inputs.  
+
 ```{r}
-#| include: false
-#| eval: false
+#| label: hierarchical-dev
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| code-summary: Code - Hierarchical clustering
+#| dependson: kmeans-dev
 
-# Hierarchical clustering using Ward and Complete Linkage
-hc1 <- hclust(edge_d, method = "ward.D" )
-hc2 <- hclust(edge_d, method="complete")
+find_min_cluster <- function(hc, target_observation = "Fair Haven Borough", min_size = 50, verbose=FALSE) {
+  # Function to find where to cut tree to generate smallest cluster with FH that has at least 50 districts
+  n <- length(hc$labels)
+  min_k <- NULL
+  min_cluster_size <- Inf 
 
-options(repr.plot.width=14, repr.plot.height=8)
+  for (k in 2:n) {
+    clusters <- cutree(hc, k = k)
+    target_cluster <- clusters[names(clusters) == target_observation]
+    cluster_members <- names(clusters[clusters == target_cluster])
+    cluster_size <- length(cluster_members)
 
-# Plot the obtained dendrogram
-plot(hc1, cex = 0.6, hang = -1)
-rect.hclust(hc1, k = 10) #, border = 2:5)
+    if (cluster_size >= min_size && cluster_size < min_cluster_size) {
+      min_k <- k
+      min_cluster_size <- cluster_size
+    }
+  }
 
-options(repr.plot.width=14, repr.plot.height=8)
+  final_clusters <- cutree(hc, k = min_k)
+  
+  
+  if (!is.null(final_clusters)) {
+    
+    # Check the size of the cluster that "Fair Haven Borough" belongs to.
+    target_cluster <- final_clusters[names(final_clusters) == target_observation]
+    cluster_members <- names(final_clusters[final_clusters == target_cluster]) # contains peers
+    if (verbose) {
+      print(paste("Size of cluster containing Fair Haven Borough:", length(cluster_members)))
+      print(paste("Number of Clusters:", length(unique(final_clusters))))
+    }
+  } else {
+    if (verbose) print("No cluster found with size >= 50 containing Fair Haven Borough.")
+  }
 
-# Plot the obtained dendrogram
-plot(hc2, cex = 0.6, hang = -1)
-rect.hclust(hc2, k = 10) #, border = 2:5)
+  
+  if (!is.null(min_k)) {
+    return(list(final_clusters=final_clusters, target_cluster=target_cluster, cluster_members=cluster_members))
+  } else {
+    return(NULL)
+  }
+}
 
-hc1_grp10 <- cutree(hc1, k = 10)
-fh1 <- hc1_grp10[fh_leaid]
-edge_df$hc1_grp10 <- hc1_grp10
+# Distance matrices:
+#   pc_dist_scaled
+#   pc_dist_unscaled
+#   edge_dist
+#   dist_mat_mah (SKIP_)
 
-fh1
+# Hierarchical clustering using Ward and WPGMA Linkage
 
-edge_df %>% dplyr::filter(hc1_grp10==fh1) %>% pull(Geography)
+## Euclidean
+hc_euclid_ward <- hclust(edge_dist, method = "ward.D2" )
+hc_euclid_mcquitty <- hclust(edge_dist, method="mcquitty")
 
-table(hc1_grp10)
+hc_euclid_ward_clusters <- find_min_cluster(hc_euclid_ward, min_size = 50, target_observation = fh_leaid)
+hc_euclid_mcquitty_clusters <- find_min_cluster(hc_euclid_mcquitty, min_size = 50, target_observation = fh_leaid)
 
-hc2_grp10 <- cutree(hc2, k = 10)
-fh2 <- hc2_grp10[fh_leaid]
-edge_df$hc2_grp10 <- hc2_grp10
+## PC scaled
+hc_pc_dist_scaled_ward <- hclust(pc_dist_scaled, method = "ward.D2" )
+hc_pc_dist_scaled_mcquitty <- hclust(pc_dist_scaled, method="mcquitty")
 
-fh2
+hc_pc_dist_scaled_ward_clusters <- find_min_cluster(hc_pc_dist_scaled_ward, min_size = 50, target_observation = "Fair Haven Borough School District, NJ")
+hc_pc_dist_scaled_mcquitty_clusters <- find_min_cluster(hc_pc_dist_scaled_mcquitty, min_size = 50, target_observation = "Fair Haven Borough School District, NJ")
 
-table(hc2_grp10)
+## PC unscaled
+hc_pc_dist_unscaled_ward <- hclust(pc_dist_unscaled, method = "ward.D2" )
+hc_pc_dist_unscaled_mcquitty <- hclust(pc_dist_unscaled, method="mcquitty")
 
-edge_df %>% dplyr::filter(hc2_grp10==fh2) %>% pull(Geography)
+hc_pc_dist_unscaled_ward_clusters <- find_min_cluster(hc_pc_dist_unscaled_ward, min_size = 50, target_observation = "Fair Haven Borough School District, NJ")
+hc_pc_dist_unscaled_mcquitty_clusters <- find_min_cluster(hc_pc_dist_unscaled_mcquitty, min_size = 40, target_observation = "Fair Haven Borough School District, NJ")
 
-edge_df %>% dplyr::group_by(hc1_grp10) %>%
-  dplyr::select(-GeoId, -Geography, -LEAID) %>%
-  dplyr::summarise_all(\(x) round(mean(x), 1)) %>% t()
+# Create cluster indicators 
+edge_df <- edge_df %>% 
+  dplyr::mutate(
+    hc_euclid_ward = LEAID %in% hc_euclid_ward_clusters$cluster_members,
+    hc_euclid_mcquitty = LEAID %in% hc_euclid_mcquitty_clusters$cluster_members,
+    hc_pc_dist_scaled_ward = Geography %in% hc_pc_dist_scaled_ward_clusters$cluster_members,
+    hc_pc_dist_scaled_mcquitty = Geography %in% hc_pc_dist_scaled_mcquitty_clusters$cluster_members,
+    hc_pc_dist_unscaled_ward = Geography %in% hc_pc_dist_unscaled_ward_clusters$cluster_members,
+    hc_pc_dist_unscaled_mcquitty = Geography %in% hc_pc_dist_unscaled_mcquitty_clusters$cluster_members,
+    LEAID = as.character(LEAID)
+    )
+
+ccdnjk12 <- ccdnjk12 %>% 
+  dplyr::left_join(edge_df, by = "LEAID")
 
 ```
 
-### Recap of Peer Set Approaches
+::: panel-tabset
+##### Dendrogram
 
-## Comparing Peer Sets
+```{r}
+#| eval: true
+#| include: true
+#| label: fig-dendro
+#| echo: true
+#| message: false
+#| warning: false
+#| cache: true
+#| dependson: hierarchical-dev
+#| fig-cap: "Partial dendrogram from Ward clustering (Euclidean)"
+#| fig-width: 6
+#| fig-height: 6
+#| fig-align: center
+#| out-width: 80%
+#| 
+# visualize the tree
+# fviz_dend(hc_euclid_ward, k = 4, color_labels_by_k = TRUE, cex=.1, type="circular")
+
+viztree <- function(datain, members, distfun, clustfun) {
+  datain <- datain %>%
+    dplyr::filter(LEAID %in% members)
+  
+  datain_scale <- scale(datain[,-c(1:3)])
+  rownames(datain_scale) <- datain$LEAID
+
+  datain_dist <- dist(datain_scale, method = distfun)
+  
+  newclust <- hclust(datain_dist, method = "ward.D2" )
+  newclust$labels <- gsub(" School District, NJ", "", datain$Geography)
+  
+  fviz_dend(newclust, cex=.4, horiz=T)
+}
+
+viztree(edge_df, hc_euclid_ward_clusters$cluster_members, "euclidean", "ward.D2")
+
+```
+
+##### Euclidean Ward Peers
+```{r}
+#| eval: true
+#| include: true
+#| label: euclid-ward-peers
+#| echo: false
+#| message: false
+#| warning: false
+#| cache: true
+#| dependson: hierarchical-dev
+
+rmarkdown::paged_table(ccdnjk12 %>% dplyr::filter(hc_euclid_ward) %>% dplyr::select(LEA_NAME),
+  options = list(
+    rows.print = 10
+  )
+)
+```
+##### PC Unscaled Ward Peers
+```{r}
+#| eval: true
+#| include: true
+#| label: pc-unscaled-ward-peers
+#| echo: false
+#| message: false
+#| warning: false
+#| cache: true
+#| dependson: hierarchical-dev
+
+rmarkdown::paged_table(ccdnjk12 %>% dplyr::filter(hc_pc_dist_unscaled_ward) %>% dplyr::select(LEA_NAME),
+  options = list(
+    rows.print = 10
+  )
+)
+```
+:::
+
+```{r}
+#| eval: false
+#| include: false
+edge_df %>% dplyr::group_by(hc1_grp10) %>%
+  dplyr::select(-GeoId, -Geography, -LEAID) %>%
+  dplyr::summarise_all(\(x) round(mean(x), 1)) %>% t()
+```
+
+
+
+### Comparing Peer Sets
+
+
 
 # Financial Data (User Friendly Budgets)
 
