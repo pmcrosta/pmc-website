@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Peter M. Crosta">
-<meta name="dcterms.date" content="2025-03-29">
+<meta name="dcterms.date" content="2025-03-31">
 
 <title>Building a dataset | Peter M. Crosta – Peter M. Crosta</title>
 <style>
@@ -253,7 +253,7 @@ gtag('config', 'G-FWYE2E48ZC', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 29, 2025</p>
+      <p class="date">March 31, 2025</p>
     </div>
   </div>
   
@@ -292,22 +292,23 @@ gtag('config', 'G-FWYE2E48ZC', { 'anonymize_ip': true});
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(htmltools)</span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2024</span>)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Commonly used State ID numbers (staid) and Federal Local Education Authority (LEA) IDs</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># for FH, Little Silver, Rumson, and Shrewsbury</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>fh_leaid <span class="ot">&lt;-</span> <span class="st">"3404950"</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>fh_staid <span class="ot">&lt;-</span> <span class="st">"NJ-251440"</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>ls_leaid <span class="ot">&lt;-</span> <span class="st">"3408790"</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>ls_staid <span class="ot">&lt;-</span> <span class="st">"NJ-252720"</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>rums_leaid <span class="ot">&lt;-</span> <span class="st">"3414370"</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>rums_staid <span class="ot">&lt;-</span> <span class="st">"NJ-254570"</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>shrews_leaid <span class="ot">&lt;-</span> <span class="st">"3414970"</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>shrews_staid <span class="ot">&lt;-</span> <span class="st">"NJ-254770"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2024</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Commonly used State ID numbers (staid) and Federal Local Education Authority (LEA) IDs</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># for FH, Little Silver, Rumson, and Shrewsbury</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>fh_leaid <span class="ot">&lt;-</span> <span class="st">"3404950"</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>fh_staid <span class="ot">&lt;-</span> <span class="st">"NJ-251440"</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>ls_leaid <span class="ot">&lt;-</span> <span class="st">"3408790"</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>ls_staid <span class="ot">&lt;-</span> <span class="st">"NJ-252720"</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>rums_leaid <span class="ot">&lt;-</span> <span class="st">"3414370"</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>rums_staid <span class="ot">&lt;-</span> <span class="st">"NJ-254570"</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>shrews_leaid <span class="ot">&lt;-</span> <span class="st">"3414970"</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>shrews_staid <span class="ot">&lt;-</span> <span class="st">"NJ-254770"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -847,7 +848,7 @@ Figure&nbsp;1: Loadings from first two components of the PCA.
 <p>A final approach to identifying peer districts is cluster analysis. Cluster analysis leverages distance functions to separate districts based on similarity, with the goal of creating groups of high similarity <em>within</em> clusters and high dissimilarity <em>between</em> clusters. I will explore both K-means and hierarchical clustering techniques, looking at a few examples of each.</p>
 <section id="k-means-clusters" class="level4">
 <h4 class="anchored" data-anchor-id="k-means-clusters">K-means clusters</h4>
-<p>K-means clustering requires a distance matrix as input, and we have already created Euclidean and Mahalanobis distance matrices. We can also apply distance calculations to the PCA results in order to generate clusters based on the reduced dimensionality provided by principal components. Both scaled and un-scaled PCA results are clustered. The un-scaled version should over-weight PC1, and the scaled version should treat PC1 and PC2 more equally. The tabs below show the resulting peer groups from a standard K-means routine that assumes 10 clusters (a full treatment of K-means that searches for the optimal number of clusters is omitted in this document). Each tab includes a list of districts that were clustered alongside Fair Haven given the particular distance matrix as input.</p>
+<p>K-means clustering requires a distance matrix as input, and we have already created Euclidean and Mahalanobis distance matrices. We can also apply distance calculations to the PCA results in order to generate clusters based on the reduced dimensionality provided by principal components. Both scaled and un-scaled PCA results are clustered. The un-scaled version should over-weight PC1, and the scaled version should treat PC1 and PC2 more equally. The tabs below show the resulting peer groups from a standard K-means routine that assumes 7 clusters (a full treatment of K-means that searches for the optimal number of clusters is omitted in this document). Each tab includes a list of districts that were clustered alongside Fair Haven given the particular distance matrix as input.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code - K-means clustering</summary>
@@ -862,28 +863,29 @@ Figure&nbsp;1: Loadings from first two components of the PCA.
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>pc_dist_unscaled <span class="ot">&lt;-</span> <span class="fu">dist</span>(pc_all_scores[,<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)])</span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply k-means</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>km_pc_scaled <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(pc_dist_scaled, <span class="at">centers =</span> <span class="dv">10</span>)</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>km_pc_unscaled <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(pc_dist_unscaled, <span class="at">centers =</span> <span class="dv">10</span>)</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>km_euclid <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(edge_dist, <span class="at">centers =</span> <span class="dv">10</span>)</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>km_maha <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(dist_mat_mah, <span class="at">centers =</span> <span class="dv">10</span>)</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Access cluster assignments</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>clusters_pc_scaled <span class="ot">&lt;-</span> km_pc_scaled<span class="sc">$</span>cluster</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>clusters_pc_unscaled <span class="ot">&lt;-</span> km_pc_unscaled<span class="sc">$</span>cluster</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>clusters_euclid <span class="ot">&lt;-</span> km_euclid<span class="sc">$</span>cluster</span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>clusters_maha <span class="ot">&lt;-</span> km_maha<span class="sc">$</span>cluster</span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>fh_pc_scaled <span class="ot">&lt;-</span> clusters_pc_scaled[<span class="st">"Fair Haven Borough School District, NJ"</span>]</span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>fh_pc_unscaled <span class="ot">&lt;-</span> clusters_pc_unscaled[<span class="st">"Fair Haven Borough School District, NJ"</span>]</span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>fh_euclid <span class="ot">&lt;-</span> clusters_euclid[fh_leaid]</span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>fh_maha <span class="ot">&lt;-</span> clusters_maha[fh_leaid]</span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>mat_pc_scaled <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">names</span>(clusters_pc_scaled[clusters_pc_scaled<span class="sc">==</span>fh_pc_scaled])) <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="st">"PC Scaled"</span><span class="ot">=</span>value)</span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>mat_pc_unscaled <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">names</span>(clusters_pc_unscaled[clusters_pc_unscaled<span class="sc">==</span>fh_pc_unscaled]))  <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="st">"PC Unscaled"</span><span class="ot">=</span>value)</span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>mat_euclid <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">names</span>(clusters_euclid[clusters_euclid<span class="sc">==</span>fh_euclid]))  <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="st">"Euclidean"</span><span class="ot">=</span>value) <span class="sc">%&gt;%</span></span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(edge_df <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Geography, LEAID) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">LEAID=</span><span class="fu">as.character</span>(LEAID)), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Euclidean"</span><span class="ot">=</span><span class="st">"LEAID"</span>))</span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>mat_maha <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">names</span>(clusters_maha[clusters_maha<span class="sc">==</span>fh_maha]))  <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="st">"Mahalanobis"</span><span class="ot">=</span>value) <span class="sc">%&gt;%</span></span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(edge_df <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Geography, LEAID) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">LEAID=</span><span class="fu">as.character</span>(LEAID)), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Mahalanobis"</span><span class="ot">=</span><span class="st">"LEAID"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>n_clusters <span class="ot">&lt;-</span> <span class="dv">7</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>km_pc_scaled <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(pc_dist_scaled, <span class="at">centers =</span> n_clusters)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>km_pc_unscaled <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(pc_dist_unscaled, <span class="at">centers =</span> n_clusters)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>km_euclid <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(edge_dist, <span class="at">centers =</span> n_clusters)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>km_maha <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(dist_mat_mah, <span class="at">centers =</span> n_clusters)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Access cluster assignments</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>clusters_pc_scaled <span class="ot">&lt;-</span> km_pc_scaled<span class="sc">$</span>cluster</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>clusters_pc_unscaled <span class="ot">&lt;-</span> km_pc_unscaled<span class="sc">$</span>cluster</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>clusters_euclid <span class="ot">&lt;-</span> km_euclid<span class="sc">$</span>cluster</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>clusters_maha <span class="ot">&lt;-</span> km_maha<span class="sc">$</span>cluster</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>fh_pc_scaled <span class="ot">&lt;-</span> clusters_pc_scaled[<span class="st">"Fair Haven Borough School District, NJ"</span>]</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>fh_pc_unscaled <span class="ot">&lt;-</span> clusters_pc_unscaled[<span class="st">"Fair Haven Borough School District, NJ"</span>]</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>fh_euclid <span class="ot">&lt;-</span> clusters_euclid[fh_leaid]</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>fh_maha <span class="ot">&lt;-</span> clusters_maha[fh_leaid]</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>mat_pc_scaled <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">names</span>(clusters_pc_scaled[clusters_pc_scaled<span class="sc">==</span>fh_pc_scaled])) <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="st">"PC Scaled"</span><span class="ot">=</span>value)</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>mat_pc_unscaled <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">names</span>(clusters_pc_unscaled[clusters_pc_unscaled<span class="sc">==</span>fh_pc_unscaled]))  <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="st">"PC Unscaled"</span><span class="ot">=</span>value)</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>mat_euclid <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">names</span>(clusters_euclid[clusters_euclid<span class="sc">==</span>fh_euclid]))  <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="st">"Euclidean"</span><span class="ot">=</span>value) <span class="sc">%&gt;%</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(edge_df <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Geography, LEAID) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">LEAID=</span><span class="fu">as.character</span>(LEAID)), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Euclidean"</span><span class="ot">=</span><span class="st">"LEAID"</span>))</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>mat_maha <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">names</span>(clusters_maha[clusters_maha<span class="sc">==</span>fh_maha]))  <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="st">"Mahalanobis"</span><span class="ot">=</span>value) <span class="sc">%&gt;%</span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(edge_df <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Geography, LEAID) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">LEAID=</span><span class="fu">as.character</span>(LEAID)), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Mahalanobis"</span><span class="ot">=</span><span class="st">"LEAID"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -894,7 +896,7 @@ Figure&nbsp;1: Loadings from first two components of the PCA.
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["Geography"],"name":[1],"type":["chr"],"align":["left"]}],"data":[{"1":"Allenhurst Borough School District, NJ"},{"1":"Alpine Borough School District, NJ"},{"1":"Avalon Borough School District, NJ"},{"1":"Englewood Cliffs Borough School District, NJ"},{"1":"Essex Fells Borough School District, NJ"},{"1":"Fair Haven Borough School District, NJ"},{"1":"Glen Ridge Borough School District, NJ"},{"1":"Harding Township School District, NJ"},{"1":"Ho-Ho-Kus Borough School District, NJ"},{"1":"Hoboken City School District, NJ"},{"1":"Mendham Township School District, NJ"},{"1":"Millburn Township School District, NJ"},{"1":"Montgomery Township School District, NJ"},{"1":"Mountain Lakes Borough School District, NJ"},{"1":"Princeton Public Schools, NJ"},{"1":"Rockleigh Borough School District, NJ"},{"1":"Rumson Borough School District, NJ"},{"1":"Rumson-Fair Haven Regional School District, NJ"},{"1":"Saddle River Borough School District, NJ"},{"1":"Sea Girt Borough School District, NJ"},{"1":"Spring Lake Borough School District, NJ"},{"1":"Stone Harbor Borough School District, NJ"},{"1":"Tenafly Borough School District, NJ"},{"1":"The Chathams School District, NJ"},{"1":"Woodcliff Lake Borough School District, NJ"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Geography"],"name":[1],"type":["chr"],"align":["left"]}],"data":[{"1":"Allendale Borough School District, NJ"},{"1":"Alpine Borough School District, NJ"},{"1":"Avalon Borough School District, NJ"},{"1":"Bernards Township School District, NJ"},{"1":"Chester Township School District, NJ"},{"1":"Closter Borough School District, NJ"},{"1":"Demarest Borough School District, NJ"},{"1":"Edgewater Borough School District, NJ"},{"1":"Englewood Cliffs Borough School District, NJ"},{"1":"Essex Fells Borough School District, NJ"},{"1":"Fair Haven Borough School District, NJ"},{"1":"Franklin Lakes Borough School District, NJ"},{"1":"Glen Ridge Borough School District, NJ"},{"1":"Glen Rock Borough School District, NJ"},{"1":"Haddonfield Borough School District, NJ"},{"1":"Harding Township School District, NJ"},{"1":"Haworth Borough School District, NJ"},{"1":"Ho-Ho-Kus Borough School District, NJ"},{"1":"Hoboken City School District, NJ"},{"1":"Little Silver Borough School District, NJ"},{"1":"Livingston Township School District, NJ"},{"1":"Mendham Borough School District, NJ"},{"1":"Mendham Township School District, NJ"},{"1":"Millburn Township School District, NJ"},{"1":"Montgomery Township School District, NJ"},{"1":"Mountain Lakes Borough School District, NJ"},{"1":"North Caldwell Borough School District, NJ"},{"1":"Northern Highlands Regional School District, NJ"},{"1":"Old Tappan Borough School District, NJ"},{"1":"Princeton Public Schools, NJ"},{"1":"Ridgewood Village School District, NJ"},{"1":"Rumson Borough School District, NJ"},{"1":"Rumson-Fair Haven Regional School District, NJ"},{"1":"Saddle River Borough School District, NJ"},{"1":"Sea Girt Borough School District, NJ"},{"1":"Spring Lake Borough School District, NJ"},{"1":"Stone Harbor Borough School District, NJ"},{"1":"Tenafly Borough School District, NJ"},{"1":"The Chathams School District, NJ"},{"1":"Upper Saddle River Borough School District, NJ"},{"1":"West Windsor-Plainsboro Regional School District, NJ"},{"1":"Westfield Town School District, NJ"},{"1":"Woodcliff Lake Borough School District, NJ"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -905,7 +907,7 @@ Figure&nbsp;1: Loadings from first two components of the PCA.
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["Geography"],"name":[1],"type":["chr"],"align":["left"]}],"data":[{"1":"Allamuchy Township School District, NJ"},{"1":"Asbury Park City School District, NJ"},{"1":"Avon-by-the-Sea Borough School District, NJ"},{"1":"Beach Haven Borough School District, NJ"},{"1":"Bradley Beach Borough School District, NJ"},{"1":"Cape May City School District, NJ"},{"1":"East Orange City School District, NJ"},{"1":"Fair Haven Borough School District, NJ"},{"1":"Fairview Borough School District, NJ"},{"1":"Green Township School District, NJ"},{"1":"Hainesport Township School District, NJ"},{"1":"Highland Park Borough School District, NJ"},{"1":"Highlands Borough School District, NJ"},{"1":"Interlaken Borough School District, NJ"},{"1":"Keansburg Borough School District, NJ"},{"1":"Lakehurst Borough School District, NJ"},{"1":"Longport Borough School District, NJ"},{"1":"Merchantville Borough School District, NJ"},{"1":"Monmouth Beach Borough School District, NJ"},{"1":"Mount Ephraim Borough School District, NJ"},{"1":"North Caldwell Borough School District, NJ"},{"1":"North Haledon Borough School District, NJ"},{"1":"Ocean Gate Borough School District, NJ"},{"1":"Orange City Township School District, NJ"},{"1":"Plainfield City School District, NJ"},{"1":"Port Republic City School District, NJ"},{"1":"Prospect Park Borough School District, NJ"},{"1":"Roosevelt Borough School District, NJ"},{"1":"Roseland Borough School District, NJ"},{"1":"Sea Isle City School District, NJ"},{"1":"Seaside Park Borough School District, NJ"},{"1":"Somerdale Borough School District, NJ"},{"1":"Tuckerton Borough School District, NJ"},{"1":"Upper Pittsgrove Township School District, NJ"},{"1":"West Cape May Borough School District, NJ"},{"1":"Westampton Township School District, NJ"},{"1":"White Township School District, NJ"},{"1":"Wildwood City School District, NJ"},{"1":"Willingboro Township School District, NJ"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Geography"],"name":[1],"type":["chr"],"align":["left"]}],"data":[{"1":"Allamuchy Township School District, NJ"},{"1":"Alloway Township School District, NJ"},{"1":"Asbury Park City School District, NJ"},{"1":"Avon-by-the-Sea Borough School District, NJ"},{"1":"Bay Head Borough School District, NJ"},{"1":"Beach Haven Borough School District, NJ"},{"1":"Bedminster Township School District, NJ"},{"1":"Belmar Borough School District, NJ"},{"1":"Berlin Borough School District, NJ"},{"1":"Bethlehem Township School District, NJ"},{"1":"Bradley Beach Borough School District, NJ"},{"1":"Cape May City School District, NJ"},{"1":"Clementon Borough School District, NJ"},{"1":"Closter Borough School District, NJ"},{"1":"Demarest Borough School District, NJ"},{"1":"Elizabeth City School District, NJ"},{"1":"Fair Haven Borough School District, NJ"},{"1":"Fairview Borough School District, NJ"},{"1":"Farmingdale Borough School District, NJ"},{"1":"Franklin Township School District (Hunterdon County), NJ"},{"1":"Freehold Regional School District, NJ"},{"1":"Frelinghuysen Township School District, NJ"},{"1":"Gloucester City School District, NJ"},{"1":"Green Township School District, NJ"},{"1":"Hamburg Borough School District, NJ"},{"1":"Hi-Nella Borough School District, NJ"},{"1":"Highland Park Borough School District, NJ"},{"1":"Highlands Borough School District, NJ"},{"1":"Hillside Township School District, NJ"},{"1":"Interlaken Borough School District, NJ"},{"1":"Jamesburg Borough School District, NJ"},{"1":"Keansburg Borough School District, NJ"},{"1":"Knowlton Township School District, NJ"},{"1":"Lakehurst Borough School District, NJ"},{"1":"Lawrence Township School District (Cumberland County), NJ"},{"1":"Lebanon Borough School District, NJ"},{"1":"Leonia Borough School District, NJ"},{"1":"Little Ferry Borough School District, NJ"},{"1":"Little Silver Borough School District, NJ"},{"1":"Long Hill Township School District, NJ"},{"1":"Longport Borough School District, NJ"},{"1":"Lower Alloways Creek Township School District, NJ"},{"1":"Magnolia Borough School District, NJ"},{"1":"Merchantville Borough School District, NJ"},{"1":"Monmouth Beach Borough School District, NJ"},{"1":"Montague Township School District, NJ"},{"1":"Moonachie Borough School District, NJ"},{"1":"Mount Ephraim Borough School District, NJ"},{"1":"Mountain Lakes Borough School District, NJ"},{"1":"Mountainside Borough School District, NJ"},{"1":"Newfield Elementary School District, NJ"},{"1":"North Caldwell Borough School District, NJ"},{"1":"North Haledon Borough School District, NJ"},{"1":"Northvale Borough School District, NJ"},{"1":"Ocean Gate Borough School District, NJ"},{"1":"Ogdensburg Borough School District, NJ"},{"1":"Oldmans Township School District, NJ"},{"1":"Orange City Township School District, NJ"},{"1":"Paterson City School District, NJ"},{"1":"Plainfield City School District, NJ"},{"1":"Pleasantville City School District, NJ"},{"1":"Prospect Park Borough School District, NJ"},{"1":"Roosevelt Borough School District, NJ"},{"1":"Roseland Borough School District, NJ"},{"1":"Rumson-Fair Haven Regional School District, NJ"},{"1":"Sea Isle City School District, NJ"},{"1":"South Bound Brook Borough School District, NJ"},{"1":"South Hackensack Township School District, NJ"},{"1":"South Hunterdon Regional School District, NJ"},{"1":"South River Borough School District, NJ"},{"1":"Springfield Township School District, NJ"},{"1":"Stillwater Township School District, NJ"},{"1":"Tuckerton Borough School District, NJ"},{"1":"Union Beach Borough School District, NJ"},{"1":"Upper Pittsgrove Township School District, NJ"},{"1":"Upper Saddle River Borough School District, NJ"},{"1":"Washington Township School District (Burlington County), NJ"},{"1":"West Long Branch Borough School District, NJ"},{"1":"West Windsor-Plainsboro Regional School District, NJ"},{"1":"Westampton Township School District, NJ"},{"1":"White Township School District, NJ"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -916,7 +918,7 @@ Figure&nbsp;1: Loadings from first two components of the PCA.
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["PC Scaled"],"name":[1],"type":["chr"],"align":["left"]}],"data":[{"1":"Allendale Borough School District, NJ"},{"1":"Alpine Borough School District, NJ"},{"1":"Bernards Township School District, NJ"},{"1":"Closter Borough School District, NJ"},{"1":"Englewood Cliffs Borough School District, NJ"},{"1":"Essex Fells Borough School District, NJ"},{"1":"Fair Haven Borough School District, NJ"},{"1":"Franklin Lakes Borough School District, NJ"},{"1":"Glen Ridge Borough School District, NJ"},{"1":"Glen Rock Borough School District, NJ"},{"1":"Haddonfield Borough School District, NJ"},{"1":"Haworth Borough School District, NJ"},{"1":"Ho-Ho-Kus Borough School District, NJ"},{"1":"Livingston Township School District, NJ"},{"1":"Mendham Township School District, NJ"},{"1":"Millburn Township School District, NJ"},{"1":"Montgomery Township School District, NJ"},{"1":"Mountain Lakes Borough School District, NJ"},{"1":"North Caldwell Borough School District, NJ"},{"1":"Northern Highlands Regional School District, NJ"},{"1":"Old Tappan Borough School District, NJ"},{"1":"Ridgewood Village School District, NJ"},{"1":"Rumson Borough School District, NJ"},{"1":"Rumson-Fair Haven Regional School District, NJ"},{"1":"Summit City School District, NJ"},{"1":"Tenafly Borough School District, NJ"},{"1":"The Chathams School District, NJ"},{"1":"Upper Saddle River Borough School District, NJ"},{"1":"West Windsor-Plainsboro Regional School District, NJ"},{"1":"Westfield Town School District, NJ"},{"1":"Woodcliff Lake Borough School District, NJ"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["PC Scaled"],"name":[1],"type":["chr"],"align":["left"]}],"data":[{"1":"Allendale Borough School District, NJ"},{"1":"Alpine Borough School District, NJ"},{"1":"Berkeley Heights Township School District, NJ"},{"1":"Bernards Township School District, NJ"},{"1":"Boonton Township School District, NJ"},{"1":"Chester Township School District, NJ"},{"1":"Chesterfield Township School District, NJ"},{"1":"Closter Borough School District, NJ"},{"1":"Cranbury Township School District, NJ"},{"1":"Demarest Borough School District, NJ"},{"1":"Edison Township School District, NJ"},{"1":"Englewood Cliffs Borough School District, NJ"},{"1":"Essex Fells Borough School District, NJ"},{"1":"Fair Haven Borough School District, NJ"},{"1":"Franklin Lakes Borough School District, NJ"},{"1":"Glen Ridge Borough School District, NJ"},{"1":"Glen Rock Borough School District, NJ"},{"1":"Haddonfield Borough School District, NJ"},{"1":"Harrington Park Borough School District, NJ"},{"1":"Harrison Township School District, NJ"},{"1":"Haworth Borough School District, NJ"},{"1":"Ho-Ho-Kus Borough School District, NJ"},{"1":"Little Silver Borough School District, NJ"},{"1":"Livingston Township School District, NJ"},{"1":"Marlboro Township School District, NJ"},{"1":"Mendham Borough School District, NJ"},{"1":"Mendham Township School District, NJ"},{"1":"Metuchen Borough School District, NJ"},{"1":"Montclair Town School District, NJ"},{"1":"Montgomery Township School District, NJ"},{"1":"Moorestown Township School District, NJ"},{"1":"Mountain Lakes Borough School District, NJ"},{"1":"New Providence Borough School District, NJ"},{"1":"North Caldwell Borough School District, NJ"},{"1":"Northern Highlands Regional School District, NJ"},{"1":"Northern Valley Regional School District, NJ"},{"1":"Old Tappan Borough School District, NJ"},{"1":"Oradell Borough School District, NJ"},{"1":"Princeton Public Schools, NJ"},{"1":"Ramsey Borough School District, NJ"},{"1":"Randolph Township School District, NJ"},{"1":"Ridgewood Village School District, NJ"},{"1":"River Dell Regional School District, NJ"},{"1":"River Edge Borough School District, NJ"},{"1":"River Vale Township School District, NJ"},{"1":"Robbinsville Township School District, NJ"},{"1":"Rumson Borough School District, NJ"},{"1":"Rumson-Fair Haven Regional School District, NJ"},{"1":"Saddle River Borough School District, NJ"},{"1":"Scotch Plains-Fanwood Regional School District, NJ"},{"1":"Sea Girt Borough School District, NJ"},{"1":"Somerset Hills Regional School District, NJ"},{"1":"South Brunswick Township School District, NJ"},{"1":"South Orange-Maplewood School District, NJ"},{"1":"Spring Lake Borough School District, NJ"},{"1":"Summit City School District, NJ"},{"1":"Tenafly Borough School District, NJ"},{"1":"The Chathams School District, NJ"},{"1":"Upper Saddle River Borough School District, NJ"},{"1":"Warren Township School District, NJ"},{"1":"Watchung Hills Regional School District, NJ"},{"1":"West Morris Regional School District, NJ"},{"1":"West Windsor-Plainsboro Regional School District, NJ"},{"1":"Westfield Town School District, NJ"},{"1":"Woodcliff Lake Borough School District, NJ"},{"1":"Wyckoff Township School District, NJ"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -927,7 +929,7 @@ Figure&nbsp;1: Loadings from first two components of the PCA.
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["PC Unscaled"],"name":[1],"type":["chr"],"align":["left"]}],"data":[{"1":"Allendale Borough School District, NJ"},{"1":"Alpine Borough School District, NJ"},{"1":"Bernards Township School District, NJ"},{"1":"Englewood Cliffs Borough School District, NJ"},{"1":"Essex Fells Borough School District, NJ"},{"1":"Fair Haven Borough School District, NJ"},{"1":"Franklin Lakes Borough School District, NJ"},{"1":"Glen Ridge Borough School District, NJ"},{"1":"Glen Rock Borough School District, NJ"},{"1":"Haddonfield Borough School District, NJ"},{"1":"Haworth Borough School District, NJ"},{"1":"Ho-Ho-Kus Borough School District, NJ"},{"1":"Little Silver Borough School District, NJ"},{"1":"Livingston Township School District, NJ"},{"1":"Mendham Borough School District, NJ"},{"1":"Mendham Township School District, NJ"},{"1":"Millburn Township School District, NJ"},{"1":"Montgomery Township School District, NJ"},{"1":"Mountain Lakes Borough School District, NJ"},{"1":"North Caldwell Borough School District, NJ"},{"1":"Northern Highlands Regional School District, NJ"},{"1":"Old Tappan Borough School District, NJ"},{"1":"Princeton Public Schools, NJ"},{"1":"Ridgewood Village School District, NJ"},{"1":"Rumson Borough School District, NJ"},{"1":"Rumson-Fair Haven Regional School District, NJ"},{"1":"Saddle River Borough School District, NJ"},{"1":"Tenafly Borough School District, NJ"},{"1":"The Chathams School District, NJ"},{"1":"Upper Saddle River Borough School District, NJ"},{"1":"Westfield Town School District, NJ"},{"1":"Woodcliff Lake Borough School District, NJ"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["PC Unscaled"],"name":[1],"type":["chr"],"align":["left"]}],"data":[{"1":"Allendale Borough School District, NJ"},{"1":"Alpine Borough School District, NJ"},{"1":"Berkeley Heights Township School District, NJ"},{"1":"Bernards Township School District, NJ"},{"1":"Cranbury Township School District, NJ"},{"1":"Demarest Borough School District, NJ"},{"1":"Englewood Cliffs Borough School District, NJ"},{"1":"Essex Fells Borough School District, NJ"},{"1":"Fair Haven Borough School District, NJ"},{"1":"Franklin Lakes Borough School District, NJ"},{"1":"Glen Ridge Borough School District, NJ"},{"1":"Glen Rock Borough School District, NJ"},{"1":"Haddonfield Borough School District, NJ"},{"1":"Haworth Borough School District, NJ"},{"1":"Ho-Ho-Kus Borough School District, NJ"},{"1":"Little Silver Borough School District, NJ"},{"1":"Livingston Township School District, NJ"},{"1":"Mendham Borough School District, NJ"},{"1":"Mendham Township School District, NJ"},{"1":"Millburn Township School District, NJ"},{"1":"Montgomery Township School District, NJ"},{"1":"Mountain Lakes Borough School District, NJ"},{"1":"North Caldwell Borough School District, NJ"},{"1":"Northern Highlands Regional School District, NJ"},{"1":"Old Tappan Borough School District, NJ"},{"1":"Princeton Public Schools, NJ"},{"1":"Ridgewood Village School District, NJ"},{"1":"Rumson Borough School District, NJ"},{"1":"Rumson-Fair Haven Regional School District, NJ"},{"1":"Saddle River Borough School District, NJ"},{"1":"Sea Girt Borough School District, NJ"},{"1":"Spring Lake Borough School District, NJ"},{"1":"Summit City School District, NJ"},{"1":"Tenafly Borough School District, NJ"},{"1":"The Chathams School District, NJ"},{"1":"Upper Saddle River Borough School District, NJ"},{"1":"West Windsor-Plainsboro Regional School District, NJ"},{"1":"Westfield Town School District, NJ"},{"1":"Woodcliff Lake Borough School District, NJ"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -1013,22 +1015,7 @@ Figure&nbsp;1: Loadings from first two components of the PCA.
 <span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>hc_pc_dist_unscaled_mcquitty <span class="ot">&lt;-</span> <span class="fu">hclust</span>(pc_dist_unscaled, <span class="at">method=</span><span class="st">"mcquitty"</span>)</span>
 <span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a>hc_pc_dist_unscaled_ward_clusters <span class="ot">&lt;-</span> <span class="fu">find_min_cluster</span>(hc_pc_dist_unscaled_ward, <span class="at">min_size =</span> <span class="dv">50</span>, <span class="at">target_observation =</span> <span class="st">"Fair Haven Borough School District, NJ"</span>)</span>
-<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>hc_pc_dist_unscaled_mcquitty_clusters <span class="ot">&lt;-</span> <span class="fu">find_min_cluster</span>(hc_pc_dist_unscaled_mcquitty, <span class="at">min_size =</span> <span class="dv">40</span>, <span class="at">target_observation =</span> <span class="st">"Fair Haven Borough School District, NJ"</span>)</span>
-<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-72"><a href="#cb13-72" aria-hidden="true" tabindex="-1"></a><span class="co"># Create cluster indicators </span></span>
-<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a>edge_df <span class="ot">&lt;-</span> edge_df <span class="sc">%&gt;%</span> </span>
-<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
-<span id="cb13-75"><a href="#cb13-75" aria-hidden="true" tabindex="-1"></a>    <span class="at">hc_euclid_ward =</span> LEAID <span class="sc">%in%</span> hc_euclid_ward_clusters<span class="sc">$</span>cluster_members,</span>
-<span id="cb13-76"><a href="#cb13-76" aria-hidden="true" tabindex="-1"></a>    <span class="at">hc_euclid_mcquitty =</span> LEAID <span class="sc">%in%</span> hc_euclid_mcquitty_clusters<span class="sc">$</span>cluster_members,</span>
-<span id="cb13-77"><a href="#cb13-77" aria-hidden="true" tabindex="-1"></a>    <span class="at">hc_pc_dist_scaled_ward =</span> Geography <span class="sc">%in%</span> hc_pc_dist_scaled_ward_clusters<span class="sc">$</span>cluster_members,</span>
-<span id="cb13-78"><a href="#cb13-78" aria-hidden="true" tabindex="-1"></a>    <span class="at">hc_pc_dist_scaled_mcquitty =</span> Geography <span class="sc">%in%</span> hc_pc_dist_scaled_mcquitty_clusters<span class="sc">$</span>cluster_members,</span>
-<span id="cb13-79"><a href="#cb13-79" aria-hidden="true" tabindex="-1"></a>    <span class="at">hc_pc_dist_unscaled_ward =</span> Geography <span class="sc">%in%</span> hc_pc_dist_unscaled_ward_clusters<span class="sc">$</span>cluster_members,</span>
-<span id="cb13-80"><a href="#cb13-80" aria-hidden="true" tabindex="-1"></a>    <span class="at">hc_pc_dist_unscaled_mcquitty =</span> Geography <span class="sc">%in%</span> hc_pc_dist_unscaled_mcquitty_clusters<span class="sc">$</span>cluster_members,</span>
-<span id="cb13-81"><a href="#cb13-81" aria-hidden="true" tabindex="-1"></a>    <span class="at">LEAID =</span> <span class="fu">as.character</span>(LEAID)</span>
-<span id="cb13-82"><a href="#cb13-82" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-84"><a href="#cb13-84" aria-hidden="true" tabindex="-1"></a>ccdnjk12 <span class="ot">&lt;-</span> ccdnjk12 <span class="sc">%&gt;%</span> </span>
-<span id="cb13-85"><a href="#cb13-85" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(edge_df, <span class="at">by =</span> <span class="st">"LEAID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>hc_pc_dist_unscaled_mcquitty_clusters <span class="ot">&lt;-</span> <span class="fu">find_min_cluster</span>(hc_pc_dist_unscaled_mcquitty, <span class="at">min_size =</span> <span class="dv">40</span>, <span class="at">target_observation =</span> <span class="st">"Fair Haven Borough School District, NJ"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -1088,7 +1075,7 @@ Figure&nbsp;2: Partial dendrogram from Ward clustering (Euclidean)
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["LEA_NAME"],"name":[1],"type":["chr"],"align":["left"]}],"data":[{"1":"Alexandria Township School District"},{"1":"Allendale Public School District"},{"1":"Alpine Public School District"},{"1":"Bay Head Borough School District"},{"1":"Bethlehem Township School District"},{"1":"Boonton Township School District"},{"1":"Branchburg Township School District"},{"1":"Brielle Boro School District"},{"1":"Chester Township School District"},{"1":"Chesterfield Township School District"},{"1":"Clinton Township School District"},{"1":"Closter Public School District"},{"1":"Colts Neck Township School District"},{"1":"Cranbury Township School District"},{"1":"Demarest School District"},{"1":"Denville Township K-8 School District"},{"1":"East Greenwich Township School District"},{"1":"East Hanover Township School District"},{"1":"Edgewater School District"},{"1":"Elk Township School District"},{"1":"Englewood Cliffs School District"},{"1":"Essex Fells School District"},{"1":"Evesham Township School District"},{"1":"Fair Haven School District"},{"1":"Fairfield Public School District"},{"1":"Flemington-Raritan Regional School District"},{"1":"Florham Park School District"},{"1":"Franklin Lakes School District"},{"1":"Fredon Township School District"},{"1":"Freehold Township School District"},{"1":"Green Township School District"},{"1":"Green Brook Township Public School District"},{"1":"Greenwich Township School District"},{"1":"Hanover Township School District"},{"1":"Harding Township School District"},{"1":"Harrington Park School District"},{"1":"Harrison Township School District"},{"1":"Haworth Public School District"},{"1":"Hillsdale School District"},{"1":"Ho-Ho-Kus School District"},{"1":"Linwood City School District"},{"1":"Little Silver Boro School District"},{"1":"Manalapan-Englishtown Regional School District"},{"1":"Marlboro Township School District"},{"1":"Medford Lakes School District"},{"1":"Medford Township School District"},{"1":"Mendham Borough School District"},{"1":"Mendham Township School District"},{"1":"Millstone Township School District"},{"1":"Monmouth Beach School District"},{"1":"Montvale Board of Education School District"},{"1":"Morris Plains School District"},{"1":"Mount Laurel Township School District"},{"1":"Mountainside School District"},{"1":"North Caldwell School District"},{"1":"Northvale Public School District"},{"1":"Norwood Public School District"},{"1":"Oakland Public School District"},{"1":"Old Tappan Public School District"},{"1":"Oradell Public School District"},{"1":"Long Hill Township School District"},{"1":"Readington Township School District"},{"1":"Ringwood School District"},{"1":"River Edge School District"},{"1":"River Vale Public School District"},{"1":"Riverton School District"},{"1":"Rockaway Township School District"},{"1":"Roseland School District"},{"1":"Rumson Borough School District"},{"1":"Sea Girt Borough School District"},{"1":"Shrewsbury Borough School District"},{"1":"South Harrison Township School District"},{"1":"Spring Lake Borough"},{"1":"Springfield Township School District"},{"1":"Swedesboro-Woolwich School District"},{"1":"Tewksbury Township School District"},{"1":"Upper Saddle River School District"},{"1":"Voorhees Township School District"},{"1":"Warren Township School District"},{"1":"Washington Township School District"},{"1":"Watchung Borough School District"},{"1":"Wenonah  Boro School District"},{"1":"Woodcliff Lake School District"},{"1":"Wyckoff Township Public School District"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Geography"],"name":[1],"type":["chr"],"align":["left"]}],"data":[{"1":"Alexandria Township"},{"1":"Allendale Borough"},{"1":"Alpine Borough"},{"1":"Bay Head Borough"},{"1":"Berkeley Heights Township"},{"1":"Bernards Township"},{"1":"Bethlehem Township"},{"1":"Boonton Township"},{"1":"Branchburg Township"},{"1":"Bridgewater-Raritan Regional"},{"1":"Brielle Borough"},{"1":"Caldwell-West Caldwell"},{"1":"Cedar Grove Township"},{"1":"Cherry Hill Township"},{"1":"Chester Township"},{"1":"Chesterfield Township"},{"1":"Clearview Regional"},{"1":"Clinton Township"},{"1":"Closter Borough"},{"1":"Colts Neck Township"},{"1":"Cranbury Township"},{"1":"Cranford Township"},{"1":"Cresskill Borough"},{"1":"Delaware Valley Regional"},{"1":"Demarest Borough"},{"1":"Denville Township"},{"1":"East Brunswick Township"},{"1":"East Greenwich Township"},{"1":"East Hanover Township"},{"1":"Eastern Camden County Regional"},{"1":"Edgewater Borough"},{"1":"Edison Township"},{"1":"Elk Township"},{"1":"Emerson Borough"},{"1":"Englewood Cliffs Borough"},{"1":"Essex Fells Borough"},{"1":"Evesham Township"},{"1":"Fair Haven Borough"},{"1":"Fair Lawn Borough"},{"1":"Fairfield Township School District (Essex County), NJ"},{"1":"Flemington-Raritan Regional"},{"1":"Florham Park Borough"},{"1":"Fort Lee Borough"},{"1":"Franklin Lakes Borough"},{"1":"Fredon Township"},{"1":"Freehold Regional"},{"1":"Freehold Township"},{"1":"Glen Ridge Borough"},{"1":"Glen Rock Borough"},{"1":"Green Brook Township"},{"1":"Green Township"},{"1":"Greenwich Township School District (Warren County), NJ"},{"1":"Haddon Heights Borough"},{"1":"Haddonfield Borough"},{"1":"Hanover Park Regional"},{"1":"Hanover Township"},{"1":"Harding Township"},{"1":"Harrington Park Borough"},{"1":"Harrison Township"},{"1":"Haworth Borough"},{"1":"Highland Park Borough"},{"1":"Hillsborough Township"},{"1":"Hillsdale Borough"},{"1":"Ho-Ho-Kus Borough"},{"1":"Hoboken City"},{"1":"Holmdel Township"},{"1":"Hopewell Valley Regional"},{"1":"Hunterdon Central Regional"},{"1":"Interlaken Borough"},{"1":"Kingsway Regional"},{"1":"Kinnelon Borough"},{"1":"Lawrence Township School District (Mercer County), NJ"},{"1":"Lenape Regional"},{"1":"Leonia Borough"},{"1":"Linwood City"},{"1":"Little Silver Borough"},{"1":"Livingston Township"},{"1":"Loch Arbour"},{"1":"Long Hill Township"},{"1":"Madison Borough"},{"1":"Manalapan-Englishtown Regional"},{"1":"Manasquan Borough"},{"1":"Marlboro Township"},{"1":"Medford Lakes Borough"},{"1":"Medford Township"},{"1":"Mendham Borough"},{"1":"Mendham Township"},{"1":"Metuchen Borough"},{"1":"Middletown Township"},{"1":"Midland Park Borough"},{"1":"Millburn Township"},{"1":"Millstone Township"},{"1":"Monmouth Beach Borough"},{"1":"Monroe Township School District (Middlesex County), NJ"},{"1":"Montclair Town"},{"1":"Montgomery Township"},{"1":"Montvale Borough"},{"1":"Montville Township"},{"1":"Moorestown Township"},{"1":"Morris Hills Regional"},{"1":"Morris Plains Borough"},{"1":"Morris Township"},{"1":"Mount Laurel Township"},{"1":"Mountain Lakes Borough"},{"1":"Mountainside Borough"},{"1":"New Providence Borough"},{"1":"North Caldwell Borough"},{"1":"Northern Burlington Regional"},{"1":"Northern Highlands Regional"},{"1":"Northern Valley Regional"},{"1":"Northvale Borough"},{"1":"Norwood Borough"},{"1":"Nutley Town"},{"1":"Oakland Borough"},{"1":"Old Tappan Borough"},{"1":"Oradell Borough"},{"1":"Paramus Borough"},{"1":"Park Ridge Borough"},{"1":"Parsippany-Troy Hills Township"},{"1":"Pascack Valley Regional"},{"1":"Pequannock Township"},{"1":"Princeton Public Schools, NJ"},{"1":"Ramapo-Indian Hill Regional"},{"1":"Ramsey Borough"},{"1":"Randolph Township"},{"1":"Readington Township"},{"1":"Red Bank Regional"},{"1":"Ridgewood Village"},{"1":"Ringwood Borough"},{"1":"River Dell Regional"},{"1":"River Edge Borough"},{"1":"River Vale Township"},{"1":"Riverton Borough"},{"1":"Robbinsville Township"},{"1":"Rockaway Township"},{"1":"Rockleigh Borough"},{"1":"Roseland Borough"},{"1":"Rumson Borough"},{"1":"Rumson-Fair Haven Regional"},{"1":"Rutherford Borough"},{"1":"Saddle River Borough"},{"1":"Scotch Plains-Fanwood Regional"},{"1":"Sea Girt Borough"},{"1":"Secaucus Town"},{"1":"Shrewsbury Borough"},{"1":"Somerset Hills Regional"},{"1":"South Brunswick Township"},{"1":"South Harrison Township"},{"1":"South Orange-Maplewood"},{"1":"Sparta Township"},{"1":"Spring Lake Borough"},{"1":"Springfield Township"},{"1":"Springfield Township"},{"1":"Summit City"},{"1":"Swedesboro-Woolwich"},{"1":"Teaneck Township"},{"1":"Tenafly Borough"},{"1":"Tewksbury Township"},{"1":"The Chathams"},{"1":"Upper Freehold Regional"},{"1":"Upper Saddle River Borough"},{"1":"Verona Borough"},{"1":"Voorhees Township"},{"1":"Waldwick Borough"},{"1":"Wall Township"},{"1":"Warren Township"},{"1":"Washington Township School District (Morris County), NJ"},{"1":"Watchung Borough"},{"1":"Watchung Hills Regional"},{"1":"Wayne Township"},{"1":"Weehawken Township"},{"1":"Wenonah Borough"},{"1":"West Essex Regional"},{"1":"West Morris Regional"},{"1":"West Windsor-Plainsboro Regional"},{"1":"Westfield Town"},{"1":"Westwood Regional"},{"1":"Wood-Ridge Borough"},{"1":"Woodcliff Lake Borough"},{"1":"Wyckoff Township"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -1096,10 +1083,839 @@ Figure&nbsp;2: Partial dendrogram from Ward clustering (Euclidean)
 </div>
 </div>
 </div>
+<p>Finally, I add the possible peer sets back to our CCD data set and save them as <a href="datasets/ccdnjk12_peers.rds">RDS</a> or <a href="datasets/ccdnjk12_peers.csv">CSV</a> files for easy access.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code - Update data with peer sets</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create K-means cluster indicators in edge_df</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>edge_df <span class="ot">&lt;-</span> edge_df <span class="sc">%&gt;%</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">km_euclid =</span> LEAID <span class="sc">%in%</span> mat_euclid<span class="sc">$</span>Euclidean,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">km_maha =</span> LEAID <span class="sc">%in%</span> mat_maha<span class="sc">$</span>Mahalanobis,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">km_pc_scaled =</span> Geography <span class="sc">%in%</span> mat_pc_scaled<span class="sc">$</span><span class="st">`</span><span class="at">PC Scaled</span><span class="st">`</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">km_pc_unscaled =</span> Geography <span class="sc">%in%</span> mat_pc_unscaled<span class="sc">$</span><span class="st">`</span><span class="at">PC Unscaled</span><span class="st">`</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create hierarchical cluster indicators in edge_df</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>edge_df <span class="ot">&lt;-</span> edge_df <span class="sc">%&gt;%</span> </span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">hc_euclid_ward =</span> LEAID <span class="sc">%in%</span> hc_euclid_ward_clusters<span class="sc">$</span>cluster_members,</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">hc_euclid_mcquitty =</span> LEAID <span class="sc">%in%</span> hc_euclid_mcquitty_clusters<span class="sc">$</span>cluster_members,</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">hc_pc_dist_scaled_ward =</span> Geography <span class="sc">%in%</span> hc_pc_dist_scaled_ward_clusters<span class="sc">$</span>cluster_members,</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">hc_pc_dist_scaled_mcquitty =</span> Geography <span class="sc">%in%</span> hc_pc_dist_scaled_mcquitty_clusters<span class="sc">$</span>cluster_members,</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">hc_pc_dist_unscaled_ward =</span> Geography <span class="sc">%in%</span> hc_pc_dist_unscaled_ward_clusters<span class="sc">$</span>cluster_members,</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">hc_pc_dist_unscaled_mcquitty =</span> Geography <span class="sc">%in%</span> hc_pc_dist_unscaled_mcquitty_clusters<span class="sc">$</span>cluster_members,</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">LEAID =</span> <span class="fu">as.character</span>(LEAID)</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="co"># add peer options to </span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>ccdnjk12_peers <span class="ot">&lt;-</span> ccdnjk12 <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">LEAID =</span> <span class="fu">as.character</span>(LEAID)) <span class="sc">%&gt;%</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(edge_df <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">LEAID =</span> <span class="fu">as.character</span>(LEAID)), <span class="at">by =</span> <span class="st">"LEAID"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(similar_districts_euclid <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>Geography) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">LEAID =</span> <span class="fu">as.character</span>(LEAID)), <span class="at">by =</span> <span class="st">"LEAID"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(similar_districts_mah <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>Geography) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">LEAID =</span> <span class="fu">as.character</span>(LEAID)), <span class="at">by =</span> <span class="st">"LEAID"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(pc_all_scores_df <span class="sc">%&gt;%</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>                     dplyr<span class="sc">::</span><span class="fu">select</span>(LEAID, PC1, PC2) <span class="sc">%&gt;%</span></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>                     dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">LEAID =</span> <span class="fu">as.character</span>(LEAID)), <span class="at">by =</span> <span class="st">"LEAID"</span>)</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Serialize</span></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(ccdnjk12_peers, <span class="at">file=</span><span class="st">"datasets/ccdnjk12_peers.rds"</span>)</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(ccdnjk12_peers, <span class="at">file=</span><span class="st">"datasets/ccdnjk12_peers.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
 </section>
 <section id="comparing-peer-sets" class="level3">
 <h3 class="anchored" data-anchor-id="comparing-peer-sets">Comparing Peer Sets</h3>
+<p>Thus far, I have created a number of candidate peer groups for Fair Haven. In fact, there are 14 possible sets to choose from (probably too many!):</p>
+<ul>
+<li>Distance-based (pick districts closest to Fair Haven according to a distance metric)
+<ul>
+<li>Euclidean <code>euclid_score</code></li>
+<li>Mahalanobis <code>mah_score</code></li>
+</ul></li>
+<li>Principal Components (pick districts according to similarity across a reduced dimensional space)
+<ul>
+<li>PC1 <code>PC1</code></li>
+<li>PC2 <code>PC2</code></li>
+</ul></li>
+<li>K-means Clusters (pick districts based on groups derived from the K-means algorithm.
+<ul>
+<li>Euclidean distance <code>km_euclid</code></li>
+<li>Mahalanobis distance <code>km_maha</code></li>
+<li>First two principal components (scaled) <code>km_pc_scaled</code></li>
+<li>First two principal components (unscaled) <code>km_pc_unscaled</code></li>
+</ul></li>
+<li>Hierarchical Clusters
+<ul>
+<li>Euclidean - Ward <code>hc_euclid_ward</code></li>
+<li>Euclidean - WPGMA <code>hc_euclid_mcquitty</code></li>
+<li>PC Scaled - Ward <code>hc_pc_dist_scaled_ward</code></li>
+<li>PC Scaled - WPGMA <code>hc_pc_dist_scaled_mcquitty</code></li>
+<li>PC Unscaled - Ward <code>hc_pc_dist_unscaled_ward</code></li>
+<li>PC Unscaled - WPGMA <code>hc_pc_dist_unscaled_mcquitty</code></li>
+</ul></li>
+</ul>
+<p>The table below summarizes a selection of district characteristics for the districts that are included in each potential peer set. Fair Haven itself is included in the last row for comparison. The <code>Peninsula</code> column is TRUE if FH, Rumson, Little Silver, and Shrewsbury are all included in that particular peer set.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code - Compare peer sets</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>peerset_summary <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  ccdnjk12_peers <span class="sc">%&gt;%</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(euclid_score <span class="sc">&lt;=</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">Method=</span><span class="st">"Euclidean Distance"</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Districts=</span><span class="fu">n</span>(),</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Peninsula =</span> <span class="fu">all</span>(<span class="fu">c</span>(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) <span class="sc">%in%</span> LEAID),</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">across</span>(<span class="fu">c</span>(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) <span class="fu">round</span>(<span class="fu">mean</span>(x), <span class="dv">1</span>))),</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  ccdnjk12_peers <span class="sc">%&gt;%</span> </span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(mah_score <span class="sc">&lt;=</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">Method=</span><span class="st">"Mahalanobis Distance"</span>,</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Districts=</span><span class="fu">n</span>(),</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Peninsula =</span> <span class="fu">all</span>(<span class="fu">c</span>(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) <span class="sc">%in%</span> LEAID),</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">across</span>(<span class="fu">c</span>(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) <span class="fu">round</span>(<span class="fu">mean</span>(x), <span class="dv">1</span>))),</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  ccdnjk12_peers <span class="sc">%&gt;%</span> </span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">arrange</span>(PC1) <span class="sc">%&gt;%</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">slice</span>((<span class="fu">max</span>(<span class="dv">0</span>,fh_pcaid1<span class="dv">-30</span>))<span class="sc">:</span>(fh_pcaid1<span class="sc">+</span><span class="dv">30</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">Method=</span><span class="st">"Principal Components 1"</span>,</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Districts=</span><span class="fu">n</span>(),</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Peninsula =</span> <span class="fu">all</span>(<span class="fu">c</span>(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) <span class="sc">%in%</span> LEAID),</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">across</span>(<span class="fu">c</span>(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) <span class="fu">round</span>(<span class="fu">mean</span>(x), <span class="dv">1</span>))),</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>  ccdnjk12_peers <span class="sc">%&gt;%</span> </span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">arrange</span>(PC2) <span class="sc">%&gt;%</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">slice</span>((<span class="fu">max</span>(<span class="dv">0</span>,fh_pcaid2<span class="dv">-25</span>))<span class="sc">:</span>(fh_pcaid2<span class="sc">+</span><span class="dv">25</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">Method=</span><span class="st">"Principal Components 2"</span>,</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Districts=</span><span class="fu">n</span>(),</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Peninsula =</span> <span class="fu">all</span>(<span class="fu">c</span>(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) <span class="sc">%in%</span> LEAID),</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">across</span>(<span class="fu">c</span>(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) <span class="fu">round</span>(<span class="fu">mean</span>(x), <span class="dv">1</span>))),</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>  ccdnjk12_peers <span class="sc">%&gt;%</span> </span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(km_euclid) <span class="sc">%&gt;%</span></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">Method=</span><span class="st">"K-means (Euclidean)"</span>,</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Districts=</span><span class="fu">n</span>(),</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Peninsula =</span> <span class="fu">all</span>(<span class="fu">c</span>(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) <span class="sc">%in%</span> LEAID),</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">across</span>(<span class="fu">c</span>(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) <span class="fu">round</span>(<span class="fu">mean</span>(x), <span class="dv">1</span>))),</span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>  ccdnjk12_peers <span class="sc">%&gt;%</span> </span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(km_maha) <span class="sc">%&gt;%</span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">Method=</span><span class="st">"K-means (Mahalanobis)"</span>,</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Districts=</span><span class="fu">n</span>(),</span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Peninsula =</span> <span class="fu">all</span>(<span class="fu">c</span>(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) <span class="sc">%in%</span> LEAID),</span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">across</span>(<span class="fu">c</span>(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) <span class="fu">round</span>(<span class="fu">mean</span>(x), <span class="dv">1</span>))),</span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>  ccdnjk12_peers <span class="sc">%&gt;%</span> </span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(km_pc_scaled) <span class="sc">%&gt;%</span></span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">Method=</span><span class="st">"K-means (PC Scaled)"</span>,</span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Districts=</span><span class="fu">n</span>(),</span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Peninsula =</span> <span class="fu">all</span>(<span class="fu">c</span>(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) <span class="sc">%in%</span> LEAID),</span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">across</span>(<span class="fu">c</span>(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) <span class="fu">round</span>(<span class="fu">mean</span>(x), <span class="dv">1</span>))),</span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>  ccdnjk12_peers <span class="sc">%&gt;%</span> </span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(km_pc_unscaled) <span class="sc">%&gt;%</span></span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">Method=</span><span class="st">"K-means (PC Unscaled)"</span>,</span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Districts=</span><span class="fu">n</span>(),</span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Peninsula =</span> <span class="fu">all</span>(<span class="fu">c</span>(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) <span class="sc">%in%</span> LEAID),</span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">across</span>(<span class="fu">c</span>(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) <span class="fu">round</span>(<span class="fu">mean</span>(x), <span class="dv">1</span>))),</span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>  ccdnjk12_peers <span class="sc">%&gt;%</span> </span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_ward) <span class="sc">%&gt;%</span></span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">Method=</span><span class="st">"Euclidean Ward"</span>,</span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Districts=</span><span class="fu">n</span>(),</span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Peninsula =</span> <span class="fu">all</span>(<span class="fu">c</span>(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) <span class="sc">%in%</span> LEAID),</span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">across</span>(<span class="fu">c</span>(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) <span class="fu">round</span>(<span class="fu">mean</span>(x), <span class="dv">1</span>))),</span>
+<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a>  ccdnjk12_peers <span class="sc">%&gt;%</span> </span>
+<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_mcquitty) <span class="sc">%&gt;%</span></span>
+<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">Method=</span><span class="st">"Euclidean WPGMA"</span>,</span>
+<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Districts=</span><span class="fu">n</span>(),</span>
+<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Peninsula =</span> <span class="fu">all</span>(<span class="fu">c</span>(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) <span class="sc">%in%</span> LEAID),</span>
+<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">across</span>(<span class="fu">c</span>(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) <span class="fu">round</span>(<span class="fu">mean</span>(x), <span class="dv">1</span>))),</span>
+<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a>  ccdnjk12_peers <span class="sc">%&gt;%</span> </span>
+<span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_pc_dist_scaled_ward) <span class="sc">%&gt;%</span></span>
+<span id="cb16-66"><a href="#cb16-66" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">Method=</span><span class="st">"PC Scaled Ward"</span>,</span>
+<span id="cb16-67"><a href="#cb16-67" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Districts=</span><span class="fu">n</span>(),</span>
+<span id="cb16-68"><a href="#cb16-68" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Peninsula =</span> <span class="fu">all</span>(<span class="fu">c</span>(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) <span class="sc">%in%</span> LEAID),</span>
+<span id="cb16-69"><a href="#cb16-69" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">across</span>(<span class="fu">c</span>(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) <span class="fu">round</span>(<span class="fu">mean</span>(x), <span class="dv">1</span>))),</span>
+<span id="cb16-70"><a href="#cb16-70" aria-hidden="true" tabindex="-1"></a>  ccdnjk12_peers <span class="sc">%&gt;%</span> </span>
+<span id="cb16-71"><a href="#cb16-71" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_pc_dist_scaled_mcquitty) <span class="sc">%&gt;%</span></span>
+<span id="cb16-72"><a href="#cb16-72" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">Method=</span><span class="st">"PC Scaled WPGMA"</span>,</span>
+<span id="cb16-73"><a href="#cb16-73" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Districts=</span><span class="fu">n</span>(),</span>
+<span id="cb16-74"><a href="#cb16-74" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Peninsula =</span> <span class="fu">all</span>(<span class="fu">c</span>(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) <span class="sc">%in%</span> LEAID),</span>
+<span id="cb16-75"><a href="#cb16-75" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">across</span>(<span class="fu">c</span>(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) <span class="fu">round</span>(<span class="fu">mean</span>(x), <span class="dv">1</span>))),</span>
+<span id="cb16-76"><a href="#cb16-76" aria-hidden="true" tabindex="-1"></a>  ccdnjk12_peers <span class="sc">%&gt;%</span> </span>
+<span id="cb16-77"><a href="#cb16-77" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_pc_dist_unscaled_ward) <span class="sc">%&gt;%</span></span>
+<span id="cb16-78"><a href="#cb16-78" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">Method=</span><span class="st">"PC Unscaled Ward"</span>,</span>
+<span id="cb16-79"><a href="#cb16-79" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Districts=</span><span class="fu">n</span>(),</span>
+<span id="cb16-80"><a href="#cb16-80" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Peninsula =</span> <span class="fu">all</span>(<span class="fu">c</span>(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) <span class="sc">%in%</span> LEAID),</span>
+<span id="cb16-81"><a href="#cb16-81" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">across</span>(<span class="fu">c</span>(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) <span class="fu">round</span>(<span class="fu">mean</span>(x), <span class="dv">1</span>))),</span>
+<span id="cb16-82"><a href="#cb16-82" aria-hidden="true" tabindex="-1"></a>  ccdnjk12_peers <span class="sc">%&gt;%</span> </span>
+<span id="cb16-83"><a href="#cb16-83" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_pc_dist_unscaled_mcquitty) <span class="sc">%&gt;%</span></span>
+<span id="cb16-84"><a href="#cb16-84" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">Method=</span><span class="st">"PC Unscaled WPGMA"</span>,</span>
+<span id="cb16-85"><a href="#cb16-85" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Districts=</span><span class="fu">n</span>(),</span>
+<span id="cb16-86"><a href="#cb16-86" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Peninsula =</span> <span class="fu">all</span>(<span class="fu">c</span>(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) <span class="sc">%in%</span> LEAID),</span>
+<span id="cb16-87"><a href="#cb16-87" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">across</span>(<span class="fu">c</span>(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) <span class="fu">round</span>(<span class="fu">mean</span>(x), <span class="dv">1</span>))),</span>
+<span id="cb16-88"><a href="#cb16-88" aria-hidden="true" tabindex="-1"></a>  ccdnjk12_peers <span class="sc">%&gt;%</span> </span>
+<span id="cb16-89"><a href="#cb16-89" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(LEAID<span class="sc">==</span>fh_leaid) <span class="sc">%&gt;%</span></span>
+<span id="cb16-90"><a href="#cb16-90" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">Method=</span><span class="st">"Fair Haven"</span>,</span>
+<span id="cb16-91"><a href="#cb16-91" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Districts=</span><span class="fu">n</span>(),</span>
+<span id="cb16-92"><a href="#cb16-92" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Peninsula =</span> <span class="fu">all</span>(<span class="fu">c</span>(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) <span class="sc">%in%</span> LEAID),</span>
+<span id="cb16-93"><a href="#cb16-93" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">across</span>(<span class="fu">c</span>(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) <span class="fu">round</span>(<span class="fu">mean</span>(x), <span class="dv">1</span>)))</span>
+<span id="cb16-94"><a href="#cb16-94" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-95"><a href="#cb16-95" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-96"><a href="#cb16-96" aria-hidden="true" tabindex="-1"></a>peerset_summary <span class="sc">%&gt;%</span> </span>
+<span id="cb16-97"><a href="#cb16-97" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>(<span class="at">rowname_col =</span> <span class="st">"Method"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-98"><a href="#cb16-98" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(<span class="st">"Peer group stats for Fair Haven for each method. Data from ACS-EDGE."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="uptcybyyqv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#uptcybyyqv table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#uptcybyyqv thead, #uptcybyyqv tbody, #uptcybyyqv tfoot, #uptcybyyqv tr, #uptcybyyqv td, #uptcybyyqv th {
+  border-style: none;
+}
+
+#uptcybyyqv p {
+  margin: 0;
+  padding: 0;
+}
+
+#uptcybyyqv .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#uptcybyyqv .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#uptcybyyqv .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#uptcybyyqv .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#uptcybyyqv .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#uptcybyyqv .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#uptcybyyqv .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#uptcybyyqv .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#uptcybyyqv .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#uptcybyyqv .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#uptcybyyqv .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#uptcybyyqv .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#uptcybyyqv .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#uptcybyyqv .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#uptcybyyqv .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#uptcybyyqv .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#uptcybyyqv .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#uptcybyyqv .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#uptcybyyqv .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uptcybyyqv .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#uptcybyyqv .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#uptcybyyqv .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#uptcybyyqv .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uptcybyyqv .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#uptcybyyqv .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#uptcybyyqv .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#uptcybyyqv .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uptcybyyqv .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#uptcybyyqv .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#uptcybyyqv .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#uptcybyyqv .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#uptcybyyqv .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#uptcybyyqv .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uptcybyyqv .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#uptcybyyqv .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uptcybyyqv .gt_left {
+  text-align: left;
+}
+
+#uptcybyyqv .gt_center {
+  text-align: center;
+}
+
+#uptcybyyqv .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#uptcybyyqv .gt_font_normal {
+  font-weight: normal;
+}
+
+#uptcybyyqv .gt_font_bold {
+  font-weight: bold;
+}
+
+#uptcybyyqv .gt_font_italic {
+  font-style: italic;
+}
+
+#uptcybyyqv .gt_super {
+  font-size: 65%;
+}
+
+#uptcybyyqv .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#uptcybyyqv .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#uptcybyyqv .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#uptcybyyqv .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#uptcybyyqv .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#uptcybyyqv .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#uptcybyyqv .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#uptcybyyqv .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#uptcybyyqv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_col_headings">
+<th id="a::stub" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="Districts" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Districts</th>
+<th id="Peninsula" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">Peninsula</th>
+<th id="Edu_Bach_or_Higher" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Edu_Bach_or_Higher</th>
+<th id="Enroll_Elem" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Enroll_Elem</th>
+<th id="Fam_Avg_Size" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Fam_Avg_Size</th>
+<th id="HH_Married_Children" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">HH_Married_Children</th>
+<th id="Pop_Under_18" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Pop_Under_18</th>
+<th id="HH_Med_Income" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">HH_Med_Income</th>
+<th id="Occ_Mgmt_Bus_Sci_Arts" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Occ_Mgmt_Bus_Sci_Arts</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td id="stub_1_1" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Euclidean Distance</td>
+<td class="gt_row gt_right" headers="stub_1_1 Districts">49</td>
+<td class="gt_row gt_center" headers="stub_1_1 Peninsula">TRUE</td>
+<td class="gt_row gt_right" headers="stub_1_1 Edu_Bach_or_Higher">67.8</td>
+<td class="gt_row gt_right" headers="stub_1_1 Enroll_Elem">41.2</td>
+<td class="gt_row gt_right" headers="stub_1_1 Fam_Avg_Size">3.2</td>
+<td class="gt_row gt_right" headers="stub_1_1 HH_Married_Children">31.4</td>
+<td class="gt_row gt_right" headers="stub_1_1 Pop_Under_18">23.5</td>
+<td class="gt_row gt_right" headers="stub_1_1 HH_Med_Income">187155.2</td>
+<td class="gt_row gt_right" headers="stub_1_1 Occ_Mgmt_Bus_Sci_Arts">62.1</td>
+</tr>
+<tr class="even">
+<td id="stub_1_2" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Mahalanobis Distance</td>
+<td class="gt_row gt_right" headers="stub_1_2 Districts">34</td>
+<td class="gt_row gt_center" headers="stub_1_2 Peninsula">FALSE</td>
+<td class="gt_row gt_right" headers="stub_1_2 Edu_Bach_or_Higher">57.6</td>
+<td class="gt_row gt_right" headers="stub_1_2 Enroll_Elem">42.5</td>
+<td class="gt_row gt_right" headers="stub_1_2 Fam_Avg_Size">3.2</td>
+<td class="gt_row gt_right" headers="stub_1_2 HH_Married_Children">28.0</td>
+<td class="gt_row gt_right" headers="stub_1_2 Pop_Under_18">22.5</td>
+<td class="gt_row gt_right" headers="stub_1_2 HH_Med_Income">153014.8</td>
+<td class="gt_row gt_right" headers="stub_1_2 Occ_Mgmt_Bus_Sci_Arts">54.8</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_3" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Principal Components 1</td>
+<td class="gt_row gt_right" headers="stub_1_3 Districts">43</td>
+<td class="gt_row gt_center" headers="stub_1_3 Peninsula">TRUE</td>
+<td class="gt_row gt_right" headers="stub_1_3 Edu_Bach_or_Higher">71.5</td>
+<td class="gt_row gt_right" headers="stub_1_3 Enroll_Elem">42.8</td>
+<td class="gt_row gt_right" headers="stub_1_3 Fam_Avg_Size">3.2</td>
+<td class="gt_row gt_right" headers="stub_1_3 HH_Married_Children">30.4</td>
+<td class="gt_row gt_right" headers="stub_1_3 Pop_Under_18">23.3</td>
+<td class="gt_row gt_right" headers="stub_1_3 HH_Med_Income">190891.6</td>
+<td class="gt_row gt_right" headers="stub_1_3 Occ_Mgmt_Bus_Sci_Arts">64.4</td>
+</tr>
+<tr class="even">
+<td id="stub_1_4" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Principal Components 2</td>
+<td class="gt_row gt_right" headers="stub_1_4 Districts">51</td>
+<td class="gt_row gt_center" headers="stub_1_4 Peninsula">FALSE</td>
+<td class="gt_row gt_right" headers="stub_1_4 Edu_Bach_or_Higher">51.6</td>
+<td class="gt_row gt_right" headers="stub_1_4 Enroll_Elem">45.3</td>
+<td class="gt_row gt_right" headers="stub_1_4 Fam_Avg_Size">3.2</td>
+<td class="gt_row gt_right" headers="stub_1_4 HH_Married_Children">26.4</td>
+<td class="gt_row gt_right" headers="stub_1_4 Pop_Under_18">23.2</td>
+<td class="gt_row gt_right" headers="stub_1_4 HH_Med_Income">141627.9</td>
+<td class="gt_row gt_right" headers="stub_1_4 Occ_Mgmt_Bus_Sci_Arts">52.5</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_5" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">K-means (Euclidean)</td>
+<td class="gt_row gt_right" headers="stub_1_5 Districts">23</td>
+<td class="gt_row gt_center" headers="stub_1_5 Peninsula">FALSE</td>
+<td class="gt_row gt_right" headers="stub_1_5 Edu_Bach_or_Higher">76.0</td>
+<td class="gt_row gt_right" headers="stub_1_5 Enroll_Elem">44.0</td>
+<td class="gt_row gt_right" headers="stub_1_5 Fam_Avg_Size">3.2</td>
+<td class="gt_row gt_right" headers="stub_1_5 HH_Married_Children">32.2</td>
+<td class="gt_row gt_right" headers="stub_1_5 Pop_Under_18">24.4</td>
+<td class="gt_row gt_right" headers="stub_1_5 HH_Med_Income">208850.2</td>
+<td class="gt_row gt_right" headers="stub_1_5 Occ_Mgmt_Bus_Sci_Arts">66.5</td>
+</tr>
+<tr class="even">
+<td id="stub_1_6" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">K-means (Mahalanobis)</td>
+<td class="gt_row gt_right" headers="stub_1_6 Districts">57</td>
+<td class="gt_row gt_center" headers="stub_1_6 Peninsula">FALSE</td>
+<td class="gt_row gt_right" headers="stub_1_6 Edu_Bach_or_Higher">44.8</td>
+<td class="gt_row gt_right" headers="stub_1_6 Enroll_Elem">38.3</td>
+<td class="gt_row gt_right" headers="stub_1_6 Fam_Avg_Size">3.1</td>
+<td class="gt_row gt_right" headers="stub_1_6 HH_Married_Children">20.4</td>
+<td class="gt_row gt_right" headers="stub_1_6 Pop_Under_18">19.4</td>
+<td class="gt_row gt_right" headers="stub_1_6 HH_Med_Income">114321.6</td>
+<td class="gt_row gt_right" headers="stub_1_6 Occ_Mgmt_Bus_Sci_Arts">46.8</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_7" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">K-means (PC Scaled)</td>
+<td class="gt_row gt_right" headers="stub_1_7 Districts">32</td>
+<td class="gt_row gt_center" headers="stub_1_7 Peninsula">FALSE</td>
+<td class="gt_row gt_right" headers="stub_1_7 Edu_Bach_or_Higher">72.6</td>
+<td class="gt_row gt_right" headers="stub_1_7 Enroll_Elem">43.4</td>
+<td class="gt_row gt_right" headers="stub_1_7 Fam_Avg_Size">3.2</td>
+<td class="gt_row gt_right" headers="stub_1_7 HH_Married_Children">33.8</td>
+<td class="gt_row gt_right" headers="stub_1_7 Pop_Under_18">24.8</td>
+<td class="gt_row gt_right" headers="stub_1_7 HH_Med_Income">203339.4</td>
+<td class="gt_row gt_right" headers="stub_1_7 Occ_Mgmt_Bus_Sci_Arts">65.0</td>
+</tr>
+<tr class="even">
+<td id="stub_1_8" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">K-means (PC Unscaled)</td>
+<td class="gt_row gt_right" headers="stub_1_8 Districts">20</td>
+<td class="gt_row gt_center" headers="stub_1_8 Peninsula">FALSE</td>
+<td class="gt_row gt_right" headers="stub_1_8 Edu_Bach_or_Higher">76.9</td>
+<td class="gt_row gt_right" headers="stub_1_8 Enroll_Elem">44.5</td>
+<td class="gt_row gt_right" headers="stub_1_8 Fam_Avg_Size">3.2</td>
+<td class="gt_row gt_right" headers="stub_1_8 HH_Married_Children">33.6</td>
+<td class="gt_row gt_right" headers="stub_1_8 Pop_Under_18">24.9</td>
+<td class="gt_row gt_right" headers="stub_1_8 HH_Med_Income">216762.2</td>
+<td class="gt_row gt_right" headers="stub_1_8 Occ_Mgmt_Bus_Sci_Arts">66.6</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_9" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Euclidean Ward</td>
+<td class="gt_row gt_right" headers="stub_1_9 Districts">41</td>
+<td class="gt_row gt_center" headers="stub_1_9 Peninsula">TRUE</td>
+<td class="gt_row gt_right" headers="stub_1_9 Edu_Bach_or_Higher">71.8</td>
+<td class="gt_row gt_right" headers="stub_1_9 Enroll_Elem">42.7</td>
+<td class="gt_row gt_right" headers="stub_1_9 Fam_Avg_Size">3.2</td>
+<td class="gt_row gt_right" headers="stub_1_9 HH_Married_Children">30.6</td>
+<td class="gt_row gt_right" headers="stub_1_9 Pop_Under_18">23.3</td>
+<td class="gt_row gt_right" headers="stub_1_9 HH_Med_Income">192852.6</td>
+<td class="gt_row gt_right" headers="stub_1_9 Occ_Mgmt_Bus_Sci_Arts">64.4</td>
+</tr>
+<tr class="even">
+<td id="stub_1_10" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Euclidean WPGMA</td>
+<td class="gt_row gt_right" headers="stub_1_10 Districts">65</td>
+<td class="gt_row gt_center" headers="stub_1_10 Peninsula">TRUE</td>
+<td class="gt_row gt_right" headers="stub_1_10 Edu_Bach_or_Higher">64.8</td>
+<td class="gt_row gt_right" headers="stub_1_10 Enroll_Elem">41.5</td>
+<td class="gt_row gt_right" headers="stub_1_10 Fam_Avg_Size">3.2</td>
+<td class="gt_row gt_right" headers="stub_1_10 HH_Married_Children">31.4</td>
+<td class="gt_row gt_right" headers="stub_1_10 Pop_Under_18">23.5</td>
+<td class="gt_row gt_right" headers="stub_1_10 HH_Med_Income">177395.9</td>
+<td class="gt_row gt_right" headers="stub_1_10 Occ_Mgmt_Bus_Sci_Arts">61.0</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_11" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">PC Scaled Ward</td>
+<td class="gt_row gt_right" headers="stub_1_11 Districts">48</td>
+<td class="gt_row gt_center" headers="stub_1_11 Peninsula">TRUE</td>
+<td class="gt_row gt_right" headers="stub_1_11 Edu_Bach_or_Higher">68.3</td>
+<td class="gt_row gt_right" headers="stub_1_11 Enroll_Elem">43.0</td>
+<td class="gt_row gt_right" headers="stub_1_11 Fam_Avg_Size">3.2</td>
+<td class="gt_row gt_right" headers="stub_1_11 HH_Married_Children">32.5</td>
+<td class="gt_row gt_right" headers="stub_1_11 Pop_Under_18">24.2</td>
+<td class="gt_row gt_right" headers="stub_1_11 HH_Med_Income">187329.6</td>
+<td class="gt_row gt_right" headers="stub_1_11 Occ_Mgmt_Bus_Sci_Arts">63.0</td>
+</tr>
+<tr class="even">
+<td id="stub_1_12" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">PC Scaled WPGMA</td>
+<td class="gt_row gt_right" headers="stub_1_12 Districts">23</td>
+<td class="gt_row gt_center" headers="stub_1_12 Peninsula">FALSE</td>
+<td class="gt_row gt_right" headers="stub_1_12 Edu_Bach_or_Higher">73.5</td>
+<td class="gt_row gt_right" headers="stub_1_12 Enroll_Elem">44.6</td>
+<td class="gt_row gt_right" headers="stub_1_12 Fam_Avg_Size">3.3</td>
+<td class="gt_row gt_right" headers="stub_1_12 HH_Married_Children">35.8</td>
+<td class="gt_row gt_right" headers="stub_1_12 Pop_Under_18">25.9</td>
+<td class="gt_row gt_right" headers="stub_1_12 HH_Med_Income">212656.2</td>
+<td class="gt_row gt_right" headers="stub_1_12 Occ_Mgmt_Bus_Sci_Arts">65.5</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_13" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">PC Unscaled Ward</td>
+<td class="gt_row gt_right" headers="stub_1_13 Districts">84</td>
+<td class="gt_row gt_center" headers="stub_1_13 Peninsula">TRUE</td>
+<td class="gt_row gt_right" headers="stub_1_13 Edu_Bach_or_Higher">63.8</td>
+<td class="gt_row gt_right" headers="stub_1_13 Enroll_Elem">42.0</td>
+<td class="gt_row gt_right" headers="stub_1_13 Fam_Avg_Size">3.2</td>
+<td class="gt_row gt_right" headers="stub_1_13 HH_Married_Children">29.2</td>
+<td class="gt_row gt_right" headers="stub_1_13 Pop_Under_18">22.4</td>
+<td class="gt_row gt_right" headers="stub_1_13 HH_Med_Income">168804.2</td>
+<td class="gt_row gt_right" headers="stub_1_13 Occ_Mgmt_Bus_Sci_Arts">60.8</td>
+</tr>
+<tr class="even">
+<td id="stub_1_14" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">PC Unscaled WPGMA</td>
+<td class="gt_row gt_right" headers="stub_1_14 Districts">22</td>
+<td class="gt_row gt_center" headers="stub_1_14 Peninsula">FALSE</td>
+<td class="gt_row gt_right" headers="stub_1_14 Edu_Bach_or_Higher">75.1</td>
+<td class="gt_row gt_right" headers="stub_1_14 Enroll_Elem">44.2</td>
+<td class="gt_row gt_right" headers="stub_1_14 Fam_Avg_Size">3.3</td>
+<td class="gt_row gt_right" headers="stub_1_14 HH_Married_Children">35.0</td>
+<td class="gt_row gt_right" headers="stub_1_14 Pop_Under_18">25.7</td>
+<td class="gt_row gt_right" headers="stub_1_14 HH_Med_Income">215062.8</td>
+<td class="gt_row gt_right" headers="stub_1_14 Occ_Mgmt_Bus_Sci_Arts">66.2</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_15" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Fair Haven</td>
+<td class="gt_row gt_right" headers="stub_1_15 Districts">1</td>
+<td class="gt_row gt_center" headers="stub_1_15 Peninsula">FALSE</td>
+<td class="gt_row gt_right" headers="stub_1_15 Edu_Bach_or_Higher">79.1</td>
+<td class="gt_row gt_right" headers="stub_1_15 Enroll_Elem">45.3</td>
+<td class="gt_row gt_right" headers="stub_1_15 Fam_Avg_Size">3.3</td>
+<td class="gt_row gt_right" headers="stub_1_15 HH_Married_Children">40.4</td>
+<td class="gt_row gt_right" headers="stub_1_15 Pop_Under_18">31.2</td>
+<td class="gt_row gt_right" headers="stub_1_15 HH_Med_Income">229643.0</td>
+<td class="gt_row gt_right" headers="stub_1_15 Occ_Mgmt_Bus_Sci_Arts">59.7</td>
+</tr>
+</tbody><tfoot class="gt_sourcenotes">
+<tr class="even">
+<td colspan="10" class="gt_sourcenote">Peer group stats for Fair Haven for each method. Data from ACS-EDGE.</td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
 </section>
 </section>
 </section>
@@ -1701,7 +2517,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","openEffect":"zoom","selector":".lightbox","loop":false,"descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"loop":false,"descPosition":"bottom","selector":".lightbox","closeEffect":"zoom","openEffect":"zoom"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {

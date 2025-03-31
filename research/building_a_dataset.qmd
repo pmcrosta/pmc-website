@@ -43,6 +43,7 @@ library(glue)
 library(DT)
 library(htmltools)
 library(factoextra)
+library(gt)
 
 set.seed(2024)
 
@@ -429,6 +430,7 @@ datatable(edge_df %>% dplyr::select(-GeoId),
     "ACS-EDGE Data")
 )
 ```
+
 </details>
 
 # Generating Peer Districts
@@ -643,9 +645,9 @@ pc_all_scores_df <- pc_all_scores %>%
     dplyr::mutate(LEAID=na.omit(edge_df)$LEAID) %>% 
     arrange(PC1)
 
-fh_pcaid <- which(pc_all_scores_df$LEAID == fh_leaid)
+fh_pcaid1 <- which(pc_all_scores_df$LEAID == fh_leaid)
 
-table_dat1 <- pc_all_scores_df[(max(0,fh_pcaid-30)):(fh_pcaid+30), c("Geography", "LEAID", "PC1")]
+table_dat1 <- pc_all_scores_df[(max(0,fh_pcaid1-30)):(fh_pcaid1+30), c("Geography", "LEAID", "PC1")]
 
 rmarkdown::paged_table(table_dat1,
   options = list(
@@ -671,9 +673,9 @@ pc_all_scores_df <- pc_all_scores %>%
     dplyr::mutate(LEAID=na.omit(edge_df)$LEAID) %>% 
     arrange(PC2)
 
-fh_pcaid <- which(pc_all_scores_df$LEAID == fh_leaid)
+fh_pcaid2 <- which(pc_all_scores_df$LEAID == fh_leaid)
 
-table_dat2 <- pc_all_scores_df[(max(0,fh_pcaid-30)):(fh_pcaid+30), c("Geography", "LEAID", "PC2")]
+table_dat2 <- pc_all_scores_df[(max(0,fh_pcaid2-30)):(fh_pcaid2+30), c("Geography", "LEAID", "PC2")]
 
 rmarkdown::paged_table(table_dat2,
   options = list(
@@ -689,7 +691,7 @@ A final approach to identifying peer districts is cluster analysis. Cluster anal
 
 #### K-means clusters
 
-K-means clustering requires a distance matrix as input, and we have already created Euclidean and Mahalanobis distance matrices. We can also apply distance calculations to the PCA results in order to generate clusters based on the reduced dimensionality provided by principal components. Both scaled and un-scaled PCA results are clustered. The un-scaled version should over-weight PC1, and the scaled version should treat PC1 and PC2 more equally. The tabs below show the resulting peer groups from a standard K-means routine that assumes 10 clusters (a full treatment of K-means that searches for the optimal number of clusters is omitted in this document). Each tab includes a list of districts that were clustered alongside Fair Haven given the particular distance matrix as input.
+K-means clustering requires a distance matrix as input, and we have already created Euclidean and Mahalanobis distance matrices. We can also apply distance calculations to the PCA results in order to generate clusters based on the reduced dimensionality provided by principal components. Both scaled and un-scaled PCA results are clustered. The un-scaled version should over-weight PC1, and the scaled version should treat PC1 and PC2 more equally. The tabs below show the resulting peer groups from a standard K-means routine that assumes 7 clusters (a full treatment of K-means that searches for the optimal number of clusters is omitted in this document). Each tab includes a list of districts that were clustered alongside Fair Haven given the particular distance matrix as input.
 
 ```{r}
 #| label: kmeans-dev
@@ -711,10 +713,11 @@ pc_dist_scaled <- dist(scaled_pc_scores)
 pc_dist_unscaled <- dist(pc_all_scores[,c(1:2)])
 
 # Apply k-means
-km_pc_scaled <- kmeans(pc_dist_scaled, centers = 10)
-km_pc_unscaled <- kmeans(pc_dist_unscaled, centers = 10)
-km_euclid <- kmeans(edge_dist, centers = 10)
-km_maha <- kmeans(dist_mat_mah, centers = 10)
+n_clusters <- 7
+km_pc_scaled <- kmeans(pc_dist_scaled, centers = n_clusters)
+km_pc_unscaled <- kmeans(pc_dist_unscaled, centers = n_clusters)
+km_euclid <- kmeans(edge_dist, centers = n_clusters)
+km_maha <- kmeans(dist_mat_mah, centers = n_clusters)
 
 # Access cluster assignments
 clusters_pc_scaled <- km_pc_scaled$cluster
@@ -820,7 +823,7 @@ Another clustering strategy is called Hierarchical Clustering, which generates a
 
 As with K-means, the input to the hierarchical clustering routine is a distance matrix. There is another parameter included in the model to instruct how the clustering algorithm should combine districts with each other and with groups. This is often called the "method", and here will explore a few methods. Again as with K-means, a full treatment of cluster analysis is not provided here. Rather, this exercise is to generate candidate sets of peers that will be qualitatively assessed in the next section.
 
-The first tab below shows a partial dendrogram highlighting part of the full tree that contains a decent-sized cluster around Fair Haven. The other two tabs show the resulting peer groups from different clustering inputs.  
+The first tab below shows a partial dendrogram highlighting part of the full tree that contains a decent-sized cluster around Fair Haven. The other two tabs show the resulting peer groups from different clustering inputs.
 
 ```{r}
 #| label: hierarchical-dev
@@ -903,21 +906,6 @@ hc_pc_dist_unscaled_mcquitty <- hclust(pc_dist_unscaled, method="mcquitty")
 hc_pc_dist_unscaled_ward_clusters <- find_min_cluster(hc_pc_dist_unscaled_ward, min_size = 50, target_observation = "Fair Haven Borough School District, NJ")
 hc_pc_dist_unscaled_mcquitty_clusters <- find_min_cluster(hc_pc_dist_unscaled_mcquitty, min_size = 40, target_observation = "Fair Haven Borough School District, NJ")
 
-# Create cluster indicators 
-edge_df <- edge_df %>% 
-  dplyr::mutate(
-    hc_euclid_ward = LEAID %in% hc_euclid_ward_clusters$cluster_members,
-    hc_euclid_mcquitty = LEAID %in% hc_euclid_mcquitty_clusters$cluster_members,
-    hc_pc_dist_scaled_ward = Geography %in% hc_pc_dist_scaled_ward_clusters$cluster_members,
-    hc_pc_dist_scaled_mcquitty = Geography %in% hc_pc_dist_scaled_mcquitty_clusters$cluster_members,
-    hc_pc_dist_unscaled_ward = Geography %in% hc_pc_dist_unscaled_ward_clusters$cluster_members,
-    hc_pc_dist_unscaled_mcquitty = Geography %in% hc_pc_dist_unscaled_mcquitty_clusters$cluster_members,
-    LEAID = as.character(LEAID)
-    )
-
-ccdnjk12 <- ccdnjk12 %>% 
-  dplyr::left_join(edge_df, by = "LEAID")
-
 ```
 
 ::: panel-tabset
@@ -961,6 +949,7 @@ viztree(edge_df, hc_euclid_ward_clusters$cluster_members, "euclidean", "ward.D2"
 ```
 
 ##### Euclidean Ward Peers
+
 ```{r}
 #| eval: true
 #| include: true
@@ -971,13 +960,15 @@ viztree(edge_df, hc_euclid_ward_clusters$cluster_members, "euclidean", "ward.D2"
 #| cache: true
 #| dependson: hierarchical-dev
 
-rmarkdown::paged_table(ccdnjk12 %>% dplyr::filter(hc_euclid_ward) %>% dplyr::select(LEA_NAME),
+rmarkdown::paged_table(ccdnjk12 %>% dplyr::filter(LEAID %in% hc_euclid_ward_clusters$cluster_members) %>% dplyr::select(LEA_NAME),
   options = list(
     rows.print = 10
   )
 )
 ```
+
 ##### PC Unscaled Ward Peers
+
 ```{r}
 #| eval: true
 #| include: true
@@ -988,7 +979,10 @@ rmarkdown::paged_table(ccdnjk12 %>% dplyr::filter(hc_euclid_ward) %>% dplyr::sel
 #| cache: true
 #| dependson: hierarchical-dev
 
-rmarkdown::paged_table(ccdnjk12 %>% dplyr::filter(hc_pc_dist_unscaled_ward) %>% dplyr::select(LEA_NAME),
+rmarkdown::paged_table(edge_df %>% 
+                         dplyr::filter(Geography %in% hc_pc_dist_unscaled_ward_clusters$cluster_members) %>% 
+                         dplyr::select(Geography) %>%
+                         dplyr::mutate(Geography = gsub(" School District, NJ", "", Geography)),
   options = list(
     rows.print = 10
   )
@@ -996,19 +990,186 @@ rmarkdown::paged_table(ccdnjk12 %>% dplyr::filter(hc_pc_dist_unscaled_ward) %>% 
 ```
 :::
 
+Finally, I add the possible peer sets back to our CCD data set and save them as [RDS](datasets/ccdnjk12_peers.rds) or [CSV](datasets/ccdnjk12_peers.csv) files for easy access.
+
 ```{r}
-#| eval: false
-#| include: false
-edge_df %>% dplyr::group_by(hc1_grp10) %>%
-  dplyr::select(-GeoId, -Geography, -LEAID) %>%
-  dplyr::summarise_all(\(x) round(mean(x), 1)) %>% t()
+#| label: update-df
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| code-summary: Code - Update data with peer sets
+
+# Create K-means cluster indicators in edge_df
+edge_df <- edge_df %>% 
+  dplyr::mutate(
+    km_euclid = LEAID %in% mat_euclid$Euclidean,
+    km_maha = LEAID %in% mat_maha$Mahalanobis,
+    km_pc_scaled = Geography %in% mat_pc_scaled$`PC Scaled`,
+    km_pc_unscaled = Geography %in% mat_pc_unscaled$`PC Unscaled`
+  )
+  
+# Create hierarchical cluster indicators in edge_df
+edge_df <- edge_df %>% 
+  dplyr::mutate(
+    hc_euclid_ward = LEAID %in% hc_euclid_ward_clusters$cluster_members,
+    hc_euclid_mcquitty = LEAID %in% hc_euclid_mcquitty_clusters$cluster_members,
+    hc_pc_dist_scaled_ward = Geography %in% hc_pc_dist_scaled_ward_clusters$cluster_members,
+    hc_pc_dist_scaled_mcquitty = Geography %in% hc_pc_dist_scaled_mcquitty_clusters$cluster_members,
+    hc_pc_dist_unscaled_ward = Geography %in% hc_pc_dist_unscaled_ward_clusters$cluster_members,
+    hc_pc_dist_unscaled_mcquitty = Geography %in% hc_pc_dist_unscaled_mcquitty_clusters$cluster_members,
+    LEAID = as.character(LEAID)
+    )
+
+# add peer options to 
+ccdnjk12_peers <- ccdnjk12 %>% dplyr::mutate(LEAID = as.character(LEAID)) %>%
+  dplyr::left_join(edge_df %>% dplyr::mutate(LEAID = as.character(LEAID)), by = "LEAID") %>%
+  dplyr::left_join(similar_districts_euclid %>% dplyr::select(-Geography) %>% dplyr::mutate(LEAID = as.character(LEAID)), by = "LEAID") %>%
+  dplyr::left_join(similar_districts_mah %>% dplyr::select(-Geography) %>% dplyr::mutate(LEAID = as.character(LEAID)), by = "LEAID") %>%
+  dplyr::left_join(pc_all_scores_df %>%
+                     dplyr::select(LEAID, PC1, PC2) %>%
+                     dplyr::mutate(LEAID = as.character(LEAID)), by = "LEAID")
+ 
+# Serialize
+saveRDS(ccdnjk12_peers, file="datasets/ccdnjk12_peers.rds")
+write_csv(ccdnjk12_peers, file="datasets/ccdnjk12_peers.csv")
 ```
-
-
 
 ### Comparing Peer Sets
 
+Thus far, I have created a number of candidate peer groups for Fair Haven. In fact, there are 14 possible sets to choose from (probably too many!):
 
+-   Distance-based (pick districts closest to Fair Haven according to a distance metric)
+    -   Euclidean `euclid_score`
+    -   Mahalanobis `mah_score`
+-   Principal Components (pick districts according to similarity across a reduced dimensional space)
+    -   PC1 `PC1`
+    -   PC2 `PC2`
+-   K-means Clusters (pick districts based on groups derived from the K-means algorithm.
+    -   Euclidean distance `km_euclid`
+    -   Mahalanobis distance `km_maha`
+    -   First two principal components (scaled) `km_pc_scaled`
+    -   First two principal components (unscaled) `km_pc_unscaled`
+-   Hierarchical Clusters
+    -   Euclidean - Ward `hc_euclid_ward`
+    -   Euclidean - WPGMA `hc_euclid_mcquitty`
+    -   PC Scaled - Ward `hc_pc_dist_scaled_ward`
+    -   PC Scaled - WPGMA `hc_pc_dist_scaled_mcquitty`
+    -   PC Unscaled - Ward `hc_pc_dist_unscaled_ward`
+    -   PC Unscaled - WPGMA `hc_pc_dist_unscaled_mcquitty`
+
+The table below summarizes a selection of district characteristics for the districts that are included in each potential peer set. Fair Haven itself is included in the last row for comparison. The `Peninsula` column is TRUE if FH, Rumson, Little Silver, and Shrewsbury are all included in that particular peer set.
+
+```{r}
+#| label: compare-peers
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| code-summary: Code - Compare peer sets
+
+peerset_summary <- bind_rows(
+  ccdnjk12_peers %>% 
+    dplyr::filter(euclid_score <= 100) %>%
+    dplyr::summarise(Method="Euclidean Distance",
+                     Districts=n(),
+                     Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
+                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+  ccdnjk12_peers %>% 
+    dplyr::filter(mah_score <= 100) %>%
+    dplyr::summarise(Method="Mahalanobis Distance",
+                     Districts=n(),
+                     Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
+                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+  ccdnjk12_peers %>% 
+    dplyr::arrange(PC1) %>%
+    dplyr::slice((max(0,fh_pcaid1-30)):(fh_pcaid1+30)) %>%
+    dplyr::summarise(Method="Principal Components 1",
+                     Districts=n(),
+                     Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
+                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+  ccdnjk12_peers %>% 
+    dplyr::arrange(PC2) %>%
+    dplyr::slice((max(0,fh_pcaid2-25)):(fh_pcaid2+25)) %>%
+    dplyr::summarise(Method="Principal Components 2",
+                     Districts=n(),
+                     Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
+                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+  ccdnjk12_peers %>% 
+    dplyr::filter(km_euclid) %>%
+    dplyr::summarise(Method="K-means (Euclidean)",
+                     Districts=n(),
+                     Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
+                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+  ccdnjk12_peers %>% 
+    dplyr::filter(km_maha) %>%
+    dplyr::summarise(Method="K-means (Mahalanobis)",
+                     Districts=n(),
+                     Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
+                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+  ccdnjk12_peers %>% 
+    dplyr::filter(km_pc_scaled) %>%
+    dplyr::summarise(Method="K-means (PC Scaled)",
+                     Districts=n(),
+                     Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
+                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+  ccdnjk12_peers %>% 
+    dplyr::filter(km_pc_unscaled) %>%
+    dplyr::summarise(Method="K-means (PC Unscaled)",
+                     Districts=n(),
+                     Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
+                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+  ccdnjk12_peers %>% 
+    dplyr::filter(hc_euclid_ward) %>%
+    dplyr::summarise(Method="Euclidean Ward",
+                     Districts=n(),
+                     Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
+                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+  ccdnjk12_peers %>% 
+    dplyr::filter(hc_euclid_mcquitty) %>%
+    dplyr::summarise(Method="Euclidean WPGMA",
+                     Districts=n(),
+                     Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
+                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+  ccdnjk12_peers %>% 
+    dplyr::filter(hc_pc_dist_scaled_ward) %>%
+    dplyr::summarise(Method="PC Scaled Ward",
+                     Districts=n(),
+                     Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
+                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+  ccdnjk12_peers %>% 
+    dplyr::filter(hc_pc_dist_scaled_mcquitty) %>%
+    dplyr::summarise(Method="PC Scaled WPGMA",
+                     Districts=n(),
+                     Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
+                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+  ccdnjk12_peers %>% 
+    dplyr::filter(hc_pc_dist_unscaled_ward) %>%
+    dplyr::summarise(Method="PC Unscaled Ward",
+                     Districts=n(),
+                     Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
+                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+  ccdnjk12_peers %>% 
+    dplyr::filter(hc_pc_dist_unscaled_mcquitty) %>%
+    dplyr::summarise(Method="PC Unscaled WPGMA",
+                     Districts=n(),
+                     Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
+                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+  ccdnjk12_peers %>% 
+    dplyr::filter(LEAID==fh_leaid) %>%
+    dplyr::summarise(Method="Fair Haven",
+                     Districts=n(),
+                     Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
+                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1)))
+)
+  
+peerset_summary %>% 
+  gt(rowname_col = "Method") %>%
+  tab_source_note("Peer group stats for Fair Haven for each method. Data from ACS-EDGE.")
+
+```
 
 # Financial Data (User Friendly Budgets)
 
