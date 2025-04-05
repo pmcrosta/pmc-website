@@ -44,6 +44,7 @@ library(DT)
 library(htmltools)
 library(factoextra)
 library(gt)
+library(purrr)
 
 set.seed(2024)
 
@@ -60,6 +61,14 @@ rums_staid <- "NJ-254570"
 
 shrews_leaid <- "3414970"
 shrews_staid <- "NJ-254770"
+
+district_name_colors <- c(
+  "Fair Haven Boro" = "#4169E1",
+  "Little Silver Boro" = "#1F2868",
+  "Rumson Boro" = "#8640C4",
+  "Shrewsbury Boro" = "#004500",
+  "Other" = "darkgrey"
+)
 ```
 
 # Common Core of Data
@@ -92,11 +101,10 @@ ccdnjk12 <- ccd  %>%
   dplyr::select(SCHOOL_YEAR, ST, LEA_NAME, ST_LEAID, LEAID, LSTREET1, LSTREET2, LSTREET3, LCITY, LZIP, WEBSITE, G_PK_OFFERED, GSLO, GSHI)
 
 # Serialize
-saveRDS(ccdnjk12, file="datasets/ccdnjk12.rds")
 write_csv(ccdnjk12, file="datasets/ccdnjk12.csv")
 ```
 
-I identify `{r} nrow(ccdnjk12)` public, non-charter NJ districts that that offer grades PK/K-8 like Fair Haven. These are saved as [RDS](datasets/ccdnjk12.rds) or [CSV](datasets/ccdnjk12.csv) files for easy access.
+I identify `{r} nrow(ccdnjk12)` public, non-charter NJ districts that that offer grades PK/K-8 like Fair Haven. These are saved as a [CSV](datasets/ccdnjk12.csv) file for easy access.
 
 <details>
 
@@ -180,7 +188,7 @@ Next, I isolate the variables that will be useful for generating peer districts.
 -   Household type and size
 -   Housing occupancy
 -   Household income
--   Occupation distribution
+-   Occupational category distribution
 -   Demographics (race, sex, age)
 
 ```{r}
@@ -391,7 +399,7 @@ glue("Created `edge_df`. `edge_df` has {nrow(edge_df)} rows and {ncol(edge_df)} 
     -   `HH_Income_150k_199k`: Percent with household income \$150,000 to \$199,999
     -   `HH_Income_200k_plus`: Percent with household income \$200,000 or more
 
-Finally, I serialize the `edge_df` data frame so that it can be accessed without having to rerun all this code. Here are links to an [RDS](datasets/edge_df.rds) file or a [CSV](datasets/edge_df.csv) file.
+Finally, I serialize the `edge_df` data frame so that it can be accessed without having to rerun all this code. Here is a link to a [CSV](datasets/edge_df.csv) file.
 
 ```{r}
 #| label: save-edge-data
@@ -403,7 +411,6 @@ Finally, I serialize the `edge_df` data frame so that it can be accessed without
 #| code-summary: Code - Serialize ACS-EDGE dataset and make accessible
 #| dependson: process-edge-data
 
-saveRDS(edge_df, file="datasets/edge_df.rds")
 write_csv(edge_df, file="datasets/edge_df.csv")
 ```
 
@@ -691,7 +698,7 @@ A final approach to identifying peer districts is cluster analysis. Cluster anal
 
 #### K-means clusters
 
-K-means clustering requires a distance matrix as input, and we have already created Euclidean and Mahalanobis distance matrices. We can also apply distance calculations to the PCA results in order to generate clusters based on the reduced dimensionality provided by principal components. Both scaled and un-scaled PCA results are clustered. The un-scaled version should over-weight PC1, and the scaled version should treat PC1 and PC2 more equally. The tabs below show the resulting peer groups from a standard K-means routine that assumes 7 clusters (a full treatment of K-means that searches for the optimal number of clusters is omitted in this document). Each tab includes a list of districts that were clustered alongside Fair Haven given the particular distance matrix as input.
+K-means clustering requires a distance matrix as input, and I have already created Euclidean and Mahalanobis distance matrices. I can also apply distance calculations to the PCA results in order to generate clusters based on the reduced dimensionality provided by principal components. Both scaled and un-scaled PCA results are clustered. The un-scaled version should over-weight PC1, and the scaled version should treat PC1 and PC2 more equally. The tabs below show the resulting peer groups from a standard K-means routine that assumes 7 clusters (a full treatment of K-means that searches for the optimal number of clusters is omitted in this document). Each tab includes a list of districts that were clustered alongside Fair Haven given the particular distance matrix as input.
 
 ```{r}
 #| label: kmeans-dev
@@ -713,7 +720,7 @@ pc_dist_scaled <- dist(scaled_pc_scores)
 pc_dist_unscaled <- dist(pc_all_scores[,c(1:2)])
 
 # Apply k-means
-n_clusters <- 7
+n_clusters <- 6
 km_pc_scaled <- kmeans(pc_dist_scaled, centers = n_clusters)
 km_pc_unscaled <- kmeans(pc_dist_unscaled, centers = n_clusters)
 km_euclid <- kmeans(edge_dist, centers = n_clusters)
@@ -948,7 +955,7 @@ viztree(edge_df, hc_euclid_ward_clusters$cluster_members, "euclidean", "ward.D2"
 
 ```
 
-##### Euclidean Ward Peers
+##### Euclidean Ward Peers {#sec-euclidean-ward-peers}
 
 ```{r}
 #| eval: true
@@ -990,7 +997,7 @@ rmarkdown::paged_table(edge_df %>%
 ```
 :::
 
-Finally, I add the possible peer sets back to our CCD data set and save them as [RDS](datasets/ccdnjk12_peers.rds) or [CSV](datasets/ccdnjk12_peers.csv) files for easy access.
+Finally, I add the possible peer sets back to our CCD data set and save them as a [CSV](datasets/ccdnjk12_peers.csv) file for easy access.
 
 ```{r}
 #| label: update-df
@@ -1032,7 +1039,6 @@ ccdnjk12_peers <- ccdnjk12 %>% dplyr::mutate(LEAID = as.character(LEAID)) %>%
                      dplyr::mutate(LEAID = as.character(LEAID)), by = "LEAID")
  
 # Serialize
-saveRDS(ccdnjk12_peers, file="datasets/ccdnjk12_peers.rds")
 write_csv(ccdnjk12_peers, file="datasets/ccdnjk12_peers.csv")
 ```
 
@@ -1059,7 +1065,7 @@ Thus far, I have created a number of candidate peer groups for Fair Haven. In fa
     -   PC Unscaled - Ward `hc_pc_dist_unscaled_ward`
     -   PC Unscaled - WPGMA `hc_pc_dist_unscaled_mcquitty`
 
-The table below summarizes a selection of district characteristics for the districts that are included in each potential peer set. Fair Haven itself is included in the last row for comparison. The `Peninsula` column is TRUE if FH, Rumson, Little Silver, and Shrewsbury are all included in that particular peer set.
+The table below summarizes a selection of district characteristics for the districts that are included in each potential peer set (restricted to PK/K-8th grade). Fair Haven itself is included in the last row for comparison. The `Peninsula` column is TRUE if FH, Rumson, Little Silver, and Shrewsbury (Peninsula Peers) are all included in that particular peer set.
 
 ```{r}
 #| label: compare-peers
@@ -1070,109 +1076,1881 @@ The table below summarizes a selection of district characteristics for the distr
 #| cache: true
 #| code-summary: Code - Compare peer sets
 
+edge_vars <- c("Edu_Bach_or_Higher", "Fam_Avg_Size", "HH_Married_Children", "Pop_Under_18", "HH_Med_Income", "Occ_Mgmt_Bus_Sci_Arts")
+
 peerset_summary <- bind_rows(
   ccdnjk12_peers %>% 
     dplyr::filter(euclid_score <= 100) %>%
-    dplyr::summarise(Method="Euclidean Distance",
+    dplyr::summarise(Method="Distance - Euclidean",
                      Districts=n(),
                      Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
-                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+                     across(all_of(edge_vars), \(x) round(mean(x), 1))),
   ccdnjk12_peers %>% 
     dplyr::filter(mah_score <= 100) %>%
-    dplyr::summarise(Method="Mahalanobis Distance",
+    dplyr::summarise(Method="Distance - Mahalanobis",
                      Districts=n(),
                      Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
-                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+                     across(all_of(edge_vars), \(x) round(mean(x), 1))),
   ccdnjk12_peers %>% 
     dplyr::arrange(PC1) %>%
     dplyr::slice((max(0,fh_pcaid1-30)):(fh_pcaid1+30)) %>%
     dplyr::summarise(Method="Principal Components 1",
                      Districts=n(),
                      Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
-                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+                     across(all_of(edge_vars), \(x) round(mean(x), 1))),
   ccdnjk12_peers %>% 
     dplyr::arrange(PC2) %>%
     dplyr::slice((max(0,fh_pcaid2-25)):(fh_pcaid2+25)) %>%
     dplyr::summarise(Method="Principal Components 2",
                      Districts=n(),
                      Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
-                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+                     across(all_of(edge_vars), \(x) round(mean(x), 1))),
   ccdnjk12_peers %>% 
     dplyr::filter(km_euclid) %>%
     dplyr::summarise(Method="K-means (Euclidean)",
                      Districts=n(),
                      Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
-                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+                     across(all_of(edge_vars), \(x) round(mean(x), 1))),
   ccdnjk12_peers %>% 
     dplyr::filter(km_maha) %>%
     dplyr::summarise(Method="K-means (Mahalanobis)",
                      Districts=n(),
                      Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
-                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+                     across(all_of(edge_vars), \(x) round(mean(x), 1))),
   ccdnjk12_peers %>% 
     dplyr::filter(km_pc_scaled) %>%
     dplyr::summarise(Method="K-means (PC Scaled)",
                      Districts=n(),
                      Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
-                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+                     across(all_of(edge_vars), \(x) round(mean(x), 1))),
   ccdnjk12_peers %>% 
     dplyr::filter(km_pc_unscaled) %>%
     dplyr::summarise(Method="K-means (PC Unscaled)",
                      Districts=n(),
                      Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
-                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+                     across(all_of(edge_vars), \(x) round(mean(x), 1))),
   ccdnjk12_peers %>% 
     dplyr::filter(hc_euclid_ward) %>%
-    dplyr::summarise(Method="Euclidean Ward",
+    dplyr::summarise(Method="Hierarchical (Euclidean Ward)",
                      Districts=n(),
                      Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
-                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+                     across(all_of(edge_vars), \(x) round(mean(x), 1))),
   ccdnjk12_peers %>% 
     dplyr::filter(hc_euclid_mcquitty) %>%
-    dplyr::summarise(Method="Euclidean WPGMA",
+    dplyr::summarise(Method="Hierarchical (Euclidean WPGMA)",
                      Districts=n(),
                      Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
-                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+                     across(all_of(edge_vars), \(x) round(mean(x), 1))),
   ccdnjk12_peers %>% 
     dplyr::filter(hc_pc_dist_scaled_ward) %>%
-    dplyr::summarise(Method="PC Scaled Ward",
+    dplyr::summarise(Method="Hierarchical (PC Scaled Ward)",
                      Districts=n(),
                      Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
-                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+                     across(all_of(edge_vars), \(x) round(mean(x), 1))),
   ccdnjk12_peers %>% 
     dplyr::filter(hc_pc_dist_scaled_mcquitty) %>%
-    dplyr::summarise(Method="PC Scaled WPGMA",
+    dplyr::summarise(Method="Hierarchical (PC Scaled WPGMA)",
                      Districts=n(),
                      Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
-                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+                     across(all_of(edge_vars), \(x) round(mean(x), 1))),
   ccdnjk12_peers %>% 
     dplyr::filter(hc_pc_dist_unscaled_ward) %>%
-    dplyr::summarise(Method="PC Unscaled Ward",
+    dplyr::summarise(Method="Hierarchical (PC Unscaled Ward)",
                      Districts=n(),
                      Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
-                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+                     across(all_of(edge_vars), \(x) round(mean(x), 1))),
   ccdnjk12_peers %>% 
     dplyr::filter(hc_pc_dist_unscaled_mcquitty) %>%
-    dplyr::summarise(Method="PC Unscaled WPGMA",
+    dplyr::summarise(Method="Hierarchical (PC Unscaled WPGMA)",
                      Districts=n(),
                      Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
-                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1))),
+                     across(all_of(edge_vars), \(x) round(mean(x), 1))),
   ccdnjk12_peers %>% 
     dplyr::filter(LEAID==fh_leaid) %>%
     dplyr::summarise(Method="Fair Haven",
                      Districts=n(),
                      Peninsula = all(c(fh_leaid, ls_leaid, rums_leaid, shrews_leaid) %in% LEAID),
-                     across(c(Edu_Bach_or_Higher, Enroll_Elem, Fam_Avg_Size, HH_Married_Children, Pop_Under_18, HH_Med_Income, Occ_Mgmt_Bus_Sci_Arts), \(x) round(mean(x), 1)))
+                     across(all_of(edge_vars), \(x) round(mean(x), 1)))
 )
   
 peerset_summary %>% 
+  dplyr::select(Method, Districts, Peninsula, HH_Med_Income, Edu_Bach_or_Higher, Occ_Mgmt_Bus_Sci_Arts, HH_Married_Children, Fam_Avg_Size) %>%
   gt(rowname_col = "Method") %>%
-  tab_source_note("Peer group stats for Fair Haven for each method. Data from ACS-EDGE.")
-
+   tab_header(
+    title = "Group Characteristics for Districts in each Peer Set"
+  ) %>%
+  tab_source_note("Data from ACS-EDGE 2018-22.") %>%
+  opt_interactive()
 ```
+
+Actually selecting which peer set to use at this point is a combination of art and science. I would like enough districts in the set to provide sufficient variation, but not too many to make comparisons unwieldy - between 35 and 45 should work. Ideally the "Peninsula" peers are already in the set; otherwise I would manually add them in after. It seems like the Hierarchical (Euclidean Ward) set might offer good coverage. A list of these peers can be found above at \@ref(sec-euclidean-ward-peers), and upon inspection, they do seem reasonable. The group of peers has about 72% of the population with a Bachelor's degree or higher (FH's 79%), median household income of \$192k (FH's \$230k), and 64% of the population working in management, business, science, or arts (FH's 60%). From the table, one could argue that that are smaller peer sets that have districts more similar to FH, but I will proceed with the hierarchical cluster-generated solution.
+
+This concludes the section on peer set generation for Fair Haven.
 
 # Financial Data (User Friendly Budgets)
 
+In order to understand factors related to school district financing, a data source for financial data is required. The state of New Jersey's Department of Education provides [User Friendly Budgets](https://www.nj.gov/education/budget/ufb/), which contain district-level expenses and appropriations. I mostly rely on per-pupil costs, and save them as a [CSV](datasets/per_pupil_exp.csv) file for easy access.
+
+```{r}
+#| label: user-friendly
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| code-summary: Code - Read user friendly budgets
+
+# FY 2024-25
+## use year_4	if want 2023-24 Revised Budgeted Per Pupil Costs
+## use year_2	if want 2022-23 Revised Budgeted Per Pupil Costs
+## amount_2	10/13/23 Estimated Enrollment Counts
+## amount_2	2023-24 Revised Budgeted Revenue Amounts
+## amount_2	2023-24 Revised Budgeted Appropriated Amounts
+## amount_1	10/13/22  Enrollment Counts
+## amount_1	2022-23 Audited Budgeted Revenue Amounts
+## amount_1	2022-23 Audited Appropriated Amounts
+
+# Leaving these here in case we need them later.
+# fin_enroll2425 <- read_csv("https://www.nj.gov/education/budget/ufb/2425/download/enroll25_minus_1.csv") %>% dplyr::mutate(SCHOOL_YEAR="2024-2025", ST_LEAID=paste0("NJ-", county_id, district_id))
+# fin_revenue2425 <- read_csv("https://www.nj.gov/education/budget/ufb/2425/download/rev25_minus_1.csv") %>% dplyr::mutate(SCHOOL_YEAR="2024-2025", ST_LEAID=paste0("NJ-", county_id, district_id))
+# fin_approp2425 <- read_csv("https://www.nj.gov/education/budget/ufb/2425/download/approp25_minus_1.csv") %>% dplyr::mutate(SCHOOL_YEAR="2024-2025", ST_LEAID=paste0("NJ-", county_id, district_id))
+# fin_recapit2425 <- read_csv("https://www.nj.gov/education/budget/ufb/2425/download/recap25_minus_1.csv") %>% dplyr::mutate(SCHOOL_YEAR="2024-2025", ST_LEAID=paste0("NJ-", county_id, district_id))
+# fin_unusual2425 <- read_csv("https://www.nj.gov/education/budget/ufb/2425/download/unusual25_minus_1.csv") %>% dplyr::mutate(SCHOOL_YEAR="2024-2025", ST_LEAID=paste0("NJ-", county_id, district_id))
+# fin_taxes2425 <- read_csv("https://www.nj.gov/education/budget/ufb/2425/download/esttax25_minus_1.csv") %>% dplyr::mutate(SCHOOL_YEAR="2024-2025", ST_LEAID=paste0("NJ-", county_id, district_id))
+
+fin_perpupil2425 <- read_csv("https://www.nj.gov/education/budget/ufb/2425/download/pupcst25_minus_1.csv") %>% dplyr::mutate(SCHOOL_YEAR="2024-2025", ST_LEAID=paste0("NJ-", county_id, district_id))
+
+per_pupil_exp <- bind_cols(
+  fin_perpupil2425 %>%
+    dplyr::filter(line_desc=="Total Budgetary Comparative Per Pupil Cost") %>%
+    dplyr::select(district_name, ST_LEAID, per_pupil_cost=year_4),
+  
+  fin_perpupil2425 %>%
+    dplyr::filter(line_desc=="Total Classroom Instruction") %>%
+    dplyr::select(per_pupil_class_instruction=year_4),
+  
+  fin_perpupil2425 %>%
+    dplyr::filter(line_desc=="Total Administrative Costs") %>%
+    dplyr::select(per_pupil_admin_cost=year_4)
+)
+
+write_csv(per_pupil_exp, file="datasets/per_pupil_exp.csv")
+```
+
 # Report Card Data
 
-# Bring the data together
+Student outcomes data come from the [NJ School Performance Reports](https://rc.doe.state.nj.us/download). To gather longitudinal data, I ingest report card data from 2014-15 to 2023-24.
+
+```{r}
+#| label: report-cards-2223
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| output: false
+#| code-summary: Code - Read in NJ Report Card data 2022-23
+
+## School year 2022-2023 district data
+url <- "https://navilp7rg08njprsharedst.blob.core.windows.net/perf-reports-ct/DataFiles/2022-2023/Database_DistrictStateDetail.xlsx"
+
+# Download the file temporarily
+rc_district <- tempfile(fileext = ".xlsx")
+download.file(url, destfile = rc_district, mode = "wb")
+
+sheet_names_district <- excel_sheets(rc_district)
+
+nsheet <- 3
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::rename(TotalEnrollment=Total)
+
+nsheet <- 4
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+EnrollmentTrendsByStudentGroup <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, `Students with Disabilities`, `Economically Disadvantaged Students`)
+
+nsheet <- 10
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+StudentGrowth <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(SubGroup=="Districtwide") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode, -SubGroup, -StateMedian, -MetTarget) %>%
+  pivot_wider(names_from = "Subject", values_from = "DistrictMedian", names_prefix = "mSGP_")
+
+nsheet <- 11
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+StudentGrowthByGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(sub_grade=paste(`ELA/Math`, Grade)) %>%
+  dplyr::select(-Level, -Grade, -`ELA/Math`) %>%
+  pivot_wider(names_from = "sub_grade", values_from = "mSGP", names_prefix = "mSGP_") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode)
+
+nsheet <- 14
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Groups`=="Districtwide") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District=`District: % of testers met/exceeded expectations`)
+
+nsheet <- 14
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Groups`=="Students with Disabilities") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District_dis=`District: % of testers met/exceeded expectations`)
+
+nsheet <- 14
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Groups`=="Students without Disabilities") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District_notdis=`District: % of testers met/exceeded expectations`)
+
+nsheet <- 15
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAPerformanceTrends <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode)) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::rename("ELA_ME"=`% Met/Exceeded Expectation`) %>%
+  pivot_wider(names_from="Grades", values_from="ELA_ME", names_prefix = "ELA_ME_")
+
+nsheet <- 16
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAPerformanceByGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Group`=="Districtwide") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::mutate(n_level5=(as.numeric(`% Level 5`)/100)*as.numeric(`Valid Scores`)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::summarize(ELA_pct_level5=sum(n_level5)/sum(as.numeric(`Valid Scores`)))
+
+nsheet <- 17
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Groups`=="Districtwide") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District=`District: % of testers met/exceeded expectations`)
+
+nsheet <- 17
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Groups`=="Students with Disabilities") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District_dis=`District: % of testers met/exceeded expectations`)
+
+nsheet <- 17
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Groups`=="Students without Disabilities") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District_notdis=`District: % of testers met/exceeded expectations`)
+
+nsheet <- 18
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathPerformanceTrends <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode)) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::rename("MATH_ME"=`% Met/Exceeded Expectation`, Grades= `Grades/Subject`) %>%
+  pivot_wider(names_from="Grades", values_from="MATH_ME", names_prefix = "MATH_ME_")
+
+nsheet <- 19
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathPerformanceByGradeTest <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Group`=="Districtwide") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::mutate(`Valid Scores`=if_else(`Valid Scores`=="*", "0", `Valid Scores`)) %>%
+  dplyr::mutate(`% Level 5`=if_else(`% Level 5`=="*", "0", `% Level 5`)) %>%
+  dplyr::mutate(n_level5=(as.numeric(`% Level 5`)/100)*as.numeric(`Valid Scores`)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::summarize(MATH_pct_level5=sum(n_level5)/sum(as.numeric(`Valid Scores`)))
+
+MathPerformanceByGradeTest_nogr8 <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Group`=="Districtwide", ! `Grade/Subject` %in% c("Grade 08", "ALG01", "ALG02", "GEO01")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::mutate(`Valid Scores`=if_else(`Valid Scores`=="*", "0", `Valid Scores`)) %>%
+  dplyr::mutate(`% Level 5`=if_else(`% Level 5`=="*", "0", `% Level 5`)) %>%
+  dplyr::mutate(n_level5=(as.numeric(`% Level 5`)/100)*as.numeric(`Valid Scores`)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::summarize(MATH_pct_level5_nogr8=sum(n_level5)/sum(as.numeric(`Valid Scores`)))
+
+nsheet <- 64
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+StudentToStaffRatios <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, Student_Teacher_District, Student_Admin_District)
+
+nsheet <- 60
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+TeachersExperience <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, starts_with("Teacher") | starts_with("Percent")) %>%
+  dplyr::select(!ends_with("State"))
+
+nsheet <- 53
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ChronicAbsenteeism<- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
+  dplyr::filter(StudentGroup=="Districtwide")  %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode, -DistrictName, -StudentGroup, -MetTarget, -Target)
+
+nsheet <- 54
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+DaysAbsent <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
+  dplyr::select(ST_LEAID, SchoolYear, starts_with("Abs"))
+
+rc_comb2324 <- StudentGrowth %>%
+  dplyr::left_join(StudentGrowthByGrade, by=c("ST_LEAID","SchoolYear", "DistrictName")) %>%
+  dplyr::left_join(ELAParticipationPerformance, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ELAParticipationPerformance_dis, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ELAParticipationPerformance_notdis, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ELAPerformanceTrends, by=c("ST_LEAID","SchoolYear", "DistrictName")) %>%
+  dplyr::left_join(ELAPerformanceByGrade, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathParticipationPerformance, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathParticipationPerformance_dis, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathParticipationPerformance_notdis, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathPerformanceTrends, by=c("ST_LEAID","SchoolYear", "DistrictName")) %>%
+  dplyr::left_join(MathPerformanceByGradeTest, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathPerformanceByGradeTest_nogr8, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(StudentToStaffRatios, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(TeachersExperience, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ChronicAbsenteeism, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(DaysAbsent, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(EnrollmentTrendsByStudentGroup, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(EnrollmentTrendsbyGrade, by=c("ST_LEAID","SchoolYear"))
+
+write_csv(rc_comb2324, file="datasets/rc_comb2324.csv")
+```
+
+```{r}
+#| label: report-cards-2122
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| output: false
+#| code-summary: Code - Read in NJ Report Card data 2021-22
+
+## School year 2021-22 district data
+url <- "https://navilp7rg08njprsharedst.blob.core.windows.net/perf-reports-ct/DataFiles/2021-2022/Database_DistrictStateDetail.xlsx"
+
+# Download the file temporarily
+rc_district <- tempfile(fileext = ".xlsx")
+download.file(url, destfile = rc_district, mode = "wb")
+sy <- "2021-2022"
+
+sheet_names_district <- excel_sheets(rc_district)
+print(sheet_names_district)
+
+nsheet <- 3
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::rename(TotalEnrollment=Total)
+
+nsheet <- 4
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+EnrollmentTrendsByStudentGroup <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, `Students with Disabilities`, `Economically Disadvantaged Students`)
+
+nsheet <- 10
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Groups`=="Districtwide") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District=`District: % of testers met/exceeded expectations`)
+
+nsheet <- 10
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Groups`=="Students with Disabilities") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District_dis=`District: % of testers met/exceeded expectations`)
+
+nsheet <- 10
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Groups`=="Students without Disabilities") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District_notdis=`District: % of testers met/exceeded expectations`)
+
+nsheet <- 11
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAPerformanceTrends <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode)) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::rename("ELA_ME"=`% Met/Exceeded Expectation`) %>%
+  pivot_wider(names_from="Grades", values_from="ELA_ME", names_prefix = "ELA_ME_")
+
+nsheet <- 12
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAPerformanceByGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Group`=="Districtwide") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::mutate(n_level5=(as.numeric(`% Level 5`)/100)*as.numeric(`Valid Scores`)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::summarize(ELA_pct_level5=sum(n_level5)/sum(as.numeric(`Valid Scores`)))
+
+nsheet <- 13
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Groups`=="Districtwide") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District=`District: % of testers met/exceeded expectations`)
+
+nsheet <- 13
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Groups`=="Students with Disabilities") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District_dis=`District: % of testers met/exceeded expectations`)
+
+nsheet <- 13
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Groups`=="Students without Disabilities") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District_notdis=`District: % of testers met/exceeded expectations`)
+
+nsheet <- 14
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathPerformanceTrends <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode)) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::rename("MATH_ME"=`% Met/Exceeded Expectation`, Grades= `Grades/Subject`) %>%
+  pivot_wider(names_from="Grades", values_from="MATH_ME", names_prefix = "MATH_ME_")
+
+nsheet <- 15
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathPerformanceByGradeTest <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Group`=="Districtwide") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::mutate(`Valid Scores`=if_else(`Valid Scores`=="*", "0", `Valid Scores`)) %>%
+  dplyr::mutate(`% Level 5`=if_else(`% Level 5`=="*", "0", `% Level 5`)) %>%
+  dplyr::mutate(n_level5=(as.numeric(`% Level 5`)/100)*as.numeric(`Valid Scores`)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::summarize(MATH_pct_level5=sum(n_level5)/sum(as.numeric(`Valid Scores`)))
+
+MathPerformanceByGradeTest_nogr8 <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Group`=="Districtwide", ! `Grade/Subject` %in% c("Grade 08", "ALG01", "ALG02", "GEO01")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::mutate(`Valid Scores`=if_else(`Valid Scores`=="*", "0", `Valid Scores`)) %>%
+  dplyr::mutate(`% Level 5`=if_else(`% Level 5`=="*", "0", `% Level 5`)) %>%
+  dplyr::mutate(n_level5=(as.numeric(`% Level 5`)/100)*as.numeric(`Valid Scores`)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::summarize(MATH_pct_level5_nogr8=sum(n_level5)/sum(as.numeric(`Valid Scores`)))
+
+nsheet <- 61
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+StudentToStaffRatios <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, Student_Teacher_District, Student_Admin_District)
+
+nsheet <- 57
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+TeachersExperience <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, starts_with("Teacher") | starts_with("Percent")) %>%
+  dplyr::select(!ends_with("State"))
+
+nsheet <- 50
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ChronicAbsenteeism<- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::filter(StudentGroup=="Districtwide")  %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode, -DistrictName, -StudentGroup, -MetTarget, -Target)
+
+nsheet <- 51
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+DaysAbsent <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(ST_LEAID, SchoolYear, starts_with("Abs"))
+
+rc_comb2122 <- ELAParticipationPerformance %>%
+  #StudentGrowth %>%
+  #dplyr::left_join(StudentGrowthByGrade, by=c("ST_LEAID","SchoolYear", "DistrictName")) %>%
+  #dplyr::left_join(ELAParticipationPerformance, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ELAParticipationPerformance_dis, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ELAParticipationPerformance_notdis, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ELAPerformanceTrends, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ELAPerformanceByGrade, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathParticipationPerformance, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathParticipationPerformance_dis, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathParticipationPerformance_notdis, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathPerformanceTrends, by=c("ST_LEAID","SchoolYear", "DistrictName")) %>%
+  dplyr::left_join(MathPerformanceByGradeTest, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathPerformanceByGradeTest_nogr8, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(StudentToStaffRatios, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(TeachersExperience, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ChronicAbsenteeism, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(DaysAbsent, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(EnrollmentTrendsByStudentGroup, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(EnrollmentTrendsbyGrade, by=c("ST_LEAID","SchoolYear"))
+
+write_csv(rc_comb2122, file="datasets/rc_comb2122.csv")
+```
+
+```{r}
+#| label: report-cards-2021
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| output: false
+#| code-summary: Code - Read in NJ Report Card data 2020-21
+
+## School year 2020-21 district data - no testing this year
+url <- "https://navilp7rg08njprsharedst.blob.core.windows.net/perf-reports-ct/DataFiles/2020-2021/Database_DistrictStateDetail.xlsx"
+
+# Download the file temporarily
+rc_district <- tempfile(fileext = ".xlsx")
+download.file(url, destfile = rc_district, mode = "wb")
+sy <- "2020-2021"
+
+sheet_names_district <- excel_sheets(rc_district)
+print(sheet_names_district)
+
+nsheet <- 3
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::rename(TotalEnrollment=Total)
+
+nsheet <- 4
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+EnrollmentTrendsByStudentGroup <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, `Students with Disabilities`, `Economically Disadvantaged Students`)
+
+nsheet <- 55
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+StudentToStaffRatios <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, Student_Teacher_District, Student_Admin_District)
+
+nsheet <- 52
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+TeachersExperience <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, starts_with("Teacher") | starts_with("Percent")) %>%
+  dplyr::select(!ends_with("State"))
+
+nsheet <- 45
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ChronicAbsenteeism<- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::filter(StudentGroup=="Districtwide")  %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode, -DistrictName, -StudentGroup, -MetTarget, -Target)
+
+nsheet <- 46
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+DaysAbsent <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(ST_LEAID, SchoolYear, starts_with("Abs"))
+
+rc_comb2021 <- StudentToStaffRatios %>%
+  #ELAParticipationPerformance %>%
+  #dplyr::left_join(MathParticipationPerformance, by=c("ST_LEAID","SchoolYear")) %>%
+  #dplyr::left_join(StudentToStaffRatios, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(TeachersExperience, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ChronicAbsenteeism, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(DaysAbsent, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(EnrollmentTrendsByStudentGroup, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(EnrollmentTrendsbyGrade, by=c("ST_LEAID","SchoolYear"))
+
+write_csv(rc_comb2021, file="datasets/rc_comb2021.csv")
+```
+
+```{r}
+#| label: report-cards-1920
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| output: false
+#| code-summary: Code - Read in NJ Report Card data 2019-20
+
+## School year 2019-20 district data - no testing this year
+url <- "https://navilp7rg08njprsharedst.blob.core.windows.net/perf-reports-ct/DataFiles/2019-2020/Database_DistrictStateDetail.xlsx"
+
+# Download the file temporarily
+rc_district <- tempfile(fileext = ".xlsx")
+download.file(url, destfile = rc_district, mode = "wb")
+sy <- "2019-2020"
+
+sheet_names_district <- excel_sheets(rc_district)
+print(sheet_names_district)
+
+nsheet <- which(sheet_names_district=="EnrollmentTrendsbyGrade")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::rename(TotalEnrollment=Total)
+
+nsheet <- which(sheet_names_district=="EnrollmentTrendsByStudentGroup")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+EnrollmentTrendsByStudentGroup <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, `Students with Disabilities`, `Economically Disadvantaged Students`)
+
+nsheet <- which(sheet_names_district=="StudentToStaffRatios")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+StudentToStaffRatios <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, Student_Teacher_District, Student_Admin_District)
+
+nsheet <- which(sheet_names_district=="TeachersExperience")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+TeachersExperience <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, starts_with("Teacher") | starts_with("Percent")) %>%
+  dplyr::select(!ends_with("State"))
+
+rc_comb1920 <- StudentToStaffRatios %>%
+  #ELAParticipationPerformance %>%
+  #dplyr::left_join(MathParticipationPerformance, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(TeachersExperience, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(EnrollmentTrendsByStudentGroup, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(EnrollmentTrendsbyGrade, by=c("ST_LEAID","SchoolYear"))
+
+write_csv(rc_comb1920, file="datasets/rc_comb1920.csv")
+```
+
+```{r}
+#| label: report-cards-1819
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| output: false
+#| code-summary: Code - Read in NJ Report Card data 2018-19
+
+## School year 2018-19 district data
+url <- "https://navilp7rg08njprsharedst.blob.core.windows.net/perf-reports-ct/DataFiles/2018-2019/Database_DistrictStateDetail.xlsx"
+
+# Download the file temporarily
+rc_district <- tempfile(fileext = ".xlsx")
+download.file(url, destfile = rc_district, mode = "wb")
+sy <- "2018-2019"
+
+sheet_names_district <- excel_sheets(rc_district)
+print(sheet_names_district)
+
+nsheet <- which(sheet_names_district=="EnrollmentTrendsbyGrade")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::rename(TotalEnrollment=Total)
+
+nsheet <- which(sheet_names_district=="EnrollmentTrendsByStudentGroup")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+EnrollmentTrendsByStudentGroup <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, `Students with Disabilities`, `Economically Disadvantaged Students`)
+
+nsheet <- which(sheet_names_district=="ELALiteracyParticipationPerform")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(StudentGroup=="Districtwide") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District=DistrictPerformance)
+
+nsheet <- which(sheet_names_district=="ELALiteracyParticipationPerform")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(StudentGroup=="Students with Disabilities") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District_dis=DistrictPerformance)
+
+nsheet <- which(sheet_names_district=="ELALiteracyParticipationPerform")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(StudentGroup=="Students without Disabilities") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District_notdis=DistrictPerformance)
+
+nsheet <- which(sheet_names_district=="ELALiteracyPerformanceByGrade")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAPerformanceByGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Group`=="Districtwide") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::mutate(n_level5=(as.numeric(LEVEL_5)/100)*as.numeric(ValidScores)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::summarize(ELA_pct_level5=sum(n_level5)/sum(as.numeric(ValidScores))) %>%
+  dplyr::ungroup()
+
+nsheet <- which(sheet_names_district=="MathParticipationPerform")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(StudentGroup=="Districtwide") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District=DistrictPerformance)
+
+nsheet <- which(sheet_names_district=="MathParticipationPerform")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(StudentGroup=="Students with Disabilities") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District_dis=DistrictPerformance)
+
+nsheet <- which(sheet_names_district=="MathParticipationPerform")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(StudentGroup=="Students without Disabilities") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District_notdis=DistrictPerformance)
+
+nsheet <- which(sheet_names_district=="MathPerformanceByGradeTest")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathPerformanceByGradeTest <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Group`=="Districtwide") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::mutate(`Valid Scores`=if_else(`ValidScores`=="*", "0", `ValidScores`)) %>%
+  dplyr::mutate(`% Level 5`=if_else(`LEVEL_5`=="*", "0", `LEVEL_5`)) %>%
+  dplyr::mutate(n_level5=(as.numeric(`% Level 5`)/100)*as.numeric(`Valid Scores`)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::summarize(MATH_pct_level5=sum(n_level5)/sum(as.numeric(`Valid Scores`)))
+
+MathPerformanceByGradeTest_nogr8 <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Group`=="Districtwide", ! `Grade` %in% c("Grade 08", "ALG01", "ALG02", "GEO01")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::mutate(`Valid Scores`=if_else(`ValidScores`=="*", "0", `ValidScores`)) %>%
+  dplyr::mutate(`% Level 5`=if_else(`LEVEL_5`=="*", "0", `LEVEL_5`)) %>%
+  dplyr::mutate(n_level5=(as.numeric(`% Level 5`)/100)*as.numeric(`Valid Scores`)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::summarize(MATH_pct_level5_nogr8=sum(n_level5)/sum(as.numeric(`Valid Scores`)))
+
+nsheet <- which(sheet_names_district=="StudentToStaffRatios")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+StudentToStaffRatios <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, Student_Teacher_District, Student_Admin_District)
+
+nsheet <- which(sheet_names_district=="TeachersExperience")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+TeachersExperience <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, starts_with("Teacher") | starts_with("Percent")) %>%
+  dplyr::select(!ends_with("State"))
+
+nsheet <- which(sheet_names_district=="ChronicAbsenteeism")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ChronicAbsenteeism<- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::filter(StudentGroup=="Districtwide")  %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode, -DistrictName, -StudentGroup, -MetTarget, -Target)
+
+nsheet <- which(sheet_names_district=="DaysAbsent")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+DaysAbsent <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(ST_LEAID, SchoolYear, starts_with("Abs"))
+
+rc_comb1819 <- EnrollmentTrendsbyGrade %>%
+  dplyr::left_join(EnrollmentTrendsByStudentGroup, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ELAParticipationPerformance, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ELAParticipationPerformance_dis, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ELAParticipationPerformance_notdis, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ELAPerformanceByGrade, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathParticipationPerformance, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathParticipationPerformance_dis, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathParticipationPerformance_notdis, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathPerformanceByGradeTest, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathPerformanceByGradeTest_nogr8, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(StudentToStaffRatios, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(TeachersExperience, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ChronicAbsenteeism, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(DaysAbsent, by=c("ST_LEAID","SchoolYear"))
+
+write_csv(rc_comb1819, file="datasets/rc_comb1819.csv")
+```
+
+```{r}
+#| label: report-cards-1718
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| output: false
+#| code-summary: Code - Read in NJ Report Card data 2017-18
+
+## School year 2017-18 district data
+url <- "https://navilp7rg08njprsharedst.blob.core.windows.net/perf-reports-ct/DataFiles/2017-2018/Database_DistrictStateDetail.xlsx"
+
+# Download the file temporarily
+rc_district <- tempfile(fileext = ".xlsx")
+download.file(url, destfile = rc_district, mode = "wb")
+sy <- "2017-2018"
+
+sheet_names_district <- excel_sheets(rc_district)
+print(sheet_names_district)
+
+nsheet <- which(sheet_names_district=="EnrollmentTrendsbyGrade")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::rename(TotalEnrollment=Total)
+
+nsheet <- which(sheet_names_district=="EnrollmentTrendsByStudentGroup")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+EnrollmentTrendsByStudentGroup <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, `Students with Disabilities`, `Economically Disadvantaged Students`)
+
+nsheet <- which(sheet_names_district=="ELALiteracyParticipationPerform")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(StudentGroup=="Districtwide") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District=DistrictPerformance)
+
+nsheet <- which(sheet_names_district=="ELALiteracyParticipationPerform")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(StudentGroup=="Students with Disabilities") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District_dis=DistrictPerformance)
+
+nsheet <- which(sheet_names_district=="ELALiteracyParticipationPerform")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(StudentGroup=="Students without Disabilities") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District_notdis=DistrictPerformance)
+
+nsheet <- which(sheet_names_district=="ELALiteracyPerformanceByGrade")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAPerformanceByGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Group`=="Districtwide") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::mutate(n_level5=(as.numeric(LEVEL_5)/100)*as.numeric(ValidScores)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::summarize(ELA_pct_level5=sum(n_level5)/sum(as.numeric(ValidScores))) %>%
+  dplyr::ungroup()
+
+nsheet <- which(sheet_names_district=="MathParticipationPerform")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(StudentGroup=="Districtwide") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District=DistrictPerformance)
+
+nsheet <- which(sheet_names_district=="MathParticipationPerform")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(StudentGroup=="Students with Disabilities") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District_dis=DistrictPerformance)
+
+nsheet <- which(sheet_names_district=="MathParticipationPerform")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(StudentGroup=="Students without Disabilities") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District_notdis=DistrictPerformance)
+
+nsheet <- which(sheet_names_district=="MathPerformanceByGradeTest")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathPerformanceByGradeTest <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Group`=="Districtwide") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::mutate(`Valid Scores`=if_else(`ValidScores`=="*", "0", `ValidScores`)) %>%
+  dplyr::mutate(`% Level 5`=if_else(`LEVEL_5`=="*", "0", `LEVEL_5`)) %>%
+  dplyr::mutate(n_level5=(as.numeric(`% Level 5`)/100)*as.numeric(`Valid Scores`)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::summarize(MATH_pct_level5=sum(n_level5)/sum(as.numeric(`Valid Scores`)))
+
+MathPerformanceByGradeTest_nogr8 <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`Student Group`=="Districtwide", ! `Grade` %in% c("Grade 08", "ALG01", "ALG02", "GEO01")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::mutate(`Valid Scores`=if_else(`ValidScores`=="*", "0", `ValidScores`)) %>%
+  dplyr::mutate(`% Level 5`=if_else(`LEVEL_5`=="*", "0", `LEVEL_5`)) %>%
+  dplyr::mutate(n_level5=(as.numeric(`% Level 5`)/100)*as.numeric(`Valid Scores`)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::summarize(MATH_pct_level5_nogr8=sum(n_level5)/sum(as.numeric(`Valid Scores`)))
+
+nsheet <- which(sheet_names_district=="StudentToStaffRatios")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+StudentToStaffRatios <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, Student_Teacher_District, Student_Admin_District)
+
+nsheet <- which(sheet_names_district=="TeachersExperienceCertification")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+TeachersExperience <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, starts_with("Teacher") | starts_with("Percent")) %>%
+  dplyr::select(!ends_with("State"))
+
+nsheet <- which(sheet_names_district=="ChronicAbsenteeism")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ChronicAbsenteeism<- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::filter(StudentGroup=="Districtwide")  %>%
+  dplyr::select(-CountyCode, -CountyName, -DistrictCode, -DistrictName, -StudentGroup, -MetTarget, -Target)
+
+nsheet <- which(sheet_names_district=="DaysAbsent")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+DaysAbsent <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(ST_LEAID, SchoolYear, starts_with("Abs"))
+
+rc_comb1718 <- EnrollmentTrendsbyGrade %>%
+  dplyr::left_join(EnrollmentTrendsByStudentGroup, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ELAParticipationPerformance, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ELAParticipationPerformance_dis, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ELAParticipationPerformance_notdis, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ELAPerformanceByGrade, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathParticipationPerformance, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathParticipationPerformance_dis, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathParticipationPerformance_notdis, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathPerformanceByGradeTest, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathPerformanceByGradeTest_nogr8, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(StudentToStaffRatios, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(TeachersExperience, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ChronicAbsenteeism, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(DaysAbsent, by=c("ST_LEAID","SchoolYear"))
+
+write_csv(rc_comb1718, file="datasets/rc_comb1718.csv")
+```
+
+```{r}
+#| label: report-cards-1617
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| output: false
+#| code-summary: Code - Read in NJ Report Card data 2016-17
+
+## School year 2016-17 district data
+url <- "https://navilp7rg08njprsharedst.blob.core.windows.net/perf-reports-ct/DataFiles/2016-2017/Database_DistrictStateDetail.xlsx"
+
+# Download the file temporarily
+rc_district <- tempfile(fileext = ".xlsx")
+download.file(url, destfile = rc_district, mode = "wb")
+sy <- "2016-2017"
+
+#New Jersey transitioned to the PARCC exams in mathematics and ELA beginning in the 2014-15 school year.
+
+sheet_names_district <- excel_sheets(rc_district)
+print(sheet_names_district)
+
+nsheet <- which(sheet_names_district=="EnrollmentTrendsByGrade")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -DistrictCode) %>%
+  pivot_wider(names_from="Grade", values_from = "Count") %>%
+  dplyr::rename_with(~str_remove_all(., " "), .cols = everything())
+
+nsheet <- which(sheet_names_district=="EnrollmentTrendsByStudentGroup")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+EnrollmentTrendsByStudentGroup <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -DistrictCode) %>%
+  pivot_wider(names_from="StudentGroup", values_from = "Percent") %>%
+  dplyr::select(ST_LEAID, SchoolYear, `Students with Disabilities`, `Economically Disadvantaged Students`)
+
+nsheet <- which(sheet_names_district=="ELALiteracyParticipationPerform")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(StudentGroup=="Districtwide") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District=DistrictPerformance)
+
+nsheet <- which(sheet_names_district=="ELALiteracyParticipationPerform")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(StudentGroup=="Students with Disabilities") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District_dis=DistrictPerformance)
+
+nsheet <- which(sheet_names_district=="ELALiteracyParticipationPerform")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(StudentGroup=="Students without Disabilities") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District_notdis=DistrictPerformance)
+
+nsheet <- which(sheet_names_district=="ELALiteracyPerformanceByGrade")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAPerformanceByGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`StudentGroup`=="Districtwide") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -DistrictCode) %>%
+  dplyr::mutate(n_level5=(as.numeric(LEVEL_5)/100)*as.numeric(`VALID SCORES`)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::summarize(ELA_pct_level5=sum(n_level5)/sum(as.numeric(`VALID SCORES`))) %>%
+  dplyr::ungroup()
+
+nsheet <- which(sheet_names_district=="MathParticipationPerform")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(StudentGroup=="Districtwide") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District=DistrictPerformance)
+
+nsheet <- which(sheet_names_district=="MathParticipationPerform")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(StudentGroup=="Students with Disabilities") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District_dis=DistrictPerformance)
+
+nsheet <- which(sheet_names_district=="MathParticipationPerform")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(StudentGroup=="Students without Disabilities") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District_notdis=DistrictPerformance)
+
+nsheet <- which(sheet_names_district=="MathPerformanceByGradeTest")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathPerformanceByGradeTest <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`StudentGroup`=="Districtwide") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -DistrictCode) %>%
+  dplyr::mutate(`Valid Scores`=if_else(`VALID SCORES`=="*", "0", `VALID SCORES`)) %>%
+  dplyr::mutate(`% Level 5`=if_else(`LEVEL_5`=="*", "0", `LEVEL_5`)) %>%
+  dplyr::mutate(n_level5=(as.numeric(`% Level 5`)/100)*as.numeric(`Valid Scores`)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::summarize(MATH_pct_level5=sum(n_level5)/sum(as.numeric(`Valid Scores`)))
+
+MathPerformanceByGradeTest_nogr8 <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(`StudentGroup`=="Districtwide", ! `Grade_Subject` %in% c("Grade 08", "ALG01", "ALG02", "GEO01")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -DistrictCode) %>%
+  dplyr::mutate(`Valid Scores`=if_else(`VALID SCORES`=="*", "0", `VALID SCORES`)) %>%
+  dplyr::mutate(`% Level 5`=if_else(`LEVEL_5`=="*", "0", `LEVEL_5`)) %>%
+  dplyr::mutate(n_level5=(as.numeric(`% Level 5`)/100)*as.numeric(`Valid Scores`)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::summarize(MATH_pct_level5_nogr8=sum(n_level5)/sum(as.numeric(`Valid Scores`)))
+
+nsheet <- which(sheet_names_district=="StudentToStaffRatios")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+StudentToStaffRatios <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, Student_Teacher_District=TeacherRatio, Student_Admin_District=AdministratorsRatio)
+
+nsheet <- which(sheet_names_district=="TeachersExperienceCertification")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+TeachersExperience <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::select(-CountyCode, -DistrictCode) %>%
+  dplyr::select(ST_LEAID, SchoolYear, starts_with("Teacher") | starts_with("Percent")) %>%
+  dplyr::select(!ends_with("State"))
+
+nsheet <- which(sheet_names_district=="ChronicAbsenteeism")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ChronicAbsenteeism<- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  dplyr::filter(StudentGroup=="Districtwide")  %>%
+  dplyr::select(-CountyCode, -DistrictCode, -StudentGroup, -MetTarget, -Target)
+
+nsheet <- which(sheet_names_district=="DaysAbsent")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+DaysAbsent <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
+  pivot_wider(names_from="Subgroup", values_from="PCT") %>%
+  dplyr::rename(Abs_0=`0 Absences`,	`Abs_1-5`=`1-5 Absences`,	`Abs_6-10`=`6-10 Absences`,	`Abs_11-15`=`11-15 Absences`, `Abs_over15`=`15+ Absences`) %>%
+  dplyr::select(-CountyCode, -DistrictCode)
+
+rc_comb1617 <- EnrollmentTrendsbyGrade %>%
+  dplyr::left_join(EnrollmentTrendsByStudentGroup, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ELAParticipationPerformance, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ELAParticipationPerformance_dis, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ELAParticipationPerformance_notdis, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ELAPerformanceByGrade, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathParticipationPerformance, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathParticipationPerformance_dis, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathParticipationPerformance_notdis, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathPerformanceByGradeTest, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathPerformanceByGradeTest_nogr8, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(StudentToStaffRatios, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(TeachersExperience, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ChronicAbsenteeism, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(DaysAbsent, by=c("ST_LEAID","SchoolYear"))
+
+write_csv(rc_comb1617, file="datasets/rc_comb1617.csv")
+```
+
+```{r}
+#| label: report-cards-1516
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| output: false
+#| code-summary: Code - Read in NJ Report Card data 2015-16
+
+## School year 2015-16 district data
+url <- "https://navilp7rg08njprsharedst.blob.core.windows.net/perf-reports-ct/DataFiles/2015-2016/Database_SchoolDetail.xlsx"
+
+# Download the file temporarily
+rc_district <- tempfile(fileext = ".xlsx")
+download.file(url, destfile = rc_district, mode = "wb")
+sy <- "2015-2016"
+
+## looks like a parcc year
+
+sheet_names_district <- excel_sheets(rc_district)
+print(sheet_names_district)
+
+nsheet <- which(sheet_names_district=="EnrollmentByGrade")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", COUNTY_CODE, DISTRICT_CODE), SchoolYear=sy) %>%
+  dplyr::select(-COUNTY_CODE, -DISTRICT_CODE, -SCHOOL_CODE) %>%
+  dplyr::mutate(across(PK:RowTotal, ~replace_na(as.numeric(.), 0)))  %>%
+  dplyr::rename(GradePK=PK, GradeKG=KG) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::summarize(across(where(is.numeric), \(x) sum(x, na.rm = TRUE))) %>%
+  dplyr::ungroup() %>%
+  dplyr::rename(TotalEnrollment=RowTotal)
+
+nsheet <- which(sheet_names_district=="EnrollmentByGrade")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+EnrollmentTotalsBySchool <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", COUNTY_CODE, DISTRICT_CODE, SCHOOL_CODE), SchoolYear=sy) %>%
+  dplyr::select(-COUNTY_CODE, -DISTRICT_CODE, -SCHOOL_CODE) %>%
+  dplyr::mutate(across(PK:RowTotal, ~replace_na(as.numeric(.), 0)))  %>%
+  dplyr::rename(GradePK=PK, GradeKG=KG) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::summarize(across(where(is.numeric), \(x) sum(x, na.rm = TRUE))) %>%
+  dplyr::ungroup() %>%
+  dplyr::rename(TotalEnrollment=RowTotal)
+
+nsheet <- which(sheet_names_district=="EnrollmentBySpecPop")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+EnrollmentTrendsByStudentGroup <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", COUNTY_CODE, DISTRICT_CODE, SCHOOL_CODE), SchoolYear=sy) %>%
+  dplyr::select(-COUNTY_CODE, -DISTRICT_CODE, -SCHOOL_CODE, -LEP) %>%
+  dplyr::rename(`Students with Disabilities`=Disability, `Economically Disadvantaged Students`=`Economically Disadvantaged`) %>%
+  dplyr::left_join(EnrollmentTotalsBySchool, by=c("ST_LEAID", "SchoolYear")) %>%
+  dplyr::mutate(`Students with Disabilities`=TotalEnrollment*`Students with Disabilities`/100) %>%
+  dplyr::mutate(`Economically Disadvantaged Students`=TotalEnrollment*`Economically Disadvantaged Students`/100) %>%
+  #dplyr::filter(startsWith(ST_LEAID, fh_staid)) %>%
+  dplyr::mutate(ST_LEAID= str_sub(ST_LEAID, start=1, end=9)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::mutate(`Students with Disabilities`=round(100*sum(`Students with Disabilities`)/sum(TotalEnrollment))) %>%
+  dplyr::mutate(`Economically Disadvantaged Students`=round(100*sum(`Economically Disadvantaged Students`)/sum(TotalEnrollment))) %>%
+  dplyr::summarize(across(where(is.numeric), \(x) max(x, na.rm = TRUE))) %>%
+  dplyr::ungroup() %>%
+  dplyr::select(ST_LEAID, SchoolYear, `Students with Disabilities`, `Economically Disadvantaged Students`)
+
+EnrollmentDisBySchool <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", COUNTY_CODE, DISTRICT_CODE, SCHOOL_CODE), SchoolYear=sy) %>%
+  dplyr::select(-COUNTY_CODE, -DISTRICT_CODE, -SCHOOL_CODE, -LEP) %>%
+  dplyr::rename(`Students with Disabilities`=Disability, `Economically Disadvantaged Students`=`Economically Disadvantaged`) %>%
+  dplyr::left_join(EnrollmentTotalsBySchool, by=c("ST_LEAID", "SchoolYear")) %>%
+  dplyr::mutate(`Students with Disabilities`=TotalEnrollment*`Students with Disabilities`/100) %>%
+  dplyr::select(ST_LEAID, SchoolYear, `Students with Disabilities`)
+
+nsheet <- which(sheet_names_district=="PARCC_ELA_MetExcMathEng")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(Type=="Schoolwide", !VALID_SCORES %in% c("S", "N")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", COUNTY_CODE, DISTRICT_CODE, SCHOOL_CODE), SchoolYear=sy) %>%
+  dplyr::select(-COUNTY_CODE, -DISTRICT_CODE, -SCHOOL_CODE) %>%
+  dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District=`SchoolPerf/MetStandards`) %>%
+  dplyr::left_join(EnrollmentTotalsBySchool, by=c("ST_LEAID", "SchoolYear")) %>%
+  dplyr::mutate(ELA_ME_District=TotalEnrollment*as.numeric(ELA_ME_District)/100) %>%
+  dplyr::mutate(ST_LEAID= str_sub(ST_LEAID, start=1, end=9)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::mutate(ELA_ME_District=round(100*sum(ELA_ME_District)/sum(TotalEnrollment))) %>%
+  dplyr::summarize(across(where(is.numeric), \(x) max(x, na.rm = TRUE))) %>%
+  dplyr::ungroup() %>%
+  dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District)
+
+nsheet <- which(sheet_names_district=="PARCC_ELA_MetExcMathEng")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(Type=="Students with Disability", !VALID_SCORES %in% c("S", "N")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", COUNTY_CODE, DISTRICT_CODE, SCHOOL_CODE), SchoolYear=sy) %>%
+  dplyr::select(-COUNTY_CODE, -DISTRICT_CODE, -SCHOOL_CODE) %>%
+  dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District_dis=`SchoolPerf/MetStandards`) %>%
+  dplyr::left_join(EnrollmentDisBySchool, by=c("ST_LEAID", "SchoolYear")) %>%
+  dplyr::mutate(ELA_ME_District_dis=`Students with Disabilities`*as.numeric(ELA_ME_District_dis)/100) %>%
+  dplyr::mutate(ST_LEAID= str_sub(ST_LEAID, start=1, end=9)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::mutate(ELA_ME_District_dis=round(100*sum(ELA_ME_District_dis)/sum(`Students with Disabilities`))) %>%
+  dplyr::summarize(across(where(is.numeric), \(x) max(x, na.rm = TRUE))) %>%
+  dplyr::ungroup() %>%
+  dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District_dis)
+
+nsheet <- which(sheet_names_district=="PARCC_Math_MetExcMathEng")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(Type=="Schoolwide", !VALID_SCORES %in% c("S", "N")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", COUNTY_CODE, DISTRICT_CODE, SCHOOL_CODE), SchoolYear=sy) %>%
+  dplyr::select(-COUNTY_CODE, -DISTRICT_CODE, -SCHOOL_CODE) %>%
+  dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District=`SchoolPerf/MetStandards`) %>%
+  dplyr::left_join(EnrollmentTotalsBySchool, by=c("ST_LEAID", "SchoolYear")) %>%
+  dplyr::mutate(MATH_ME_District=TotalEnrollment*as.numeric(MATH_ME_District)/100) %>%
+  dplyr::mutate(ST_LEAID= str_sub(ST_LEAID, start=1, end=9)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::mutate(MATH_ME_District=round(100*sum(MATH_ME_District)/sum(TotalEnrollment))) %>%
+  dplyr::summarize(across(where(is.numeric), \(x) max(x, na.rm = TRUE))) %>%
+  dplyr::ungroup() %>%
+  dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District)
+
+nsheet <- which(sheet_names_district=="PARCC_Math_MetExcMathEng")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(Type=="Students with Disability", !VALID_SCORES %in% c("S", "N")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", COUNTY_CODE, DISTRICT_CODE, SCHOOL_CODE), SchoolYear=sy) %>%
+  dplyr::select(-COUNTY_CODE, -DISTRICT_CODE, -SCHOOL_CODE) %>%
+  dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District_dis=`SchoolPerf/MetStandards`) %>%
+  dplyr::left_join(EnrollmentDisBySchool, by=c("ST_LEAID", "SchoolYear")) %>%
+  dplyr::mutate(MATH_ME_District_dis=`Students with Disabilities`*as.numeric(MATH_ME_District_dis)/100) %>%
+  dplyr::mutate(ST_LEAID= str_sub(ST_LEAID, start=1, end=9)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::mutate(MATH_ME_District_dis=round(100*sum(MATH_ME_District_dis)/sum(`Students with Disabilities`))) %>%
+  dplyr::summarize(across(where(is.numeric), \(x) max(x, na.rm = TRUE))) %>%
+  dplyr::ungroup() %>%
+  dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District_dis)
+
+nsheet <- which(sheet_names_district=="ChronicAbsenteeism")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ChronicAbsenteeism <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", COUNTY_CODE, DISTRICT_CODE, SCHOOL_CODE), SchoolYear=sy) %>%
+  dplyr::select(-COUNTY_CODE, -DISTRICT_CODE, -SCHOOL_CODE) %>%
+  dplyr::select(ST_LEAID, SchoolYear, Chronic_Abs_Pct=SchoolChronicAbsenteeism) %>%
+  dplyr::left_join(EnrollmentTotalsBySchool, by=c("ST_LEAID", "SchoolYear")) %>%
+  dplyr::mutate(Chronic_Abs_Pct=TotalEnrollment*as.numeric(Chronic_Abs_Pct)/100) %>%
+  dplyr::mutate(ST_LEAID= str_sub(ST_LEAID, start=1, end=9)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::mutate(Chronic_Abs_Pct=round(100*sum(Chronic_Abs_Pct)/sum(TotalEnrollment))) %>%
+  dplyr::summarize(across(where(is.numeric), \(x) max(x, na.rm = TRUE))) %>%
+  dplyr::ungroup()  %>%
+  dplyr::select(ST_LEAID, SchoolYear, Chronic_Abs_Pct)
+
+nsheet <- which(sheet_names_district=="Absenteeism")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+DaysAbsent <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", COUNTY_CODE, DISTRICT_CODE, SCHOOL_CODE), SchoolYear=sy) %>%
+  dplyr::select(-COUNTY_CODE, -DISTRICT_CODE, -SCHOOL_CODE) %>%
+  dplyr::rename(Abs_0=`0Absences`,	`Abs_1-5`=`1-5Absences`,	`Abs_6-10`=`6-10Absences`,	`Abs_11-15`=`11-15Absences`, `Abs_over15`=`15+Absences`) %>%
+  dplyr::left_join(EnrollmentTotalsBySchool, by=c("ST_LEAID", "SchoolYear")) %>%
+  dplyr::mutate(Abs_0=TotalEnrollment*as.numeric(Abs_0)/100) %>%
+  dplyr::mutate(`Abs_1-5`=TotalEnrollment*as.numeric(`Abs_1-5`)/100) %>%
+  dplyr::mutate(`Abs_6-10`=TotalEnrollment*as.numeric(`Abs_6-10`)/100) %>%
+  dplyr::mutate(`Abs_11-15`=TotalEnrollment*as.numeric(`Abs_11-15`)/100) %>%
+  dplyr::mutate(`Abs_over15`=TotalEnrollment*as.numeric(`Abs_over15`)/100) %>%
+  dplyr::mutate(ST_LEAID= str_sub(ST_LEAID, start=1, end=9)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::mutate(Abs_0=round(100*sum(Abs_0)/sum(TotalEnrollment))) %>%
+  dplyr::mutate(`Abs_6-10`=round(100*sum(`Abs_6-10`)/sum(TotalEnrollment))) %>%
+  dplyr::mutate(`Abs_1-5`=round(100*sum(`Abs_1-5`)/sum(TotalEnrollment))) %>%
+  dplyr::mutate(`Abs_11-15`=round(100*sum(`Abs_11-15`)/sum(TotalEnrollment))) %>%
+  dplyr::mutate(`Abs_over15`=round(100*sum(`Abs_over15`)/sum(TotalEnrollment))) %>%
+  dplyr::summarize(across(where(is.numeric), \(x) max(x, na.rm = TRUE))) %>%
+  dplyr::ungroup()  %>%
+  dplyr::select(ST_LEAID, SchoolYear, starts_with("Abs"))
+
+rc_comb1516 <- EnrollmentTrendsbyGrade %>%
+  dplyr::left_join(EnrollmentTrendsByStudentGroup, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ELAParticipationPerformance, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ELAParticipationPerformance_dis, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathParticipationPerformance, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathParticipationPerformance_dis, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ChronicAbsenteeism, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(DaysAbsent, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::mutate(across(where(is.numeric), \(x) if_else(is.infinite(x), NA, x)))
+
+write_csv(rc_comb1516, file="datasets/rc_comb1516.csv")
+```
+
+```{r}
+#| label: report-cards-1415
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| output: false
+#| code-summary: Code - Read in NJ Report Card data 2014-15
+
+## School year 2014-15 district data
+url <- "https://nj.gov/education/schoolperformance/archive/201415/2015PRDATABASE.xlsx"
+
+# Download the file temporarily
+rc_district <- tempfile(fileext = ".xlsx")
+download.file(url, destfile = rc_district, mode = "wb")
+sy <- "2014-2015"
+
+#New Jersey transitioned to the PARCC exams in mathematics and ELA beginning in the 2014-15 school year.
+## So this should be first year where everyone used PARCC
+
+sheet_names_district <- excel_sheets(rc_district)
+print(sheet_names_district)
+
+nsheet <- which(sheet_names_district=="ENROLLMENT")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", `CO CODE`, `DIST CODE`), SchoolYear=sy) %>%
+  dplyr::select(-`CO CODE`, -`DIST CODE`, -`SCH CODE`) %>%
+  dplyr::mutate(across(PK:ROWTOTAL, ~replace_na(as.numeric(.), 0)))  %>%
+  dplyr::rename(GradePK=PK, GradeKG=KG, Grade01=GRADE01,
+                Grade02=GRADE02,
+                Grade03=GRADE03,
+                Grade04=GRADE04,
+                Grade05=GRADE05,
+                Grade06=GRADE06,
+                Grade07=GRADE07,
+                Grade08=GRADE08,
+                Grade09=GRADE09,
+                Grade10=GRADE10,
+                Grade11=GRADE11,
+                Grade12=GRADE12) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::summarize(across(where(is.numeric), \(x) sum(x, na.rm = TRUE))) %>%
+  dplyr::ungroup() %>%
+  dplyr::rename(TotalEnrollment=ROWTOTAL)
+
+nsheet <- which(sheet_names_district=="ENROLLMENT")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+EnrollmentTotalsBySchool <-   get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", `CO CODE`, `DIST CODE`, `SCH CODE`), SchoolYear=sy) %>%
+  dplyr::select(-`CO CODE`, -`DIST CODE`, -`SCH CODE`) %>%
+  dplyr::mutate(across(PK:ROWTOTAL, ~replace_na(as.numeric(.), 0)))  %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::summarize(across(where(is.numeric), \(x) sum(x, na.rm = TRUE))) %>%
+  dplyr::ungroup() %>%
+  dplyr::rename(TotalEnrollment=ROWTOTAL) %>%
+  dplyr::select(ST_LEAID, SchoolYear, TotalEnrollment)
+
+nsheet <- which(sheet_names_district=="PARCC ELA")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ELAParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(TYPE=="Schoolwide", !`VALID SCORES` %in% c("S", "N")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", COUNTY_CODE, DISTRICT_CODE, SCHOOL_CODE), SchoolYear=sy) %>%
+  dplyr::select(-COUNTY_CODE, -DISTRICT_CODE, -SCHOOL_CODE) %>%
+  dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District=`MET_EXCEED`) %>%
+  dplyr::left_join(EnrollmentTotalsBySchool, by=c("ST_LEAID", "SchoolYear")) %>%
+  dplyr::mutate(ELA_ME_District=TotalEnrollment*as.numeric(ELA_ME_District)/100) %>%
+  dplyr::mutate(ST_LEAID= str_sub(ST_LEAID, start=1, end=9)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::mutate(ELA_ME_District=round(100*sum(ELA_ME_District)/sum(TotalEnrollment))) %>%
+  dplyr::summarize(across(where(is.numeric), \(x) max(x, na.rm = TRUE))) %>%
+  dplyr::ungroup() %>%
+  dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District)
+
+nsheet <- which(sheet_names_district=="PARCC MATH")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+MathParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::filter(TYPE=="Schoolwide", !`VALID SCORES` %in% c("S", "N")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", COUNTY_CODE, DISTRICT_CODE, SCHOOL_CODE), SchoolYear=sy) %>%
+  dplyr::select(-COUNTY_CODE, -DISTRICT_CODE, -SCHOOL_CODE) %>%
+  dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District=`MET_EXCEED`) %>%
+  dplyr::left_join(EnrollmentTotalsBySchool, by=c("ST_LEAID", "SchoolYear")) %>%
+  dplyr::mutate(MATH_ME_District=TotalEnrollment*as.numeric(MATH_ME_District)/100) %>%
+  dplyr::mutate(ST_LEAID= str_sub(ST_LEAID, start=1, end=9)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::mutate(MATH_ME_District=round(100*sum(MATH_ME_District)/sum(TotalEnrollment))) %>%
+  dplyr::summarize(across(where(is.numeric), \(x) max(x, na.rm = TRUE))) %>%
+  dplyr::ungroup() %>%
+  dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District)
+
+nsheet <- which(sheet_names_district=="CHRONIC ABSENTEEISM")
+assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
+print(paste0(sheet_names_district[nsheet], "_D"))
+
+ChronicAbsenteeism <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", COUNTY_CODE, DISTRICT_CODE, SCHOOL_CODE), SchoolYear=sy) %>%
+  dplyr::select(-COUNTY_CODE, -DISTRICT_CODE, -SCHOOL_CODE) %>%
+  dplyr::select(ST_LEAID, SchoolYear, Chronic_Abs_Pct=PERCENT_CHRONIC_ABSENT) %>%
+  dplyr::left_join(EnrollmentTotalsBySchool, by=c("ST_LEAID", "SchoolYear")) %>%
+  dplyr::mutate(Chronic_Abs_Pct=TotalEnrollment*as.numeric(Chronic_Abs_Pct)/100) %>%
+  dplyr::mutate(ST_LEAID= str_sub(ST_LEAID, start=1, end=9)) %>%
+  dplyr::group_by(ST_LEAID, SchoolYear) %>%
+  dplyr::mutate(Chronic_Abs_Pct=round(100*sum(Chronic_Abs_Pct)/sum(TotalEnrollment))) %>%
+  dplyr::summarize(across(where(is.numeric), \(x) max(x, na.rm = TRUE))) %>%
+  dplyr::ungroup()  %>%
+  dplyr::select(ST_LEAID, SchoolYear, Chronic_Abs_Pct)
+
+rc_comb1415 <- EnrollmentTrendsbyGrade %>%
+  dplyr::left_join(ELAParticipationPerformance, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(MathParticipationPerformance, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::left_join(ChronicAbsenteeism, by=c("ST_LEAID","SchoolYear")) %>%
+  dplyr::mutate(across(where(is.numeric), \(x) if_else(is.infinite(x), NA, x)))
+
+write_csv(rc_comb1415, file="datasets/rc_comb1415.csv")
+```
+
+```{r}
+#| label: report-cards-combine
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| output: false
+#| code-summary: Code - Read in NJ Report Card data merge
+
+rc_all_comb <- bind_rows(rc_comb2223 %>% dplyr::select(-DistrictName.y), rc_comb2122, rc_comb2021,  rc_comb1920, rc_comb1819, rc_comb1718, rc_comb1617, rc_comb1516, rc_comb1415)
+
+```
+
+# Enrollments
+
+```{r}
+#| label: enrollments
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| output: false
+#| code-summary: Code - Enrollments
+
+# Function to download, unzip, and get sheet names
+download_unzip_sheets <- function(url) {
+  temp_file <- tempfile(fileext = ".zip")
+  download.file(url, destfile = temp_file, mode = "wb")
+  out <- unzip(temp_file, exdir = tempdir())
+  sheet_names <- excel_sheets(out)
+  return(list(sheet_names = sheet_names, unzipped_path = out))
+}
+
+# 2023-24
+
+url <- "https://www.nj.gov/education/doedata/enr/enr24/enrollment_2324.zip"
+nsheet <- 3
+edat <- download_unzip_sheets(url)
+raw <- read_excel(edat$unzipped_path, sheet=edat$sheet_names[nsheet], skip=2)
+
+District_D23 <- raw %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", `County Code`, `District Code`), SchoolYear="2023-2024") %>%
+  dplyr::select(-`County Code`, -`County Name`, -`District Code`)
+
+
+# 2022-23
+url <- "https://www.nj.gov/education/doedata/enr/enr23/enrollment_2223.zip"
+nsheet <- 3
+edat <- download_unzip_sheets(url)
+raw <- read_excel(edat$unzipped_path, sheet=edat$sheet_names[nsheet], skip=2)
+
+District_D22 <- raw %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", `County Code`, `District Code`), SchoolYear="2022-2023") %>%
+  dplyr::select(-`County Code`, -`County Name`, -`District Code`)
+
+# 2021-22
+url <- "https://www.nj.gov/education/doedata/enr/enr22/enrollment_2122.zip"
+nsheet <- 3
+edat <- download_unzip_sheets(url)
+raw <- read_excel(edat$unzipped_path, sheet=edat$sheet_names[nsheet], skip=2)
+
+District_D21 <- raw %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", `County Code`, `District Code`), SchoolYear="2021-2022") %>%
+  dplyr::select(-`County Code`, -`County Name`, -`District Code`)
+
+# 2020-21
+url <- "https://www.nj.gov/education/doedata/enr/enr21/enrollment_2021.zip"
+nsheet <- 3
+edat <- download_unzip_sheets(url)
+raw <- read_excel(edat$unzipped_path, sheet=edat$sheet_names[nsheet], skip=2)
+
+District_D20 <- raw %>% 
+  dplyr::mutate(ST_LEAID=paste0("NJ-", `County Code`, `District Code`), SchoolYear="2020-2021") %>%
+  dplyr::select(-`County Code`, -`County Name`, -`District Code`)
+
+# 2019-20
+url <- "https://www.nj.gov/education/doedata/enr/enr20/enrollment_1920.zip"
+nsheet <- 3
+edat <- download_unzip_sheets(url)
+raw <- read_excel(edat$unzipped_path, sheet=edat$sheet_names[nsheet], skip=2)
+
+District_D19 <- raw %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", `County Code`, `District Code`), SchoolYear="2019-2020") %>%
+  dplyr::select(-`County Code`, -`County Name`, -`District Code`)
+
+## Things get different here
+
+# 2018-19
+url <- "https://www.nj.gov/education/doedata/enr/enr19/enrollment_1819.zip"
+nsheet <- 1
+edat <- download_unzip_sheets(url)
+raw <- read_excel(edat$unzipped_path, sheet=edat$sheet_names[nsheet], skip=2)
+
+District_D18 <- raw %>%
+  dplyr::filter(School_Name=="District Total", Grade_Level=="Total", PRGCODE=="55") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", County_ID, Dist_ID), SchoolYear="2018-2019") %>%
+  dplyr::select(-County_ID, -County_Name, -Dist_ID, -School_ID, -School_Name)
+
+# 2017-18
+url <- "https://www.nj.gov/education/doedata/enr/enr18/enrollment_1718.zip"
+nsheet <- 1
+edat <- download_unzip_sheets(url)
+raw <- read_excel(edat$unzipped_path, sheet=edat$sheet_names[nsheet], skip=1)
+
+District_D17 <- raw %>%
+  dplyr::filter(School_Name=="District Total", Grade_Level=="Total", PRGCODE=="55") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", County_ID, Dist_ID), SchoolYear="2017-2018") %>%
+  dplyr::select(-County_ID, -County_Name, -Dist_ID, -School_ID, -School_Name)
+
+# 2016-17
+url <- "https://www.nj.gov/education/doedata/enr/enr17/enrollment_1617.zip"
+nsheet <- 1
+edat <- download_unzip_sheets(url)
+raw <- read_excel(edat$unzipped_path, sheet=edat$sheet_names[nsheet], skip=0)
+
+District_D16 <- raw %>%
+  dplyr::filter(SCHOOL_NAME=="District Total", GRADE_LEVEL=="TOTAL", PRGCODE=="55") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", COUNTY_ID, DIST_ID), SchoolYear="2016-2017") %>%
+  dplyr::select(-COUNTY_ID, -COUNTY_NAME, -DIST_ID, -SCHOOL_ID, -SCHOOL_NAME)
+
+# 2015-16
+url <- "https://www.nj.gov/education/doedata/enr/enr16/enrollment_1516.zip"
+nsheet <- 1
+edat <- download_unzip_sheets(url)
+raw <- read_excel(edat$unzipped_path, sheet=edat$sheet_names[nsheet], skip=0)
+
+District_D15 <- raw %>%
+  dplyr::filter(SCHOOL_NAME=="District Total", GRADE_LEVEL=="TOTAL", PRGCODE=="55") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", COUNTY_ID, DIST_ID), SchoolYear="2015-2016") %>%
+  dplyr::select(-COUNTY_ID, -COUNTY_NAME, -DIST_ID, -SCHOOL_ID, -SCHOOL_NAME)
+
+# 2014-15
+url <- "https://www.nj.gov/education/doedata/enr/enr15/enrollment_1415.zip"
+nsheet <- 1
+edat <- download_unzip_sheets(url)
+raw <- read_excel(edat$unzipped_path, sheet=edat$sheet_names[nsheet], skip=0)
+
+District_D14 <- raw %>%
+  dplyr::filter(SCHOOL_NAME=="District Total", GRADE_LEVEL=="TOTAL", PRGCODE=="55") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", COUNTY_ID, DIST_ID), SchoolYear="2014-2015") %>%
+  dplyr::select(-COUNTY_ID, -COUNTY_NAME, -DIST_ID, -SCHOOL_ID, -SCHOOL_NAME)
+
+# 2013-14
+url <- "https://www.nj.gov/education/doedata/enr/enr14/enrollment_1314.zip"
+nsheet <- 1
+edat <- download_unzip_sheets(url)
+raw <- read_excel(edat$unzipped_path, sheet=edat$sheet_names[nsheet], skip=0)
+
+District_D13 <- raw %>% 
+  dplyr::filter(SCHOOL_NAME=="District Total", GRADE_LEVEL=="TOTAL", PRGCODE=="55") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", COUNTY_ID, DIST_ID), SchoolYear="2013-2014") %>%
+  dplyr::select(-COUNTY_ID, -COUNTY_NAME, -DIST_ID, -SCHOOL_ID, -SCHOOL_NAME)
+
+# 2012-13
+url <- "https://www.nj.gov/education/doedata/enr/enr13/enrollment_1213.zip"
+nsheet <- 1
+edat <- download_unzip_sheets(url)
+raw <- read_excel(edat$unzipped_path, sheet=edat$sheet_names[nsheet], skip=0)
+
+District_D12 <- raw %>%
+  dplyr::filter(`SCHOOL NAME`=="District Total", GRADE_LEVEL=="TOTAL", PRGCODE=="55") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", `COUNTY CODE`, `DISTRICT CODE`), SchoolYear="2012-2013") %>%
+  dplyr::select(-`COUNTY CODE`, -`DISTRICT CODE`, -`COUNTY NAME`, -`SCHOOL CODE`, -`SCHOOL NAME`)
+
+# 2011-12
+url <- "https://www.nj.gov/education/doedata/enr/enr12/enrollment_1112.zip"
+nsheet <- 1
+edat <- download_unzip_sheets(url)
+raw <- read_excel(edat$unzipped_path, sheet=edat$sheet_names[nsheet], skip=0)
+
+District_D11 <- raw %>%
+  dplyr::filter(`School Name`=="District Total", PRGCODE=="55") %>%
+  dplyr::mutate(ST_LEAID=paste0("NJ-", `COUNTY_ID`, `DIST_ID`), SchoolYear="2011-2012") %>%
+  dplyr::select(-`COUNTY_ID`, -`DIST_ID`, -`County Name`, -`SCHOOL_ID`, -`School Name`)
+
+
+enr_19_23 <- bind_rows(
+  District_D23 %>% dplyr::select(ST_LEAID, SchoolYear, DistrictName=`District Name`, TotalEnrollment=`Total Enrollment`),
+  District_D22 %>% dplyr::select(ST_LEAID, SchoolYear, DistrictName=`District Name`, TotalEnrollment=`Total Enrollment`),
+  District_D21 %>% dplyr::select(ST_LEAID, SchoolYear, DistrictName=`District Name`, TotalEnrollment=`Total Enrollment`),
+  District_D20 %>% dplyr::select(ST_LEAID, SchoolYear, DistrictName=`District Name`, TotalEnrollment=`Total Enrollment`),
+  District_D19 %>% dplyr::select(ST_LEAID, SchoolYear, DistrictName=`District Name`, TotalEnrollment=`Total Enrollment`)
+)
+
+enr_11_22 <- bind_rows(
+  District_D18 %>% dplyr::select(ST_LEAID, SchoolYear, DistrictName=`District_Name`, TotalEnrollment=`Row_Total`),
+  District_D17 %>% dplyr::select(ST_LEAID, SchoolYear, DistrictName=`District_Name`, TotalEnrollment=`Row_Total`),
+  District_D16 %>% dplyr::select(ST_LEAID, SchoolYear, DistrictName=`LEA_NAME`, TotalEnrollment=`ROW_TOTAL`),
+  District_D15 %>% dplyr::select(ST_LEAID, SchoolYear, DistrictName=`LEA_NAME`, TotalEnrollment=`ROW_TOTAL`),
+  District_D14 %>% dplyr::select(ST_LEAID, SchoolYear, DistrictName=`LEA_NAME`, TotalEnrollment=`ROW_TOTAL`),
+  District_D13 %>% dplyr::select(ST_LEAID, SchoolYear, DistrictName=`LEA_NAME`, TotalEnrollment=`ROW_TOTAL`),
+  District_D12 %>% dplyr::select(ST_LEAID, SchoolYear, DistrictName=`DISTRICT NAME`, TotalEnrollment=`ROW_TOTAL`),
+  District_D11 %>% dplyr::select(ST_LEAID, SchoolYear, DistrictName=`District Name`, TotalEnrollment=`ROW_TOTAL`)
+)
+
+enr_all <- bind_rows(enr_11_22, enr_19_23)
+
+# Serialize
+write_csv(enr_all, file="datasets/enr_all.csv")
+```
+
+# Bringing the data together
