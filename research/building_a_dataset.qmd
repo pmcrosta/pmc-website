@@ -14,12 +14,9 @@ format:
 
 # Introduction
 
-To gain a better understanding of the current state of education in Fair Haven, I started by building a data set. This document shares the process I went through to combine state and federal resources to generate data sets that ultimately would enable the following:
+To gain a better understanding of the current state of education in Fair Haven, I started by building a data set. This document shares the process I went through to combine state and federal resources to generate data sets that would enable an analysis of student outcomes, educational inputs, and their relationship over time. The process also includes a discussion of how I created a set of suitable comparison school districts for Fair Haven.
 
--   Creation of a set of suitable comparison school districts for Fair Haven
--   An analysis of student outcomes, educational inputs, and their relationship over time
-
-In an effort to be as transparent as possible, this document will contain descriptions of source and derived data sets as well as code in the R programming language that one can use to reproduce results.
+In an effort to be as transparent as possible, this document contains descriptions of source and derived data sets as well as code in the R programming language that one can use to reproduce results.
 
 ```{r}
 #| label: setup
@@ -1237,9 +1234,13 @@ per_pupil_exp <- bind_cols(
 write_csv(per_pupil_exp, file="datasets/per_pupil_exp.csv")
 ```
 
+```{r}
+colnames(per_pupil_exp)
+```
+
 # Report Card Data
 
-Student outcomes data come from the [NJ School Performance Reports](https://rc.doe.state.nj.us/download). To gather longitudinal data, I ingest report card data from 2014-15 to 2023-24.
+Student outcomes data come from the [NJ School Performance Reports](https://rc.doe.state.nj.us/download). To gather longitudinal data, I ingest report card data from 2014-15 to 2023-24. The content and format of the report cards varies greatly from year to year. I makea best effort approach to join appropriately across years.
 
 ```{r}
 #| label: report-cards-2324
@@ -1262,7 +1263,6 @@ sheet_names_district <- excel_sheets(rc_district)
 
 nsheet <- which(sheet_names_district == "EnrollmentTrendsbyGrade")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -1271,7 +1271,6 @@ EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district == "EnrollmentTrendsByStudentGroup")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 EnrollmentTrendsByStudentGroup <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -1280,7 +1279,6 @@ EnrollmentTrendsByStudentGroup <- get(paste0(sheet_names_district[nsheet], "_D")
 
 nsheet <- which(sheet_names_district == "StudentGrowth")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 StudentGrowth <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(SubGroup=="Districtwide") %>%
@@ -1290,7 +1288,6 @@ StudentGrowth <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district == "StudentGrowthByGrade")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 StudentGrowthByGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(sub_grade=paste(`ELA/Math`, Grade)) %>%
@@ -1301,7 +1298,6 @@ StudentGrowthByGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district == "ELAParticipationPerformance")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Groups`=="Districtwide") %>%
@@ -1311,7 +1307,6 @@ ELAParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %
 
 nsheet <- which(sheet_names_district == "ELAParticipationPerformance")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Groups`=="Students with Disabilities") %>%
@@ -1321,7 +1316,6 @@ ELAParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D"
 
 nsheet <- which(sheet_names_district == "ELAParticipationPerformance")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Groups`=="Students without Disabilities") %>%
@@ -1331,7 +1325,6 @@ ELAParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "
 
 nsheet <- which(sheet_names_district == "ELAPerformanceTrends")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAPerformanceTrends <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode)) %>%
@@ -1341,7 +1334,6 @@ ELAPerformanceTrends <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district == "ELAPerformanceByGrade")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAPerformanceByGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Group`=="Districtwide") %>%
@@ -1354,7 +1346,6 @@ ELAPerformanceByGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district == "MathParticipationPerformance")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Groups`=="Districtwide") %>%
@@ -1364,7 +1355,6 @@ MathParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) 
 
 nsheet <- which(sheet_names_district == "MathParticipationPerformance")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Groups`=="Students with Disabilities") %>%
@@ -1374,7 +1364,6 @@ MathParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D
 
 nsheet <- which(sheet_names_district == "MathParticipationPerformance")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Groups`=="Students without Disabilities") %>%
@@ -1384,7 +1373,6 @@ MathParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], 
 
 nsheet <- which(sheet_names_district == "MathPerformanceTrends")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathPerformanceTrends <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode)) %>%
@@ -1394,7 +1382,6 @@ MathPerformanceTrends <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district == "MathPerformanceByGradeTest")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathPerformanceByGradeTest <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Group`=="Districtwide") %>%
@@ -1420,7 +1407,6 @@ MathPerformanceByGradeTest_nogr8 <- get(paste0(sheet_names_district[nsheet], "_D
 
 nsheet <- which(sheet_names_district == "StudentToStaffRatios")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 StudentToStaffRatios <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -1429,7 +1415,6 @@ StudentToStaffRatios <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district == "TeachersExperience")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 TeachersExperience <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -1439,7 +1424,6 @@ TeachersExperience <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district == "ChronicAbsenteeism")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ChronicAbsenteeism<- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -1448,7 +1432,7 @@ ChronicAbsenteeism<- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district == "DaysAbsent")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
+
 DaysAbsent <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
   dplyr::select(ST_LEAID, SchoolYear, starts_with("Abs"))
@@ -1474,7 +1458,6 @@ rc_comb2324 <- StudentGrowth %>%
   dplyr::left_join(EnrollmentTrendsbyGrade, by=c("ST_LEAID","SchoolYear"))
 
 rm(list=ls(pattern = "_D$"))
-
 write_csv(rc_comb2324, file="datasets/rc_comb2324.csv")
 ```
 
@@ -1494,30 +1477,26 @@ url <- "https://navilp7rg08njprsharedst.blob.core.windows.net/perf-reports-ct/Da
 # Download the file temporarily
 rc_district <- tempfile(fileext = ".xlsx")
 download.file(url, destfile = rc_district, mode = "wb")
-
 sheet_names_district <- excel_sheets(rc_district)
 
-nsheet <- 3
+nsheet <- which(sheet_names_district == "EnrollmentTrendsbyGrade")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
   dplyr::select(-CountyCode, -CountyName, -DistrictCode, -DistrictName) %>%
   dplyr::rename(TotalEnrollment=Total)
 
-nsheet <- 4
+nsheet <- which(sheet_names_district == "EnrollmentTrendsByStudentGroup")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 EnrollmentTrendsByStudentGroup <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
   dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
   dplyr::select(ST_LEAID, SchoolYear, `Students with Disabilities`, `Economically Disadvantaged Students`)
 
-nsheet <- 10
+nsheet <- which(sheet_names_district == "StudentGrowth")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 StudentGrowth <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(SubGroup=="Districtwide") %>%
@@ -1525,9 +1504,8 @@ StudentGrowth <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::select(-CountyCode, -CountyName, -DistrictCode, -SubGroup, -StateMedian, -MetTarget) %>%
   pivot_wider(names_from = "Subject", values_from = "DistrictMedian", names_prefix = "mSGP_")
 
-nsheet <- 11
+nsheet <- which(sheet_names_district == "StudentGrowthByGrade")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 StudentGrowthByGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(sub_grade=paste(`ELA/Math`, Grade)) %>%
@@ -1536,9 +1514,8 @@ StudentGrowthByGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
   dplyr::select(-CountyCode, -CountyName, -DistrictCode, -DistrictName)
 
-nsheet <- 14
+nsheet <- which(sheet_names_district == "ELAParticipationPerformance")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Groups`=="Districtwide") %>%
@@ -1546,9 +1523,8 @@ ELAParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %
   dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
   dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District=`District: % of testers met/exceeded expectations`)
 
-nsheet <- 14
+nsheet <- which(sheet_names_district == "ELAParticipationPerformance")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Groups`=="Students with Disabilities") %>%
@@ -1556,9 +1532,8 @@ ELAParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D"
   dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
   dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District_dis=`District: % of testers met/exceeded expectations`)
 
-nsheet <- 14
+nsheet <- which(sheet_names_district == "ELAParticipationPerformance")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Groups`=="Students without Disabilities") %>%
@@ -1566,9 +1541,8 @@ ELAParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "
   dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
   dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District_notdis=`District: % of testers met/exceeded expectations`)
 
-nsheet <- 15
+nsheet <- which(sheet_names_district == "ELAPerformanceTrends")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAPerformanceTrends <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode)) %>%
@@ -1576,9 +1550,8 @@ ELAPerformanceTrends <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::rename("ELA_ME"=`% Met/Exceeded Expectation`) %>%
   pivot_wider(names_from="Grades", values_from="ELA_ME", names_prefix = "ELA_ME_")
 
-nsheet <- 16
+nsheet <- which(sheet_names_district == "ELAPerformanceByGrade")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAPerformanceByGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Group`=="Districtwide") %>%
@@ -1589,9 +1562,8 @@ ELAPerformanceByGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::summarize(ELA_pct_level5=sum(n_level5)/sum(as.numeric(`Valid Scores`))) %>%
   dplyr::ungroup()
 
-nsheet <- 17
+nsheet <- which(sheet_names_district == "MathParticipationPerformance")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Groups`=="Districtwide") %>%
@@ -1599,9 +1571,8 @@ MathParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) 
   dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
   dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District=`District: % of testers met/exceeded expectations`)
 
-nsheet <- 17
+nsheet <- which(sheet_names_district == "MathParticipationPerformance")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Groups`=="Students with Disabilities") %>%
@@ -1609,9 +1580,8 @@ MathParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D
   dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
   dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District_dis=`District: % of testers met/exceeded expectations`)
 
-nsheet <- 17
+nsheet <- which(sheet_names_district == "MathParticipationPerformance")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Groups`=="Students without Disabilities") %>%
@@ -1619,9 +1589,8 @@ MathParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], 
   dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
   dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District_notdis=`District: % of testers met/exceeded expectations`)
 
-nsheet <- 18
+nsheet <- which(sheet_names_district == "MathPerformanceTrends")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathPerformanceTrends <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode)) %>%
@@ -1629,9 +1598,8 @@ MathPerformanceTrends <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::rename("MATH_ME"=`% Met/Exceeded Expectation`, Grades= `Grades/Subject`) %>%
   pivot_wider(names_from="Grades", values_from="MATH_ME", names_prefix = "MATH_ME_")
 
-nsheet <- 19
+nsheet <- which(sheet_names_district == "MathPerformanceByGradeTest")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathPerformanceByGradeTest <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Group`=="Districtwide") %>%
@@ -1655,18 +1623,16 @@ MathPerformanceByGradeTest_nogr8 <- get(paste0(sheet_names_district[nsheet], "_D
   dplyr::summarize(MATH_pct_level5_nogr8=sum(n_level5)/sum(as.numeric(`Valid Scores`))) %>%
   dplyr::ungroup()
 
-nsheet <- 64
+nsheet <- which(sheet_names_district == "StudentToStaffRatios")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 StudentToStaffRatios <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
   dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
   dplyr::select(ST_LEAID, SchoolYear, Student_Teacher_District, Student_Admin_District)
 
-nsheet <- 60
+nsheet <- which(sheet_names_district == "TeachersExperience")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 TeachersExperience <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
@@ -1674,18 +1640,17 @@ TeachersExperience <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::select(ST_LEAID, SchoolYear, starts_with("Teacher") | starts_with("Percent")) %>%
   dplyr::select(!ends_with("State"))
 
-nsheet <- 53
+nsheet <- which(sheet_names_district == "ChronicAbsenteeism")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ChronicAbsenteeism<- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
   dplyr::filter(StudentGroup=="Districtwide")  %>%
   dplyr::select(-CountyCode, -CountyName, -DistrictCode, -DistrictName, -StudentGroup, -MetTarget, -Target)
 
-nsheet <- 54
+nsheet <- which(sheet_names_district == "DaysAbsent")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
+
 DaysAbsent <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear="2022-2023") %>%
   dplyr::select(ST_LEAID, SchoolYear, starts_with("Abs"))
@@ -1711,7 +1676,6 @@ rc_comb2223 <- StudentGrowth %>%
   dplyr::left_join(EnrollmentTrendsbyGrade, by=c("ST_LEAID","SchoolYear"))
 
 rm(list=ls(pattern = "_D$"))
-
 write_csv(rc_comb2223, file="datasets/rc_comb2223.csv")
 ```
 
@@ -1734,29 +1698,26 @@ download.file(url, destfile = rc_district, mode = "wb")
 sy <- "2021-2022"
 
 sheet_names_district <- excel_sheets(rc_district)
-print(sheet_names_district)
+# print(sheet_names_district)
 
-nsheet <- 3
+nsheet <- which(sheet_names_district == "EnrollmentTrendsbyGrade")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
   dplyr::select(-CountyCode, -CountyName, -DistrictCode, -DistrictName) %>%
   dplyr::rename(TotalEnrollment=Total)
 
-nsheet <- 4
+nsheet <- which(sheet_names_district == "EnrollmentTrendsByStudentGroup")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 EnrollmentTrendsByStudentGroup <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
   dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
   dplyr::select(ST_LEAID, SchoolYear, `Students with Disabilities`, `Economically Disadvantaged Students`)
 
-nsheet <- 10
+nsheet <- which(sheet_names_district == "ELAParticipationPerformance")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Groups`=="Districtwide") %>%
@@ -1764,9 +1725,8 @@ ELAParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %
   dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
   dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District=`District: % of testers met/exceeded expectations`)
 
-nsheet <- 10
+nsheet <- which(sheet_names_district == "ELAParticipationPerformance")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Groups`=="Students with Disabilities") %>%
@@ -1774,9 +1734,8 @@ ELAParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D"
   dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
   dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District_dis=`District: % of testers met/exceeded expectations`)
 
-nsheet <- 10
+nsheet <- which(sheet_names_district == "ELAParticipationPerformance")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Groups`=="Students without Disabilities") %>%
@@ -1784,9 +1743,8 @@ ELAParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "
   dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
   dplyr::select(ST_LEAID, SchoolYear, ELA_ME_District_notdis=`District: % of testers met/exceeded expectations`)
 
-nsheet <- 11
+nsheet <- which(sheet_names_district == "ELAPerformanceTrends")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAPerformanceTrends <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode)) %>%
@@ -1794,9 +1752,8 @@ ELAPerformanceTrends <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::rename("ELA_ME"=`% Met/Exceeded Expectation`) %>%
   pivot_wider(names_from="Grades", values_from="ELA_ME", names_prefix = "ELA_ME_")
 
-nsheet <- 12
+nsheet <- which(sheet_names_district == "ELAPerformanceByGrade")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAPerformanceByGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Group`=="Districtwide") %>%
@@ -1806,9 +1763,8 @@ ELAPerformanceByGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::group_by(ST_LEAID, SchoolYear) %>%
   dplyr::summarize(ELA_pct_level5=sum(n_level5)/sum(as.numeric(`Valid Scores`)))
 
-nsheet <- 13
+nsheet <- which(sheet_names_district == "MathParticipationPerformance")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Groups`=="Districtwide") %>%
@@ -1816,9 +1772,8 @@ MathParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) 
   dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
   dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District=`District: % of testers met/exceeded expectations`)
 
-nsheet <- 13
+nsheet <- which(sheet_names_district == "MathParticipationPerformance")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Groups`=="Students with Disabilities") %>%
@@ -1826,9 +1781,8 @@ MathParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D
   dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
   dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District_dis=`District: % of testers met/exceeded expectations`)
 
-nsheet <- 13
+nsheet <- which(sheet_names_district == "MathParticipationPerformance")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Groups`=="Students without Disabilities") %>%
@@ -1836,9 +1790,8 @@ MathParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], 
   dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
   dplyr::select(ST_LEAID, SchoolYear, MATH_ME_District_notdis=`District: % of testers met/exceeded expectations`)
 
-nsheet <- 14
+nsheet <- which(sheet_names_district == "MathPerformanceTrends")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathPerformanceTrends <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode)) %>%
@@ -1846,9 +1799,8 @@ MathPerformanceTrends <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::rename("MATH_ME"=`% Met/Exceeded Expectation`, Grades= `Grades/Subject`) %>%
   pivot_wider(names_from="Grades", values_from="MATH_ME", names_prefix = "MATH_ME_")
 
-nsheet <- 15
+nsheet <- which(sheet_names_district == "MathPerformanceByGradeTest")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathPerformanceByGradeTest <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Group`=="Districtwide") %>%
@@ -1870,18 +1822,16 @@ MathPerformanceByGradeTest_nogr8 <- get(paste0(sheet_names_district[nsheet], "_D
   dplyr::group_by(ST_LEAID, SchoolYear) %>%
   dplyr::summarize(MATH_pct_level5_nogr8=sum(n_level5)/sum(as.numeric(`Valid Scores`)))
 
-nsheet <- 61
+nsheet <- which(sheet_names_district == "StudentToStaffRatios")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 StudentToStaffRatios <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
   dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
   dplyr::select(ST_LEAID, SchoolYear, Student_Teacher_District, Student_Admin_District)
 
-nsheet <- 57
+nsheet <- which(sheet_names_district == "TeachersExperience")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 TeachersExperience <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -1889,18 +1839,17 @@ TeachersExperience <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::select(ST_LEAID, SchoolYear, starts_with("Teacher") | starts_with("Percent")) %>%
   dplyr::select(!ends_with("State"))
 
-nsheet <- 50
+nsheet <- which(sheet_names_district == "ChronicAbsenteeism")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ChronicAbsenteeism<- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
   dplyr::filter(StudentGroup=="Districtwide")  %>%
   dplyr::select(-CountyCode, -CountyName, -DistrictCode, -DistrictName, -StudentGroup, -MetTarget, -Target)
 
-nsheet <- 51
+nsheet <- which(sheet_names_district == "DaysAbsent")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
+
 DaysAbsent <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
   dplyr::select(ST_LEAID, SchoolYear, starts_with("Abs"))
@@ -1946,38 +1895,34 @@ download.file(url, destfile = rc_district, mode = "wb")
 sy <- "2020-2021"
 
 sheet_names_district <- excel_sheets(rc_district)
-print(sheet_names_district)
+# print(sheet_names_district)
 
-nsheet <- 3
+nsheet <- which(sheet_names_district == "EnrollmentTrendsbyGrade")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
   dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
   dplyr::rename(TotalEnrollment=Total)
 
-nsheet <- 4
+nsheet <- which(sheet_names_district == "EnrollmentTrendsByStudentGroup")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 EnrollmentTrendsByStudentGroup <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
   dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
   dplyr::select(ST_LEAID, SchoolYear, `Students with Disabilities`, `Economically Disadvantaged Students`)
 
-nsheet <- 55
+nsheet <- which(sheet_names_district == "StudentToStaffRatios")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 StudentToStaffRatios <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
   dplyr::select(-CountyCode, -CountyName, -DistrictCode) %>%
   dplyr::select(ST_LEAID, SchoolYear, Student_Teacher_District, Student_Admin_District)
 
-nsheet <- 52
+nsheet <- which(sheet_names_district == "TeachersExperience")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 TeachersExperience <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -1985,18 +1930,17 @@ TeachersExperience <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::select(ST_LEAID, SchoolYear, starts_with("Teacher") | starts_with("Percent")) %>%
   dplyr::select(!ends_with("State"))
 
-nsheet <- 45
+nsheet <- which(sheet_names_district == "ChronicAbsenteeism")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ChronicAbsenteeism<- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
   dplyr::filter(StudentGroup=="Districtwide")  %>%
   dplyr::select(-CountyCode, -CountyName, -DistrictCode, -DistrictName, -StudentGroup, -MetTarget, -Target)
 
-nsheet <- 46
+nsheet <- which(sheet_names_district == "DaysAbsent")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
+
 DaysAbsent <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
   dplyr::select(ST_LEAID, SchoolYear, starts_with("Abs"))
@@ -2035,7 +1979,6 @@ print(sheet_names_district)
 
 nsheet <- which(sheet_names_district=="EnrollmentTrendsbyGrade")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -2044,7 +1987,6 @@ EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district=="EnrollmentTrendsByStudentGroup")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 EnrollmentTrendsByStudentGroup <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -2053,7 +1995,6 @@ EnrollmentTrendsByStudentGroup <- get(paste0(sheet_names_district[nsheet], "_D")
 
 nsheet <- which(sheet_names_district=="StudentToStaffRatios")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 StudentToStaffRatios <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -2062,7 +2003,6 @@ StudentToStaffRatios <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district=="TeachersExperience")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 TeachersExperience <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -2098,11 +2038,10 @@ download.file(url, destfile = rc_district, mode = "wb")
 sy <- "2018-2019"
 
 sheet_names_district <- excel_sheets(rc_district)
-print(sheet_names_district)
+# print(sheet_names_district)
 
 nsheet <- which(sheet_names_district=="EnrollmentTrendsbyGrade")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -2111,7 +2050,6 @@ EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district=="EnrollmentTrendsByStudentGroup")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 EnrollmentTrendsByStudentGroup <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -2120,7 +2058,6 @@ EnrollmentTrendsByStudentGroup <- get(paste0(sheet_names_district[nsheet], "_D")
 
 nsheet <- which(sheet_names_district=="ELALiteracyParticipationPerform")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(StudentGroup=="Districtwide") %>%
@@ -2130,7 +2067,6 @@ ELAParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %
 
 nsheet <- which(sheet_names_district=="ELALiteracyParticipationPerform")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(StudentGroup=="Students with Disabilities") %>%
@@ -2140,7 +2076,6 @@ ELAParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D"
 
 nsheet <- which(sheet_names_district=="ELALiteracyParticipationPerform")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(StudentGroup=="Students without Disabilities") %>%
@@ -2150,7 +2085,6 @@ ELAParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "
 
 nsheet <- which(sheet_names_district=="ELALiteracyPerformanceByGrade")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAPerformanceByGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Group`=="Districtwide") %>%
@@ -2163,7 +2097,6 @@ ELAPerformanceByGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district=="MathParticipationPerform")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(StudentGroup=="Districtwide") %>%
@@ -2173,7 +2106,6 @@ MathParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) 
 
 nsheet <- which(sheet_names_district=="MathParticipationPerform")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(StudentGroup=="Students with Disabilities") %>%
@@ -2183,7 +2115,6 @@ MathParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D
 
 nsheet <- which(sheet_names_district=="MathParticipationPerform")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(StudentGroup=="Students without Disabilities") %>%
@@ -2193,7 +2124,6 @@ MathParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], 
 
 nsheet <- which(sheet_names_district=="MathPerformanceByGradeTest")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathPerformanceByGradeTest <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Group`=="Districtwide") %>%
@@ -2217,7 +2147,6 @@ MathPerformanceByGradeTest_nogr8 <- get(paste0(sheet_names_district[nsheet], "_D
 
 nsheet <- which(sheet_names_district=="StudentToStaffRatios")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 StudentToStaffRatios <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -2226,7 +2155,6 @@ StudentToStaffRatios <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district=="TeachersExperience")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 TeachersExperience <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -2236,7 +2164,6 @@ TeachersExperience <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district=="ChronicAbsenteeism")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ChronicAbsenteeism<- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -2245,7 +2172,7 @@ ChronicAbsenteeism<- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district=="DaysAbsent")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
+
 DaysAbsent <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
   dplyr::select(ST_LEAID, SchoolYear, starts_with("Abs"))
@@ -2289,11 +2216,10 @@ download.file(url, destfile = rc_district, mode = "wb")
 sy <- "2017-2018"
 
 sheet_names_district <- excel_sheets(rc_district)
-print(sheet_names_district)
+# print(sheet_names_district)
 
 nsheet <- which(sheet_names_district=="EnrollmentTrendsbyGrade")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -2302,7 +2228,6 @@ EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district=="EnrollmentTrendsByStudentGroup")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 EnrollmentTrendsByStudentGroup <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -2311,7 +2236,6 @@ EnrollmentTrendsByStudentGroup <- get(paste0(sheet_names_district[nsheet], "_D")
 
 nsheet <- which(sheet_names_district=="ELALiteracyParticipationPerform")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(StudentGroup=="Districtwide") %>%
@@ -2321,7 +2245,7 @@ ELAParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %
 
 nsheet <- which(sheet_names_district=="ELALiteracyParticipationPerform")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
+
 
 ELAParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(StudentGroup=="Students with Disabilities") %>%
@@ -2331,7 +2255,6 @@ ELAParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D"
 
 nsheet <- which(sheet_names_district=="ELALiteracyParticipationPerform")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(StudentGroup=="Students without Disabilities") %>%
@@ -2341,7 +2264,6 @@ ELAParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "
 
 nsheet <- which(sheet_names_district=="ELALiteracyPerformanceByGrade")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAPerformanceByGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Group`=="Districtwide") %>%
@@ -2354,7 +2276,6 @@ ELAPerformanceByGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district=="MathParticipationPerform")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(StudentGroup=="Districtwide") %>%
@@ -2364,7 +2285,6 @@ MathParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) 
 
 nsheet <- which(sheet_names_district=="MathParticipationPerform")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(StudentGroup=="Students with Disabilities") %>%
@@ -2374,7 +2294,6 @@ MathParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D
 
 nsheet <- which(sheet_names_district=="MathParticipationPerform")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(StudentGroup=="Students without Disabilities") %>%
@@ -2384,7 +2303,6 @@ MathParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], 
 
 nsheet <- which(sheet_names_district=="MathPerformanceByGradeTest")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathPerformanceByGradeTest <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`Student Group`=="Districtwide") %>%
@@ -2408,7 +2326,6 @@ MathPerformanceByGradeTest_nogr8 <- get(paste0(sheet_names_district[nsheet], "_D
 
 nsheet <- which(sheet_names_district=="StudentToStaffRatios")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 StudentToStaffRatios <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -2417,7 +2334,6 @@ StudentToStaffRatios <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district=="TeachersExperienceCertification")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 TeachersExperience <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -2427,7 +2343,6 @@ TeachersExperience <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district=="ChronicAbsenteeism")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ChronicAbsenteeism<- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -2436,7 +2351,7 @@ ChronicAbsenteeism<- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district=="DaysAbsent")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
+
 DaysAbsent <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
   dplyr::select(ST_LEAID, SchoolYear, starts_with("Abs"))
@@ -2482,11 +2397,10 @@ sy <- "2016-2017"
 #New Jersey transitioned to the PARCC exams in mathematics and ELA beginning in the 2014-15 school year.
 
 sheet_names_district <- excel_sheets(rc_district)
-print(sheet_names_district)
+# print(sheet_names_district)
 
 nsheet <- which(sheet_names_district=="EnrollmentTrendsByGrade")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -2496,7 +2410,6 @@ EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district=="EnrollmentTrendsByStudentGroup")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 EnrollmentTrendsByStudentGroup <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -2506,7 +2419,6 @@ EnrollmentTrendsByStudentGroup <- get(paste0(sheet_names_district[nsheet], "_D")
 
 nsheet <- which(sheet_names_district=="ELALiteracyParticipationPerform")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(StudentGroup=="Districtwide") %>%
@@ -2516,7 +2428,6 @@ ELAParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %
 
 nsheet <- which(sheet_names_district=="ELALiteracyParticipationPerform")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(StudentGroup=="Students with Disabilities") %>%
@@ -2526,7 +2437,6 @@ ELAParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D"
 
 nsheet <- which(sheet_names_district=="ELALiteracyParticipationPerform")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(StudentGroup=="Students without Disabilities") %>%
@@ -2536,7 +2446,6 @@ ELAParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "
 
 nsheet <- which(sheet_names_district=="ELALiteracyPerformanceByGrade")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAPerformanceByGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`StudentGroup`=="Districtwide") %>%
@@ -2549,7 +2458,6 @@ ELAPerformanceByGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district=="MathParticipationPerform")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(StudentGroup=="Districtwide") %>%
@@ -2559,7 +2467,6 @@ MathParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) 
 
 nsheet <- which(sheet_names_district=="MathParticipationPerform")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(StudentGroup=="Students with Disabilities") %>%
@@ -2569,7 +2476,6 @@ MathParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D
 
 nsheet <- which(sheet_names_district=="MathParticipationPerform")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(StudentGroup=="Students without Disabilities") %>%
@@ -2579,7 +2485,6 @@ MathParticipationPerformance_notdis <- get(paste0(sheet_names_district[nsheet], 
 
 nsheet <- which(sheet_names_district=="MathPerformanceByGradeTest")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathPerformanceByGradeTest <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(`StudentGroup`=="Districtwide") %>%
@@ -2603,7 +2508,6 @@ MathPerformanceByGradeTest_nogr8 <- get(paste0(sheet_names_district[nsheet], "_D
 
 nsheet <- which(sheet_names_district=="StudentToStaffRatios")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 StudentToStaffRatios <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -2612,7 +2516,6 @@ StudentToStaffRatios <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district=="TeachersExperienceCertification")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 TeachersExperience <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -2622,7 +2525,6 @@ TeachersExperience <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district=="ChronicAbsenteeism")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ChronicAbsenteeism<- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -2631,7 +2533,6 @@ ChronicAbsenteeism<- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district=="DaysAbsent")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 DaysAbsent <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", CountyCode, DistrictCode), SchoolYear=sy) %>%
@@ -2680,11 +2581,10 @@ sy <- "2015-2016"
 ## looks like a parcc year
 
 sheet_names_district <- excel_sheets(rc_district)
-print(sheet_names_district)
+# print(sheet_names_district)
 
 nsheet <- which(sheet_names_district=="EnrollmentByGrade")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", COUNTY_CODE, DISTRICT_CODE), SchoolYear=sy) %>%
@@ -2698,7 +2598,6 @@ EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district=="EnrollmentByGrade")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 EnrollmentTotalsBySchool <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", COUNTY_CODE, DISTRICT_CODE, SCHOOL_CODE), SchoolYear=sy) %>%
@@ -2712,7 +2611,6 @@ EnrollmentTotalsBySchool <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district=="EnrollmentBySpecPop")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 EnrollmentTrendsByStudentGroup <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", COUNTY_CODE, DISTRICT_CODE, SCHOOL_CODE), SchoolYear=sy) %>%
@@ -2740,7 +2638,6 @@ EnrollmentDisBySchool <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district=="PARCC_ELA_MetExcMathEng")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(Type=="Schoolwide", !VALID_SCORES %in% c("S", "N")) %>%
@@ -2758,7 +2655,6 @@ ELAParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %
 
 nsheet <- which(sheet_names_district=="PARCC_ELA_MetExcMathEng")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(Type=="Students with Disability", !VALID_SCORES %in% c("S", "N")) %>%
@@ -2776,7 +2672,6 @@ ELAParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D"
 
 nsheet <- which(sheet_names_district=="PARCC_Math_MetExcMathEng")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(Type=="Schoolwide", !VALID_SCORES %in% c("S", "N")) %>%
@@ -2794,7 +2689,6 @@ MathParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) 
 
 nsheet <- which(sheet_names_district=="PARCC_Math_MetExcMathEng")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(Type=="Students with Disability", !VALID_SCORES %in% c("S", "N")) %>%
@@ -2812,7 +2706,6 @@ MathParticipationPerformance_dis <- get(paste0(sheet_names_district[nsheet], "_D
 
 nsheet <- which(sheet_names_district=="ChronicAbsenteeism")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ChronicAbsenteeism <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", COUNTY_CODE, DISTRICT_CODE, SCHOOL_CODE), SchoolYear=sy) %>%
@@ -2829,7 +2722,6 @@ ChronicAbsenteeism <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district=="Absenteeism")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 DaysAbsent <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", COUNTY_CODE, DISTRICT_CODE, SCHOOL_CODE), SchoolYear=sy) %>%
@@ -2888,11 +2780,10 @@ sy <- "2014-2015"
 ## So this should be first year where everyone used PARCC
 
 sheet_names_district <- excel_sheets(rc_district)
-print(sheet_names_district)
+# print(sheet_names_district)
 
 nsheet <- which(sheet_names_district=="ENROLLMENT")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", `CO CODE`, `DIST CODE`), SchoolYear=sy) %>%
@@ -2917,7 +2808,6 @@ EnrollmentTrendsbyGrade <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
 
 nsheet <- which(sheet_names_district=="ENROLLMENT")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 EnrollmentTotalsBySchool <-   get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", `CO CODE`, `DIST CODE`, `SCH CODE`), SchoolYear=sy) %>%
@@ -2931,7 +2821,6 @@ EnrollmentTotalsBySchool <-   get(paste0(sheet_names_district[nsheet], "_D")) %>
 
 nsheet <- which(sheet_names_district=="PARCC ELA")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ELAParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(TYPE=="Schoolwide", !`VALID SCORES` %in% c("S", "N")) %>%
@@ -2949,7 +2838,6 @@ ELAParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %
 
 nsheet <- which(sheet_names_district=="PARCC MATH")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 MathParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::filter(TYPE=="Schoolwide", !`VALID SCORES` %in% c("S", "N")) %>%
@@ -2967,7 +2855,6 @@ MathParticipationPerformance <- get(paste0(sheet_names_district[nsheet], "_D")) 
 
 nsheet <- which(sheet_names_district=="CHRONIC ABSENTEEISM")
 assign(paste0(sheet_names_district[nsheet], "_D"), read_excel(rc_district, sheet=sheet_names_district[nsheet]))
-print(paste0(sheet_names_district[nsheet], "_D"))
 
 ChronicAbsenteeism <- get(paste0(sheet_names_district[nsheet], "_D")) %>%
   dplyr::mutate(ST_LEAID=paste0("NJ-", COUNTY_CODE, DISTRICT_CODE, SCHOOL_CODE), SchoolYear=sy) %>%
@@ -3021,9 +2908,13 @@ rc_all_comb <- bind_rows(rc_comb2324, rc_comb2223, rc_comb2122, rc_comb2021,  rc
 write_csv(rc_all_comb, file="datasets/rc_all_comb.csv")
 ```
 
+```{r}
+colnames(rc_all_comb)
+```
+
 # Enrollments
 
-Official enrollment trend data is also stored in a [CSV](datasets/enr_all.csv).
+Official enrollment trend data is retrieved from the NJ Department of Education and stored in a [CSV](datasets/enr_all.csv).
 
 ```{r}
 #| label: enrollments
@@ -3214,25 +3105,30 @@ rm(list=ls(pattern="^District"))
 write_csv(enr_all, file="datasets/enr_all.csv")
 ```
 
+```{r}
+colnames(enr_all)
+```
+
 # Bringing the data together
 
+Though there are times when it will be useful for individual data sets to be used alone, it is also useful to have [one dataset](datasets/comb2324.csv) that contains the latest data available, which is the 2023-24 school year as of this writing.
+
 ```{r}
-#| eval: false
-#| echo: false
-#| include: false
+#| label: bringing-together
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| output: false
+#| code-summary: Code - Bringing data together
 
-ccdnjk12 <- read_sheet(ss="12WxkM2ieGB_r-A0O75tsSRBA0OpYQWZICGZE8GgTNQQ", sheet="ccdnjk12")
-per_pupil_exp <- read_sheet(ss="12WxkM2ieGB_r-A0O75tsSRBA0OpYQWZICGZE8GgTNQQ", sheet="per_pupil_exp")
-rc_comb <- read_sheet(ss="12WxkM2ieGB_r-A0O75tsSRBA0OpYQWZICGZE8GgTNQQ", sheet="rc_comb")
-
-comb <- ccdnjk12_peers %>%
+comb2324 <- ccdnjk12_peers %>%
   dplyr::left_join(per_pupil_exp, by="ST_LEAID") %>%
-  dplyr::left_join(rc_comb, by="ST_LEAID") %>%
-  dplyr::left_join(enr_all %>% dplyr::select(ST_LEAID, OfficialTotalEnrollment=TotalEnrollment), by="ST_LEAID")
+  dplyr::left_join(rc_comb2324, by="ST_LEAID") %>%
+  dplyr::left_join(enr_all %>% dplyr::filter(SchoolYear=="2023-24") %>% dplyr::select(ST_LEAID, OfficialTotalEnrollment=TotalEnrollment) , by="ST_LEAID")
 
-names(comb)[sapply(comb, is.character)]
-
-comb <- comb %>%
+comb2324 <- comb2324 %>%
   dplyr::mutate(across(starts_with("per_pupil"), as.numeric)) %>%
   dplyr::mutate(across(starts_with("mSGP"), as.numeric)) %>%
   dplyr::mutate(across(starts_with("ELA"), as.numeric)) %>%
@@ -3244,14 +3140,28 @@ comb <- comb %>%
   dplyr::mutate(student_teacher_ratio = sub(":.*", "", Student_Teacher_District),
                 student_admin_ratio = sub(":.*", "", Student_Admin_District))
 
-colnames(comb)
-
-comb <- comb %>%
+comb2324 <- comb2324 %>%
   dplyr::mutate(dist_colors = case_when(
     district_name %in% names(district_name_colors) ~ district_name,
     TRUE ~ "Other"
   ))
 
-write_csv(comb, file="datasets/comb.csv")
-
+write_csv(comb2324, file="datasets/comb2324.csv")
 ```
+
+```{r}
+colnames(comb2324)
+```
+
+# Table of created data sets
+
+The following table is a handy reference to some of the main data sets created in this document, which have been made available as CSV files.
+
+| Name | Description |
+|--------------------------|----------------------------------------------|
+| [ccdnjk12_peers.csv](datasets/ccdnjk12_peers.csv) | Common Core of Data (2023-24), ACS-EDGE, and FH peer group sets. Only contains PK/K-8 districts |
+| [comb2324.csv](datasets/comb2324.csv) | Common Core of Data, ACS-EDGE, Budget data, Report Card data, all for PK/K-8 districts 2023-24 |
+| [edge_df.csv](datasets/edge_df.csv) |  ACS-EDGE for all NJ districts |
+| [enr_all.csv](datasets/enr_all.csv) | NJ District Enrollment counts from 2013-2014 to 2023-2024 school years, all NJ districts |
+| [per_pupil_exp.csv](datasets/per_pupil_exp.csv) | Per pupil expenditures for 2023-24 from 2022-23 User Friendly Budgets, all NJ districts |
+| [rc_all_comb.csv](datasets/rc_all_comb.csv) | Report Card data for all NJ districts from 2014-15 to 2023-24 |

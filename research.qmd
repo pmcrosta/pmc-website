@@ -1,12 +1,11 @@
 ---
 title: "Research and Analysis"
+date: last-modified
 ---
 
 As part of my commitment to being data-driven and outcome-oriented, I'll share examples of research, data analysis, and related insights on this page.
 
-TODO: 
-
-- [Building a dataset](research/building_a_dataset.html)
-- [Enrollments](research/enrollment.md)
-- [Standardized Test Scores](research/test scores.md)
-- [Inputs](research/inputs.md)
+-   [Building a dataset](research/building_a_dataset.html): combining education data from state and federal sources; creation of a set of peer districts for Fair Haven.
+-   [Enrollments](research/enrollment.md) (TODO)
+-   [Standardized Test Scores](research/test%20scores.md) (TODO)
+-   [Inputs](research/inputs.md) (TODO)
