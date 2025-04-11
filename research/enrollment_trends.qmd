@@ -1,0 +1,264 @@
+---
+title: "Enrollment trends"
+author: "Peter M. Crosta"
+date: last-modified
+format:
+  html:
+    code-fold: true
+    df-print: paged
+    code-overflow: scroll
+    toc: true
+    toc-depth: 3
+    toc-location: left
+---
+
+# Introduction
+
+::: callout-caution
+## WORK IN PROGRESS
+
+This doc is still a work in progress.
+:::
+
+Student enrollment in a district is a core driver of the cost of delivering education, and is a core component in how some school funding, like state aid, is delivered. Across New Jersey, there have been several examples of districts that have seen declining enrollments. Most notably, our northern neighbor [Middletown](https://www.app.com/story/news/education/2025/04/03/middletown-mayor-proposal-school-closures-mergers/82790014007/) recently announced a provisional plan to close two elementary schools largely due to declining enrollments and increasing costs. Years of declining student counts in neighboring Rumson and Little Silver has also been noted as the primary factor behind their much higher observed spending-per-pupil than districts like Fair Haven.
+
+To better understand these trends, I turn to some data on district enrollments from the NJ Department of Education. Details on the data source used can be found [here](building_a_dataset.qmd#sec-enrollments). The specific questions addressed in this document include:
+
+-   What have enrollment trends looked like in Fair Haven over the past decade?
+-   How have total enrollments in Fair Haven compared to peninsula districts?
+-   How have total enrollments in Fair Haven compared to other similar districts?
+
+```{r}
+#| label: setup
+#| code-summary: Code - Load libraries
+#| message: false
+#| warning: false
+#| eval: true
+options(width = 120)
+
+library(tidyverse)
+library(cluster)
+library(MASS)
+library(ggpmisc)
+library(ggrepel)
+library(glue)
+library(DT)
+library(factoextra)
+library(gt)
+library(purrr)
+
+set.seed(2024)
+
+# Commonly used State ID numbers (staid) and Federal Local Education Authority (LEA) IDs
+# for FH, Little Silver, Rumson, and Shrewsbury
+fh_leaid <- "3404950"
+fh_staid <- "NJ-251440"
+
+ls_leaid <- "3408790"
+ls_staid <- "NJ-252720"
+
+rums_leaid <- "3414370"
+rums_staid <- "NJ-254570"
+
+shrews_leaid <- "3414970"
+shrews_staid <- "NJ-254770"
+
+district_name_colors <- c(
+  "Fair Haven Boro" = "#4169E1",
+  "Little Silver Boro" = "#1F2868",
+  "Rumson Boro" = "#8640C4",
+  "Shrewsbury Boro" = "#004500",
+  "Other" = "darkgrey"
+)
+
+district_stleaid_colors <-  c("#4169E1", "#1F2868", "#8640C4", "#004500", "lightgrey")
+names(district_stleaid_colors) <-c(fh_staid, ls_staid, rums_staid, shrews_staid, "Other")
+
+knitr::opts_chunk$set(
+    fig.width = 8,    
+    fig.height = 10,
+    fig.align = "center"
+)
+```
+
+```{r}
+#| label: enrollment-data-fh
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| code-summary: Code - Load enrollment data
+
+comb2324 <- read_csv("datasets/comb2324.csv")
+enr_all <- read_csv("datasets/enr_all.csv")
+
+# Attach peer set to enrollment data set
+enr_all$hc_euclid_ward <- enr_all$ST_LEAID %in% comb2324$ST_LEAID[comb2324$hc_euclid_ward]
+
+# Set up colors
+enr_all <- enr_all %>%
+  dplyr::mutate(dist_colors = case_when(
+    ST_LEAID %in% names(district_stleaid_colors) ~ ST_LEAID,
+    TRUE ~ "Other"
+  ))
+```
+
+# Fair Haven
+
+```{r}
+#| label: fig-enrollment-trends-fh
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| fig-height: 5
+#| fig-cap: "District Enrollments for Fair Haven"
+#| code-summary: Code - Enrollment trends for FH
+
+enr_all %>%
+  dplyr::filter(ST_LEAID==fh_staid) %>%
+  
+  {
+    ggplot(data=., aes(x=SchoolYear, y=TotalEnrollment, group=ST_LEAID, color=dist_colors)) +
+             geom_line(aes(alpha = 1), linewidth = 1) +
+             geom_point(aes(alpha = 1), size = 4) +
+             scale_x_discrete(expand = c(.2, .2), labels = sort(unique(.$SchoolYear))) +
+             scale_y_continuous(n.breaks = 10) +
+             geom_point(color = "#FFFFFF", size = 1) +
+             geom_text(data = . %>% filter(SchoolYear == "2023-2024"),
+                       aes(label = DistrictName, x = 13.5) , hjust = 0.15, fontface = "bold", color = "#888888", size = 2) +
+             labs(x = "", y = "", title = "Total Enrollments in Fair Haven", subtitle = "") +
+             theme_minimal() +
+             theme(axis.text.x = element_text(size=9, vjust=1, hjust=1, color = "black", angle = 30)) +
+             theme(panel.grid.major.y = element_line(color="grey97")) +
+             theme(panel.grid.minor.y = element_blank()) +
+             theme(panel.grid.major.x = element_line(color="grey97")) +
+             theme(panel.grid.minor.x = element_blank()) +
+             scale_color_manual(values=district_stleaid_colors, guide="none") +
+             scale_alpha(guide="none")
+  }
+```
+
+As seen in @fig-enrollment-trends-fh, Fair Haven has seen a decline in total enrollments since the 2012-13 school year, from 1041 students to 956 students in 2023-24. @fig-enrollment-trends-peninsula adds the Peninsula peers, and as the axes change, it becomes apparent that the decline in the number of Fair Haven students is not as large as declines seen in neighboring Rumson and Little Silver.
+
+```{r}
+#| label: fig-enrollment-trends-peninsula
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| fig-height: 6
+#| fig-cap: "District Enrollments for Fair Haven and Peninsula"
+#| code-summary: Code - Enrollment trends for FH and Peninsula
+
+enr_all %>%
+  dplyr::filter(ST_LEAID %in% names(district_stleaid_colors)[1:4], TotalEnrollment < 1500) %>%
+  
+  {
+    ggplot(data=., aes(x=SchoolYear, y=TotalEnrollment, group=ST_LEAID, color=dist_colors)) +
+             geom_line(aes(alpha = 1), linewidth = 1) +
+             geom_point(aes(alpha = 1), size = 4) +
+             scale_x_discrete(expand = c(.2, .2), labels = sort(unique(.$SchoolYear))) +
+             scale_y_continuous(n.breaks = 10) +
+             geom_point(color = "#FFFFFF", size = 1) +
+             geom_text(data = . %>% filter(SchoolYear == "2023-2024"),
+                       aes(label = DistrictName, x = 13.5) , hjust = 0.1, fontface = "bold", color = "#888888", size = 2) +
+             labs(x = "", y = "", title = "Total Enrollments for FH and Peninsula Peers", subtitle = "") +
+             theme_minimal() +
+             theme(axis.text.x = element_text(size=9, vjust=1, hjust=1, color = "black", angle = 30)) +
+             scale_color_manual(values=district_stleaid_colors, guide="none") +
+             scale_alpha(guide="none") +
+             theme(panel.grid.major.y = element_line(color="grey97")) +
+             theme(panel.grid.minor.y = element_blank()) +
+             theme(panel.grid.major.x = element_line(color="grey97")) +
+             theme(panel.grid.minor.x = element_blank()) 
+  }
+```
+
+To be sure, @fig-enrollment-trends-peers shows Fair Havent and the other 40 peers in the peer set. The red line sloping downwards suggests a general trend of declining enrollments over time over the time period. There are, of course, some exceptions. Between 2019-20 and 2023-24, several districts saw average increases in enrollment.
+
+```{r}
+#| label: fig-enrollment-trends-peers
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| fig-height: 10
+#| fig-cap: "District Enrollments for Fair Haven and Peers"
+#| code-summary: Code - Enrollment trends for Fair Haven and Peers
+
+enr_all %>%
+  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
+  
+  {
+    ggplot(data=., aes(x=SchoolYear, y=TotalEnrollment, group=ST_LEAID, color=dist_colors)) +
+             geom_line(aes(alpha = 1), linewidth = 1) +
+             geom_point(aes(alpha = 1), size = 2) +
+             scale_x_discrete(expand = c(.2, .2), labels = sort(unique(.$SchoolYear))) +
+             scale_y_continuous(n.breaks = 10) +
+             geom_smooth(aes(group=NA), method="lm", color="red", linewidth=.7) +
+             # geom_text(data = . %>% filter(SchoolYear == "2011-2012"),
+             #           aes(label = str_to_title(DistrictName), x = 0.5) , hjust = .85, fontface = "bold", color = "#888888", size = 2) +
+             geom_text(data = . %>% filter(SchoolYear == "2023-2024"),
+                       aes(label = DistrictName, x = 13.5) , hjust = 0.1, fontface = "bold", color = "#888888", size = 2) +
+             labs(x = "", y = "", title = "Total Enrollments for FH and Peers", subtitle = "") +
+             theme_minimal() +
+             theme(axis.text.x = element_text(size=9, vjust=1, hjust=1, color = "black", angle = 30)) +
+             scale_color_manual(values=district_stleaid_colors, guide="none") +
+             scale_alpha(guide="none") +
+             theme(panel.grid.major.y = element_line(color="grey97")) +
+             theme(panel.grid.minor.y = element_blank()) +
+             theme(panel.grid.major.x = element_line(color="grey97")) +
+             theme(panel.grid.minor.x = element_blank()) 
+  }
+```
+
+@fig-enrollment-deltas shows the percent change from year to year for Fair Haven and Peninsula peers.
+
+```{r}
+#| label: fig-enrollment-deltas
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| fig-height: 6
+#| fig-cap: "District Enrollment Deltas for FH and Peninsula"
+#| code-summary: Code - Enrollment Deltas for FH and Peninsula
+
+
+enr_all %>%
+  dplyr::filter(ST_LEAID %in% names(district_stleaid_colors) ) %>%
+  dplyr::arrange(ST_LEAID, SchoolYear) %>%
+  dplyr::group_by(ST_LEAID) %>%
+  dplyr::mutate(EnrDiff= TotalEnrollment - lag(TotalEnrollment, default = first(TotalEnrollment))) %>%
+  dplyr::mutate(PercentChange = (TotalEnrollment - lag(TotalEnrollment)) / lag(TotalEnrollment)) %>%
+  
+  {
+  ggplot(data=., aes(x=SchoolYear, y=PercentChange, group=ST_LEAID, color=dist_colors)) +
+             geom_line(aes(alpha = 1), linewidth = 1) +
+             geom_point(aes(alpha = 1), linewidth = 4) +
+             scale_x_discrete(expand = c(.2, .2), labels = sort(unique(.$SchoolYear))) +
+             scale_y_continuous(n.breaks = 10, label = scales::label_percent(accuracy=1)) +
+             geom_point(color = "#FFFFFF", size = 1) +
+             geom_text(data = . %>% filter(SchoolYear == "2023-2024"),
+                       aes(label = DistrictName, x = 13.5) , hjust = 0.1, fontface = "bold", color = "#888888", size = 2) +
+             labs(x = "",
+                  y = "",
+                  title = "Total Enrollment % Changes",
+                  subtitle = "") +
+             theme_minimal() +
+             theme(axis.text.x = element_text(size=9, vjust=1, hjust=1, color = "black", angle = 30)) +
+             scale_color_manual(values=district_stleaid_colors, guide="none") +
+             scale_alpha(guide="none") +
+             geom_hline(yintercept = 0, color="red") +
+             theme(panel.grid.major.y = element_line(color="grey97")) +
+             theme(panel.grid.minor.y = element_blank()) +
+             theme(panel.grid.major.x = element_line(color="grey97")) +
+             theme(panel.grid.minor.x = element_blank()) 
+  }
+```

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Peter M. Crosta">
-<meta name="dcterms.date" content="2025-04-06">
+<meta name="dcterms.date" content="2025-04-11">
 
 <title>Building a dataset | Peter M. Crosta – Peter M. Crosta</title>
 <style>
@@ -229,7 +229,7 @@ gtag('config', 'G-FWYE2E48ZC', { 'anonymize_ip': true});
   </ul></li>
   <li><a href="#financial-data-user-friendly-budgets" id="toc-financial-data-user-friendly-budgets" class="nav-link" data-scroll-target="#financial-data-user-friendly-budgets">Financial Data (User Friendly Budgets)</a></li>
   <li><a href="#report-card-data" id="toc-report-card-data" class="nav-link" data-scroll-target="#report-card-data">Report Card Data</a></li>
-  <li><a href="#enrollments" id="toc-enrollments" class="nav-link" data-scroll-target="#enrollments">Enrollments</a></li>
+  <li><a href="#sec-enrollments" id="toc-sec-enrollments" class="nav-link" data-scroll-target="#sec-enrollments">Enrollments</a></li>
   <li><a href="#bringing-the-data-together" id="toc-bringing-the-data-together" class="nav-link" data-scroll-target="#bringing-the-data-together">Bringing the data together</a></li>
   <li><a href="#table-of-created-data-sets" id="toc-table-of-created-data-sets" class="nav-link" data-scroll-target="#table-of-created-data-sets">Table of created data sets</a></li>
   </ul>
@@ -261,7 +261,7 @@ gtag('config', 'G-FWYE2E48ZC', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 6, 2025</p>
+      <p class="date">April 11, 2025</p>
     </div>
   </div>
   
@@ -3443,7 +3443,7 @@ Figure&nbsp;2: Partial dendrogram from Ward clustering (Euclidean)
 </div>
 </div>
 </section>
-<section id="enrollments" class="level1">
+<section id="sec-enrollments" class="level1">
 <h1>Enrollments</h1>
 <p>Official enrollment trend data is retrieved from the NJ Department of Education and stored in a <a href="datasets/enr_all.csv">CSV</a>.</p>
 <div class="cell">
@@ -3647,7 +3647,7 @@ Figure&nbsp;2: Partial dendrogram from Ward clustering (Euclidean)
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="ot">&lt;-</span> ccdnjk12_peers <span class="sc">%&gt;%</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(per_pupil_exp, <span class="at">by=</span><span class="st">"ST_LEAID"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(rc_comb2324, <span class="at">by=</span><span class="st">"ST_LEAID"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(enr_all <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(SchoolYear<span class="sc">==</span><span class="st">"2023-24"</span>) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(ST_LEAID, <span class="at">OfficialTotalEnrollment=</span>TotalEnrollment) , <span class="at">by=</span><span class="st">"ST_LEAID"</span>)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(enr_all <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(SchoolYear<span class="sc">==</span><span class="st">"2023-2024"</span>) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(ST_LEAID, <span class="at">OfficialTotalEnrollment=</span>TotalEnrollment) , <span class="at">by=</span><span class="st">"ST_LEAID"</span>)</span>
 <span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="ot">&lt;-</span> comb2324 <span class="sc">%&gt;%</span></span>
 <span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">starts_with</span>(<span class="st">"per_pupil"</span>), as.numeric)) <span class="sc">%&gt;%</span></span>
@@ -4378,7 +4378,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","loop":false,"descPosition":"bottom","openEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","descPosition":"bottom","openEffect":"zoom","loop":false});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {

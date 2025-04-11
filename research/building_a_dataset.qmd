@@ -2912,7 +2912,7 @@ write_csv(rc_all_comb, file="datasets/rc_all_comb.csv")
 colnames(rc_all_comb)
 ```
 
-# Enrollments
+# Enrollments {#sec-enrollments}
 
 Official enrollment trend data is retrieved from the NJ Department of Education and stored in a [CSV](datasets/enr_all.csv).
 
@@ -3126,7 +3126,7 @@ Though there are times when it will be useful for individual data sets to be use
 comb2324 <- ccdnjk12_peers %>%
   dplyr::left_join(per_pupil_exp, by="ST_LEAID") %>%
   dplyr::left_join(rc_comb2324, by="ST_LEAID") %>%
-  dplyr::left_join(enr_all %>% dplyr::filter(SchoolYear=="2023-24") %>% dplyr::select(ST_LEAID, OfficialTotalEnrollment=TotalEnrollment) , by="ST_LEAID")
+  dplyr::left_join(enr_all %>% dplyr::filter(SchoolYear=="2023-2024") %>% dplyr::select(ST_LEAID, OfficialTotalEnrollment=TotalEnrollment) , by="ST_LEAID")
 
 comb2324 <- comb2324 %>%
   dplyr::mutate(across(starts_with("per_pupil"), as.numeric)) %>%
@@ -3158,10 +3158,10 @@ colnames(comb2324)
 The following table is a handy reference to some of the main data sets created in this document, which have been made available as CSV files.
 
 | Name | Description |
-|--------------------------|----------------------------------------------|
+|------------------------------------|------------------------------------|
 | [ccdnjk12_peers.csv](datasets/ccdnjk12_peers.csv) | Common Core of Data (2023-24), ACS-EDGE, and FH peer group sets. Only contains PK/K-8 districts |
 | [comb2324.csv](datasets/comb2324.csv) | Common Core of Data, ACS-EDGE, Budget data, Report Card data, all for PK/K-8 districts 2023-24 |
-| [edge_df.csv](datasets/edge_df.csv) |  ACS-EDGE for all NJ districts |
+| [edge_df.csv](datasets/edge_df.csv) | ACS-EDGE for all NJ districts |
 | [enr_all.csv](datasets/enr_all.csv) | NJ District Enrollment counts from 2013-2014 to 2023-2024 school years, all NJ districts |
 | [per_pupil_exp.csv](datasets/per_pupil_exp.csv) | Per pupil expenditures for 2023-24 from 2022-23 User Friendly Budgets, all NJ districts |
 | [rc_all_comb.csv](datasets/rc_all_comb.csv) | Report Card data for all NJ districts from 2014-15 to 2023-24 |

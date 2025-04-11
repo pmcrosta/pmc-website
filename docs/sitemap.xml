@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.petecrosta.com/research/building_a_dataset.html</loc>
-    <lastmod>2025-04-06T20:14:51.857Z</lastmod>
+    <lastmod>2025-04-11T20:41:39.338Z</lastmod>
   </url>
   <url>
     <loc>https://www.petecrosta.com/issues.html</loc>
@@ -19,5 +19,9 @@
   <url>
     <loc>https://www.petecrosta.com/research.html</loc>
     <lastmod>2025-04-06T20:16:47.556Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.petecrosta.com/research/enrollment_trends.html</loc>
+    <lastmod>2025-04-11T22:09:47.382Z</lastmod>
   </url>
 </urlset>
