@@ -14,12 +14,6 @@ format:
 
 # Introduction
 
-::: callout-caution
-## WORK IN PROGRESS
-
-This doc is still a work in progress.
-:::
-
 Student enrollment in a district is a core driver of the cost of delivering education, and is a core component in how some school funding, like state aid, is delivered. Across New Jersey, there have been several examples of districts that have seen declining enrollments. Most notably, our northern neighbor [Middletown](https://www.app.com/story/news/education/2025/04/03/middletown-mayor-proposal-school-closures-mergers/82790014007/) recently announced a provisional plan to close two elementary schools largely due to declining enrollments and increasing costs. Years of declining student counts in neighboring Rumson and Little Silver has also been noted as the primary factor behind their much higher observed spending-per-pupil than districts like Fair Haven.
 
 To better understand these trends, I turn to some data on district enrollments from the NJ Department of Education. Details on the data source used can be found [here](building_a_dataset.qmd#sec-enrollments). The specific questions addressed in this document include:
@@ -128,7 +122,7 @@ enr_all %>%
              scale_y_continuous(n.breaks = 10) +
              geom_point(color = "#FFFFFF", size = 1) +
              geom_text(data = . %>% filter(SchoolYear == "2023-2024"),
-                       aes(label = DistrictName, x = 13.5) , hjust = 0.15, fontface = "bold", color = "#888888", size = 2) +
+             aes(label = gsub(" School District", "", DistrictName), x = 13.5) , hjust = 0.15, fontface = "bold", color = "#888888", size = 2) +
              labs(x = "", y = "", title = "Total Enrollments in Fair Haven", subtitle = "") +
              theme_minimal() +
              theme(axis.text.x = element_text(size=9, vjust=1, hjust=1, color = "black", angle = 30)) +
@@ -141,7 +135,11 @@ enr_all %>%
   }
 ```
 
-As seen in @fig-enrollment-trends-fh, Fair Haven has seen a decline in total enrollments since the 2012-13 school year, from 1041 students to 956 students in 2023-24. @fig-enrollment-trends-peninsula adds the Peninsula peers, and as the axes change, it becomes apparent that the decline in the number of Fair Haven students is not as large as declines seen in neighboring Rumson and Little Silver.
+As seen in @fig-enrollment-trends-fh, Fair Haven has seen a general decline in total enrollments since the 2012-13 school year, from 1041 students to 956 students in 2023-24. In the last 10 years, Fair Haven has seen an overall decline of 5.9%.
+
+# Fair Haven and Peninsula Peers
+
+@fig-enrollment-trends-peninsula adds the Peninsula peers, and as the axes change, it becomes visually apparent that the decline in the number of Fair Haven students is not as large as declines seen in neighboring Rumson, Little Silver, and Shrewsbury, all of whom saw step-change declines during the Covid years of 2019-20 to 2020-21.
 
 ```{r}
 #| label: fig-enrollment-trends-peninsula
@@ -165,7 +163,7 @@ enr_all %>%
              scale_y_continuous(n.breaks = 10) +
              geom_point(color = "#FFFFFF", size = 1) +
              geom_text(data = . %>% filter(SchoolYear == "2023-2024"),
-                       aes(label = DistrictName, x = 13.5) , hjust = 0.1, fontface = "bold", color = "#888888", size = 2) +
+                       aes(label = gsub(" School District", "", DistrictName), x = 13.5) , hjust = 0.1, fontface = "bold", color = "#888888", size = 2) +
              labs(x = "", y = "", title = "Total Enrollments for FH and Peninsula Peers", subtitle = "") +
              theme_minimal() +
              theme(axis.text.x = element_text(size=9, vjust=1, hjust=1, color = "black", angle = 30)) +
@@ -178,7 +176,9 @@ enr_all %>%
   }
 ```
 
-To be sure, @fig-enrollment-trends-peers shows Fair Havent and the other 40 peers in the peer set. The red line sloping downwards suggests a general trend of declining enrollments over time over the time period. There are, of course, some exceptions. Between 2019-20 and 2023-24, several districts saw average increases in enrollment.
+# Fair Haven and Peers
+
+To be sure, @fig-enrollment-trends-peers shows Fair Haven and the other 36 peers in our peer set. The red line sloping downwards suggests a general trend of declining enrollments over time over the time period.
 
 ```{r}
 #| label: fig-enrollment-trends-peers
@@ -201,10 +201,13 @@ enr_all %>%
              scale_x_discrete(expand = c(.2, .2), labels = sort(unique(.$SchoolYear))) +
              scale_y_continuous(n.breaks = 10) +
              geom_smooth(aes(group=NA), method="lm", color="red", linewidth=.7) +
-             # geom_text(data = . %>% filter(SchoolYear == "2011-2012"),
-             #           aes(label = str_to_title(DistrictName), x = 0.5) , hjust = .85, fontface = "bold", color = "#888888", size = 2) +
-             geom_text(data = . %>% filter(SchoolYear == "2023-2024"),
-                       aes(label = DistrictName, x = 13.5) , hjust = 0.1, fontface = "bold", color = "#888888", size = 2) +
+             geom_text_repel(data = . %>% filter(SchoolYear == "2023-2024"),
+                       aes(label = gsub(" School District", "", DistrictName), x = 13) , 
+                       hjust = -1, fontface = "bold", color = "#888888", size = 2,
+                       direction = "y",
+                      ylim = c(-Inf, Inf), # Allow movement in the entire vertical range
+                      #xlim = c(NA, NA)
+                      ) +
              labs(x = "", y = "", title = "Total Enrollments for FH and Peers", subtitle = "") +
              theme_minimal() +
              theme(axis.text.x = element_text(size=9, vjust=1, hjust=1, color = "black", angle = 30)) +
@@ -217,7 +220,7 @@ enr_all %>%
   }
 ```
 
-@fig-enrollment-deltas shows the percent change from year to year for Fair Haven and Peninsula peers.
+Another way to look at this is through year-over-year changes in enrollment. @fig-enrollment-deltas shows the percent change from year to year for Fair Haven and peers. The dip in 2020-21 becomes more exaggerated here. Also of note is how Fair Haven, compared to peers, has generally seen less extreme changes from year to year.
 
 ```{r}
 #| label: fig-enrollment-deltas
@@ -227,12 +230,12 @@ enr_all %>%
 #| eval: true
 #| cache: true
 #| fig-height: 6
-#| fig-cap: "District Enrollment Deltas for FH and Peninsula"
-#| code-summary: Code - Enrollment Deltas for FH and Peninsula
+#| fig-cap: "District Enrollment Deltas for FH and Peers"
+#| code-summary: Code - Enrollment Deltas for FH and Peers
 
 
 enr_all %>%
-  dplyr::filter(ST_LEAID %in% names(district_stleaid_colors) ) %>%
+  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
   dplyr::arrange(ST_LEAID, SchoolYear) %>%
   dplyr::group_by(ST_LEAID) %>%
   dplyr::mutate(EnrDiff= TotalEnrollment - lag(TotalEnrollment, default = first(TotalEnrollment))) %>%
@@ -245,11 +248,16 @@ enr_all %>%
              scale_x_discrete(expand = c(.2, .2), labels = sort(unique(.$SchoolYear))) +
              scale_y_continuous(n.breaks = 10, label = scales::label_percent(accuracy=1)) +
              geom_point(color = "#FFFFFF", size = 1) +
-             geom_text(data = . %>% filter(SchoolYear == "2023-2024"),
-                       aes(label = DistrictName, x = 13.5) , hjust = 0.1, fontface = "bold", color = "#888888", size = 2) +
+              geom_text_repel(data = . %>% filter(SchoolYear == "2023-2024", ST_LEAID %in% names(district_stleaid_colors)[1:4]),
+                       aes(label = gsub(" School District", "", DistrictName), x = 13) , 
+                       hjust = -1, fontface = "bold", color = "#888888", size = 2,
+                       direction = "y",
+                      ylim = c(-Inf, Inf), # Allow movement in the entire vertical range
+                      #xlim = c(NA, NA)
+                      ) +
              labs(x = "",
                   y = "",
-                  title = "Total Enrollment % Changes",
+                  title = "Total Enrollment YoY% Changes",
                   subtitle = "") +
              theme_minimal() +
              theme(axis.text.x = element_text(size=9, vjust=1, hjust=1, color = "black", angle = 30)) +
@@ -259,6 +267,46 @@ enr_all %>%
              theme(panel.grid.major.y = element_line(color="grey97")) +
              theme(panel.grid.minor.y = element_blank()) +
              theme(panel.grid.major.x = element_line(color="grey97")) +
-             theme(panel.grid.minor.x = element_blank()) 
+             theme(panel.grid.minor.x = element_blank()) +
+             coord_cartesian(ylim = c(-.1, .1))
   }
 ```
+
+Finally, it is worth noting that there are some districts that have grown in the past ten years and others that have shrunk. For example, @tbl-enrollment-deltas-df shows that between 2013-14 and 2023-24, districts such as Spring Lake and Tewksbury have contracted 42% and 29%, respectively. Essex Fells and Edgewater have grown by 21% and 12%, respectively.
+
+```{r}
+#| label: tbl-enrollment-deltas-df
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| code-summary: Code - 10-year District Enrollment Change
+
+tenyear <- enr_all %>%
+    dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
+    pivot_wider(names_from = "SchoolYear", values_from = "TotalEnrollment", id_cols = "ST_LEAID") %>%
+    dplyr::mutate(Change = `2023-2024`/`2013-2014` - 1) %>% 
+    dplyr::arrange(Change) %>%
+    dplyr::select(ST_LEAID, `2023-2024`, `2013-2014`, Change)
+ 
+tenyear$DistrictName = gsub(" School District", "", comb2324$DistrictName[match(tenyear$ST_LEAID, comb2324$ST_LEAID)])
+
+tenyear %>% 
+  dplyr::select(DistrictName, `2023-2024`, `2013-2014`, Change) %>%
+   gt() %>%
+   fmt_percent(
+    columns = Change,
+    decimals = 1
+  ) %>%
+   tab_header(
+    title = "Enrollment Changes from 2013-14 to 2023-24",
+    subtitle = "Fair Haven and Peers"
+  ) %>%
+  tab_source_note("Data from NJ Dept of Education.") %>%
+  opt_interactive(page_size_default = 5)
+```
+
+# Conclusion
+
+The goal of this short document was to surface some data on enrollment trends in Fair Haven and peers. It is clear that, although enrollment have generally been declining in Fair Haven, the district did not see the sharper permanent declines as Peninsula Peers saw during the Covid. In addition, Fair Haven is neither rapidly growing nor shrinking like other peer districts.

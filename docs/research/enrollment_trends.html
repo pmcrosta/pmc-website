@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Peter M. Crosta">
-<meta name="dcterms.date" content="2025-04-11">
+<meta name="dcterms.date" content="2025-04-14">
 
 <title>Enrollment trends | Peter M. Crosta – Peter M. Crosta</title>
 <style>
@@ -116,6 +116,13 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-FWYE2E48ZC', { 'anonymize_ip': true});
 </script>
+<script src="../site_libs/core-js-2.5.3/shim.min.js"></script>
+<script src="../site_libs/react-18.2.0/react.min.js"></script>
+<script src="../site_libs/react-18.2.0/react-dom.min.js"></script>
+<script src="../site_libs/reactwidget-2.0.0/react-tools.js"></script>
+<script src="../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="../site_libs/reactable-0.4.4/reactable.css" rel="stylesheet">
+<script src="../site_libs/reactable-binding-0.4.4/reactable.js"></script>
 <link href="../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
 <script src="../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
@@ -199,6 +206,9 @@ gtag('config', 'G-FWYE2E48ZC', { 'anonymize_ip': true});
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#fair-haven" id="toc-fair-haven" class="nav-link" data-scroll-target="#fair-haven">Fair Haven</a></li>
+  <li><a href="#fair-haven-and-peninsula-peers" id="toc-fair-haven-and-peninsula-peers" class="nav-link" data-scroll-target="#fair-haven-and-peninsula-peers">Fair Haven and Peninsula Peers</a></li>
+  <li><a href="#fair-haven-and-peers" id="toc-fair-haven-and-peers" class="nav-link" data-scroll-target="#fair-haven-and-peers">Fair Haven and Peers</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
 </nav>
 </nav>
@@ -228,7 +238,7 @@ gtag('config', 'G-FWYE2E48ZC', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 11, 2025</p>
+      <p class="date">April 14, 2025</p>
     </div>
   </div>
   
@@ -242,19 +252,6 @@ gtag('config', 'G-FWYE2E48ZC', { 'anonymize_ip': true});
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-WORK IN PROGRESS
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This doc is still a work in progress.</p>
-</div>
-</div>
 <p>Student enrollment in a district is a core driver of the cost of delivering education, and is a core component in how some school funding, like state aid, is delivered. Across New Jersey, there have been several examples of districts that have seen declining enrollments. Most notably, our northern neighbor <a href="https://www.app.com/story/news/education/2025/04/03/middletown-mayor-proposal-school-closures-mergers/82790014007/">Middletown</a> recently announced a provisional plan to close two elementary schools largely due to declining enrollments and increasing costs. Years of declining student counts in neighboring Rumson and Little Silver has also been noted as the primary factor behind their much higher observed spending-per-pupil than districts like Fair Haven.</p>
 <p>To better understand these trends, I turn to some data on district enrollments from the NJ Department of Education. Details on the data source used can be found <a href="../research/building_a_dataset.html#sec-enrollments">here</a>. The specific questions addressed in this document include:</p>
 <ul>
@@ -346,7 +343,7 @@ WORK IN PROGRESS
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>             <span class="fu">scale_y_continuous</span>(<span class="at">n.breaks =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>             <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#FFFFFF"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>             <span class="fu">geom_text</span>(<span class="at">data =</span> . <span class="sc">%&gt;%</span> <span class="fu">filter</span>(SchoolYear <span class="sc">==</span> <span class="st">"2023-2024"</span>),</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">aes</span>(<span class="at">label =</span> DistrictName, <span class="at">x =</span> <span class="fl">13.5</span>) , <span class="at">hjust =</span> <span class="fl">0.15</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>, <span class="at">color =</span> <span class="st">"#888888"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">gsub</span>(<span class="st">" School District"</span>, <span class="st">""</span>, DistrictName), <span class="at">x =</span> <span class="fl">13.5</span>) , <span class="at">hjust =</span> <span class="fl">0.15</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>, <span class="at">color =</span> <span class="st">"#888888"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>             <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> <span class="st">""</span>, <span class="at">title =</span> <span class="st">"Total Enrollments in Fair Haven"</span>, <span class="at">subtitle =</span> <span class="st">""</span>) <span class="sc">+</span></span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>, <span class="at">vjust=</span><span class="dv">1</span>, <span class="at">hjust=</span><span class="dv">1</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">angle =</span> <span class="dv">30</span>)) <span class="sc">+</span></span>
@@ -371,7 +368,11 @@ Figure&nbsp;1: District Enrollments for Fair Haven
 </div>
 </div>
 </div>
-<p>As seen in <a href="#fig-enrollment-trends-fh" class="quarto-xref">Figure&nbsp;1</a>, Fair Haven has seen a decline in total enrollments since the 2012-13 school year, from 1041 students to 956 students in 2023-24. <a href="#fig-enrollment-trends-peninsula" class="quarto-xref">Figure&nbsp;2</a> adds the Peninsula peers, and as the axes change, it becomes apparent that the decline in the number of Fair Haven students is not as large as declines seen in neighboring Rumson and Little Silver.</p>
+<p>As seen in <a href="#fig-enrollment-trends-fh" class="quarto-xref">Figure&nbsp;1</a>, Fair Haven has seen a general decline in total enrollments since the 2012-13 school year, from 1041 students to 956 students in 2023-24. In the last 10 years, Fair Haven has seen an overall decline of 5.9%.</p>
+</section>
+<section id="fair-haven-and-peninsula-peers" class="level1">
+<h1>Fair Haven and Peninsula Peers</h1>
+<p><a href="#fig-enrollment-trends-peninsula" class="quarto-xref">Figure&nbsp;2</a> adds the Peninsula peers, and as the axes change, it becomes visually apparent that the decline in the number of Fair Haven students is not as large as declines seen in neighboring Rumson, Little Silver, and Shrewsbury, all of whom saw step-change declines during the Covid years of 2019-20 to 2020-21.</p>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code - Enrollment trends for FH and Peninsula</summary>
@@ -386,7 +387,7 @@ Figure&nbsp;1: District Enrollments for Fair Haven
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>             <span class="fu">scale_y_continuous</span>(<span class="at">n.breaks =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>             <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#FFFFFF"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>             <span class="fu">geom_text</span>(<span class="at">data =</span> . <span class="sc">%&gt;%</span> <span class="fu">filter</span>(SchoolYear <span class="sc">==</span> <span class="st">"2023-2024"</span>),</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">aes</span>(<span class="at">label =</span> DistrictName, <span class="at">x =</span> <span class="fl">13.5</span>) , <span class="at">hjust =</span> <span class="fl">0.1</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>, <span class="at">color =</span> <span class="st">"#888888"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">gsub</span>(<span class="st">" School District"</span>, <span class="st">""</span>, DistrictName), <span class="at">x =</span> <span class="fl">13.5</span>) , <span class="at">hjust =</span> <span class="fl">0.1</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>, <span class="at">color =</span> <span class="st">"#888888"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>             <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> <span class="st">""</span>, <span class="at">title =</span> <span class="st">"Total Enrollments for FH and Peninsula Peers"</span>, <span class="at">subtitle =</span> <span class="st">""</span>) <span class="sc">+</span></span>
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>, <span class="at">vjust=</span><span class="dv">1</span>, <span class="at">hjust=</span><span class="dv">1</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">angle =</span> <span class="dv">30</span>)) <span class="sc">+</span></span>
@@ -411,7 +412,10 @@ Figure&nbsp;2: District Enrollments for Fair Haven and Peninsula
 </div>
 </div>
 </div>
-<p>To be sure, <a href="#fig-enrollment-trends-peers" class="quarto-xref">Figure&nbsp;3</a> shows Fair Havent and the other 40 peers in the peer set. The red line sloping downwards suggests a general trend of declining enrollments over time over the time period. There are, of course, some exceptions. Between 2019-20 and 2023-24, several districts saw average increases in enrollment.</p>
+</section>
+<section id="fair-haven-and-peers" class="level1">
+<h1>Fair Haven and Peers</h1>
+<p>To be sure, <a href="#fig-enrollment-trends-peers" class="quarto-xref">Figure&nbsp;3</a> shows Fair Haven and the other 36 peers in our peer set. The red line sloping downwards suggests a general trend of declining enrollments over time over the time period.</p>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code - Enrollment trends for Fair Haven and Peers</summary>
@@ -425,20 +429,23 @@ Figure&nbsp;2: District Enrollments for Fair Haven and Peninsula
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">scale_x_discrete</span>(<span class="at">expand =</span> <span class="fu">c</span>(.<span class="dv">2</span>, .<span class="dv">2</span>), <span class="at">labels =</span> <span class="fu">sort</span>(<span class="fu">unique</span>(.<span class="sc">$</span>SchoolYear))) <span class="sc">+</span></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>             <span class="fu">scale_y_continuous</span>(<span class="at">n.breaks =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>             <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">group=</span><span class="cn">NA</span>), <span class="at">method=</span><span class="st">"lm"</span>, <span class="at">color=</span><span class="st">"red"</span>, <span class="at">linewidth=</span>.<span class="dv">7</span>) <span class="sc">+</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>             <span class="co"># geom_text(data = . %&gt;% filter(SchoolYear == "2011-2012"),</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>             <span class="co">#           aes(label = str_to_title(DistrictName), x = 0.5) , hjust = .85, fontface = "bold", color = "#888888", size = 2) +</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>             <span class="fu">geom_text</span>(<span class="at">data =</span> . <span class="sc">%&gt;%</span> <span class="fu">filter</span>(SchoolYear <span class="sc">==</span> <span class="st">"2023-2024"</span>),</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">aes</span>(<span class="at">label =</span> DistrictName, <span class="at">x =</span> <span class="fl">13.5</span>) , <span class="at">hjust =</span> <span class="fl">0.1</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>, <span class="at">color =</span> <span class="st">"#888888"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>             <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> <span class="st">""</span>, <span class="at">title =</span> <span class="st">"Total Enrollments for FH and Peers"</span>, <span class="at">subtitle =</span> <span class="st">""</span>) <span class="sc">+</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>, <span class="at">vjust=</span><span class="dv">1</span>, <span class="at">hjust=</span><span class="dv">1</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">angle =</span> <span class="dv">30</span>)) <span class="sc">+</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>             <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_stleaid_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>             <span class="fu">scale_alpha</span>(<span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme</span>(<span class="at">panel.grid.major.y =</span> <span class="fu">element_line</span>(<span class="at">color=</span><span class="st">"grey97"</span>)) <span class="sc">+</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme</span>(<span class="at">panel.grid.minor.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme</span>(<span class="at">panel.grid.major.x =</span> <span class="fu">element_line</span>(<span class="at">color=</span><span class="st">"grey97"</span>)) <span class="sc">+</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme</span>(<span class="at">panel.grid.minor.x =</span> <span class="fu">element_blank</span>()) </span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>             <span class="fu">geom_text_repel</span>(<span class="at">data =</span> . <span class="sc">%&gt;%</span> <span class="fu">filter</span>(SchoolYear <span class="sc">==</span> <span class="st">"2023-2024"</span>),</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">gsub</span>(<span class="st">" School District"</span>, <span class="st">""</span>, DistrictName), <span class="at">x =</span> <span class="dv">13</span>) , </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>                       <span class="at">hjust =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>, <span class="at">color =</span> <span class="st">"#888888"</span>, <span class="at">size =</span> <span class="dv">2</span>,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>                       <span class="at">direction =</span> <span class="st">"y"</span>,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>                      <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="cn">Inf</span>), <span class="co"># Allow movement in the entire vertical range</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>                      <span class="co">#xlim = c(NA, NA)</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>                      ) <span class="sc">+</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>             <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> <span class="st">""</span>, <span class="at">title =</span> <span class="st">"Total Enrollments for FH and Peers"</span>, <span class="at">subtitle =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>, <span class="at">vjust=</span><span class="dv">1</span>, <span class="at">hjust=</span><span class="dv">1</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">angle =</span> <span class="dv">30</span>)) <span class="sc">+</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>             <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_stleaid_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>             <span class="fu">scale_alpha</span>(<span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme</span>(<span class="at">panel.grid.major.y =</span> <span class="fu">element_line</span>(<span class="at">color=</span><span class="st">"grey97"</span>)) <span class="sc">+</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme</span>(<span class="at">panel.grid.minor.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme</span>(<span class="at">panel.grid.major.x =</span> <span class="fu">element_line</span>(<span class="at">color=</span><span class="st">"grey97"</span>)) <span class="sc">+</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme</span>(<span class="at">panel.grid.minor.x =</span> <span class="fu">element_blank</span>()) </span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-enrollment-trends-peers" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -453,12 +460,12 @@ Figure&nbsp;3: District Enrollments for Fair Haven and Peers
 </div>
 </div>
 </div>
-<p><a href="#fig-enrollment-deltas" class="quarto-xref">Figure&nbsp;4</a> shows the percent change from year to year for Fair Haven and Peninsula peers.</p>
+<p>Another way to look at this is through year-over-year changes in enrollment. <a href="#fig-enrollment-deltas" class="quarto-xref">Figure&nbsp;4</a> shows the percent change from year to year for Fair Haven and peers. The dip in 2020-21 becomes more exaggerated here. Also of note is how Fair Haven, compared to peers, has generally seen less extreme changes from year to year.</p>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
-<summary>Code - Enrollment Deltas for FH and Peninsula</summary>
+<summary>Code - Enrollment Deltas for FH and Peers</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>enr_all <span class="sc">%&gt;%</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(ST_LEAID <span class="sc">%in%</span> <span class="fu">names</span>(district_stleaid_colors) ) <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_ward, TotalEnrollment <span class="sc">&lt;</span> <span class="dv">1500</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(ST_LEAID, SchoolYear) <span class="sc">%&gt;%</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(ST_LEAID) <span class="sc">%&gt;%</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">EnrDiff=</span> TotalEnrollment <span class="sc">-</span> <span class="fu">lag</span>(TotalEnrollment, <span class="at">default =</span> <span class="fu">first</span>(TotalEnrollment))) <span class="sc">%&gt;%</span></span>
@@ -471,36 +478,549 @@ Figure&nbsp;3: District Enrollments for Fair Haven and Peers
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>             <span class="fu">scale_x_discrete</span>(<span class="at">expand =</span> <span class="fu">c</span>(.<span class="dv">2</span>, .<span class="dv">2</span>), <span class="at">labels =</span> <span class="fu">sort</span>(<span class="fu">unique</span>(.<span class="sc">$</span>SchoolYear))) <span class="sc">+</span></span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>             <span class="fu">scale_y_continuous</span>(<span class="at">n.breaks =</span> <span class="dv">10</span>, <span class="at">label =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy=</span><span class="dv">1</span>)) <span class="sc">+</span></span>
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>             <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#FFFFFF"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>             <span class="fu">geom_text</span>(<span class="at">data =</span> . <span class="sc">%&gt;%</span> <span class="fu">filter</span>(SchoolYear <span class="sc">==</span> <span class="st">"2023-2024"</span>),</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">aes</span>(<span class="at">label =</span> DistrictName, <span class="at">x =</span> <span class="fl">13.5</span>) , <span class="at">hjust =</span> <span class="fl">0.1</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>, <span class="at">color =</span> <span class="st">"#888888"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>             <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">""</span>,</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>                  <span class="at">y =</span> <span class="st">""</span>,</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>                  <span class="at">title =</span> <span class="st">"Total Enrollment % Changes"</span>,</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>                  <span class="at">subtitle =</span> <span class="st">""</span>) <span class="sc">+</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>, <span class="at">vjust=</span><span class="dv">1</span>, <span class="at">hjust=</span><span class="dv">1</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">angle =</span> <span class="dv">30</span>)) <span class="sc">+</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>             <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_stleaid_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>             <span class="fu">scale_alpha</span>(<span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>             <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">color=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme</span>(<span class="at">panel.grid.major.y =</span> <span class="fu">element_line</span>(<span class="at">color=</span><span class="st">"grey97"</span>)) <span class="sc">+</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme</span>(<span class="at">panel.grid.minor.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme</span>(<span class="at">panel.grid.major.x =</span> <span class="fu">element_line</span>(<span class="at">color=</span><span class="st">"grey97"</span>)) <span class="sc">+</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme</span>(<span class="at">panel.grid.minor.x =</span> <span class="fu">element_blank</span>()) </span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>              <span class="fu">geom_text_repel</span>(<span class="at">data =</span> . <span class="sc">%&gt;%</span> <span class="fu">filter</span>(SchoolYear <span class="sc">==</span> <span class="st">"2023-2024"</span>, ST_LEAID <span class="sc">%in%</span> <span class="fu">names</span>(district_stleaid_colors)[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]),</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">gsub</span>(<span class="st">" School District"</span>, <span class="st">""</span>, DistrictName), <span class="at">x =</span> <span class="dv">13</span>) , </span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>                       <span class="at">hjust =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>, <span class="at">color =</span> <span class="st">"#888888"</span>, <span class="at">size =</span> <span class="dv">2</span>,</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>                       <span class="at">direction =</span> <span class="st">"y"</span>,</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>                      <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="cn">Inf</span>), <span class="co"># Allow movement in the entire vertical range</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>                      <span class="co">#xlim = c(NA, NA)</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>                      ) <span class="sc">+</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>             <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">""</span>,</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>                  <span class="at">y =</span> <span class="st">""</span>,</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>                  <span class="at">title =</span> <span class="st">"Total Enrollment YoY% Changes"</span>,</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>                  <span class="at">subtitle =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>, <span class="at">vjust=</span><span class="dv">1</span>, <span class="at">hjust=</span><span class="dv">1</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">angle =</span> <span class="dv">30</span>)) <span class="sc">+</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>             <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_stleaid_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>             <span class="fu">scale_alpha</span>(<span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>             <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">color=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme</span>(<span class="at">panel.grid.major.y =</span> <span class="fu">element_line</span>(<span class="at">color=</span><span class="st">"grey97"</span>)) <span class="sc">+</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme</span>(<span class="at">panel.grid.minor.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme</span>(<span class="at">panel.grid.major.x =</span> <span class="fu">element_line</span>(<span class="at">color=</span><span class="st">"grey97"</span>)) <span class="sc">+</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>             <span class="fu">theme</span>(<span class="at">panel.grid.minor.x =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>             <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">1</span>, .<span class="dv">1</span>))</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-enrollment-deltas" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-enrollment-deltas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="enrollment_trends_files/figure-html/fig-enrollment-deltas-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: District Enrollment Deltas for FH and Peninsula"><img src="enrollment_trends_files/figure-html/fig-enrollment-deltas-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></a>
+<a href="enrollment_trends_files/figure-html/fig-enrollment-deltas-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: District Enrollment Deltas for FH and Peers"><img src="enrollment_trends_files/figure-html/fig-enrollment-deltas-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-enrollment-deltas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: District Enrollment Deltas for FH and Peninsula
+Figure&nbsp;4: District Enrollment Deltas for FH and Peers
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
+<p>Finally, it is worth noting that there are some districts that have grown in the past ten years and others that have shrunk. For example, <a href="#tbl-enrollment-deltas-df" class="quarto-xref">Table&nbsp;1</a> shows that between 2013-14 and 2023-24, districts such as Spring Lake and Tewksbury have contracted 42% and 29%, respectively. Essex Fells and Edgewater have grown by 21% and 12%, respectively.</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code - 10-year District Enrollment Change</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tenyear <span class="ot">&lt;-</span> enr_all <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_ward, TotalEnrollment <span class="sc">&lt;</span> <span class="dv">1500</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">"SchoolYear"</span>, <span class="at">values_from =</span> <span class="st">"TotalEnrollment"</span>, <span class="at">id_cols =</span> <span class="st">"ST_LEAID"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">Change =</span> <span class="st">`</span><span class="at">2023-2024</span><span class="st">`</span><span class="sc">/</span><span class="st">`</span><span class="at">2013-2014</span><span class="st">`</span> <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">arrange</span>(Change) <span class="sc">%&gt;%</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(ST_LEAID, <span class="st">`</span><span class="at">2023-2024</span><span class="st">`</span>, <span class="st">`</span><span class="at">2013-2014</span><span class="st">`</span>, Change)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>tenyear<span class="sc">$</span>DistrictName <span class="ot">=</span> <span class="fu">gsub</span>(<span class="st">" School District"</span>, <span class="st">""</span>, comb2324<span class="sc">$</span>DistrictName[<span class="fu">match</span>(tenyear<span class="sc">$</span>ST_LEAID, comb2324<span class="sc">$</span>ST_LEAID)])</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>tenyear <span class="sc">%&gt;%</span> </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(DistrictName, <span class="st">`</span><span class="at">2023-2024</span><span class="st">`</span>, <span class="st">`</span><span class="at">2013-2014</span><span class="st">`</span>, Change) <span class="sc">%&gt;%</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>   <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>   <span class="fu">fmt_percent</span>(</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> Change,</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">decimals =</span> <span class="dv">1</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>   <span class="fu">tab_header</span>(</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Enrollment Changes from 2013-14 to 2023-24"</span>,</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Fair Haven and Peers"</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(<span class="st">"Data from NJ Dept of Education."</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_interactive</span>(<span class="at">page_size_default =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div id="tbl-enrollment-deltas-df" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl quarto-uncaptioned" id="tbl-enrollment-deltas-df-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1
+</figcaption>
+<div aria-describedby="tbl-enrollment-deltas-df-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div id="izbkpnbzlr" class=".gt_table" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#izbkpnbzlr table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#izbkpnbzlr thead, #izbkpnbzlr tbody, #izbkpnbzlr tfoot, #izbkpnbzlr tr, #izbkpnbzlr td, #izbkpnbzlr th {
+  border-style: none;
+}
+
+#izbkpnbzlr p {
+  margin: 0;
+  padding: 0;
+}
+
+#izbkpnbzlr .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#izbkpnbzlr .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#izbkpnbzlr .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#izbkpnbzlr .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#izbkpnbzlr .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#izbkpnbzlr .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#izbkpnbzlr .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#izbkpnbzlr .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#izbkpnbzlr .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#izbkpnbzlr .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#izbkpnbzlr .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#izbkpnbzlr .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#izbkpnbzlr .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#izbkpnbzlr .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#izbkpnbzlr .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#izbkpnbzlr .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#izbkpnbzlr .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#izbkpnbzlr .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#izbkpnbzlr .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#izbkpnbzlr .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#izbkpnbzlr .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#izbkpnbzlr .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#izbkpnbzlr .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#izbkpnbzlr .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#izbkpnbzlr .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#izbkpnbzlr .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#izbkpnbzlr .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#izbkpnbzlr .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#izbkpnbzlr .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#izbkpnbzlr .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#izbkpnbzlr .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#izbkpnbzlr .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#izbkpnbzlr .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#izbkpnbzlr .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#izbkpnbzlr .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#izbkpnbzlr .gt_left {
+  text-align: left;
+}
+
+#izbkpnbzlr .gt_center {
+  text-align: center;
+}
+
+#izbkpnbzlr .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#izbkpnbzlr .gt_font_normal {
+  font-weight: normal;
+}
+
+#izbkpnbzlr .gt_font_bold {
+  font-weight: bold;
+}
+
+#izbkpnbzlr .gt_font_italic {
+  font-style: italic;
+}
+
+#izbkpnbzlr .gt_super {
+  font-size: 65%;
+}
+
+#izbkpnbzlr .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#izbkpnbzlr .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#izbkpnbzlr .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#izbkpnbzlr .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#izbkpnbzlr .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#izbkpnbzlr .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#izbkpnbzlr .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#izbkpnbzlr .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#izbkpnbzlr div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<div style="font-family:system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;border-top-style:solid;border-top-width:2px;border-top-color:#D3D3D3;">
+<div class="gt_heading gt_title gt_font_normal" style="text-size:bigger;">Enrollment Changes from 2013-14 to 2023-24</div>
+<div class="gt_heading gt_subtitle ">Fair Haven and Peers</div>
+</div>
+<div id="izbkpnbzlr" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<div style="font-family:system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;border-top-style:solid;border-top-width:2px;border-top-color:#D3D3D3;border-bottom-style:solid;border-bottom-width:2px;border-bottom-color:#D3D3D3;padding-top:6px;padding-bottom:6px;padding-left:10px;padding-right:10px;">
+<div>
+<div class="gt_sourcenotes">
+<div class="gt_sourcenote">Data from NJ Dept of Education.</div>
+</div>
+</div>
+<div></div>
+</div>
+<script type="application/json" data-for="izbkpnbzlr">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"DistrictName":["Spring Lake Borough","Tewksbury Township","River Vale Public","Sea Girt Borough","Mendham Borough","Cranbury Township","Englewood Cliffs","Little Silver Boro","Ho-Ho-Kus","Upper Saddle River","Chester Township","Boonton Township","Bay Head Borough","Monmouth Beach","Millstone Township","Harding Township","Fair Haven","Franklin Lakes","Shrewsbury Borough","Rumson Borough","Mountainside","Colts Neck Township","Harrington Park","Allendale Public","Alpine Public","Oradell Public","Old Tappan Public","Woodcliff Lake","Long Hill Township","North Caldwell","Haworth Public","River Edge","Closter Public","Mendham Township","Demarest","Edgewater","Essex Fells"],"2023-2024":[141,483,987,138,488,438,422,716,553,1094,1024,407,120,258,1165,298,956,1201,453,919,748,979,628,897,163,773,758,773,854,678,454,1212,1190,788,767,676,247],"2013-2014":[244,684,1264,173,610,546,509,860,660,1305,1194,472,135,285,1275,321,1016,1276,478,964,774,998,639,898,163,769,753,766,846,670,436,1159,1118,733,685,603,205],"Change":[-0.422131147540984,-0.293859649122807,-0.219145569620253,-0.202312138728324,-0.2,-0.197802197802198,-0.170923379174853,-0.167441860465116,-0.162121212121212,-0.161685823754789,-0.142378559463987,-0.13771186440678,-0.111111111111111,-0.0947368421052631,-0.0862745098039216,-0.0716510903426791,-0.0590551181102362,-0.0587774294670846,-0.0523012552301255,-0.0466804979253111,-0.0335917312661499,-0.0190380761523046,-0.0172143974960877,-0.00111358574610243,0,0.00520156046814035,0.00664010624169986,0.00913838120104438,0.00945626477541373,0.0119402985074626,0.0412844036697249,0.0457290767903364,0.0644007155635062,0.0750341064120055,0.11970802919708,0.12106135986733,0.204878048780488]},"columns":[{"id":"DistrictName","name":"DistrictName","type":"character","na":"NA","minWidth":125,"style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","html":true,"align":"left"},{"id":"2023-2024","name":"2023-2024","type":"numeric","na":"NA","minWidth":125,"style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","html":true,"align":"right"},{"id":"2013-2014","name":"2013-2014","type":"numeric","na":"NA","minWidth":125,"style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","html":true,"align":"right"},{"id":"Change","name":"Change","type":"numeric","na":"NA","minWidth":125,"style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["−42.2%","−29.4%","−21.9%","−20.2%","−20.0%","−19.8%","−17.1%","−16.7%","−16.2%","−16.2%","−14.2%","−13.8%","−11.1%","−9.5%","−8.6%","−7.2%","−5.9%","−5.9%","−5.2%","−4.7%","−3.4%","−1.9%","−1.7%","−0.1%","0.0%","0.5%","0.7%","0.9%","0.9%","1.2%","4.1%","4.6%","6.4%","7.5%","12.0%","12.1%","20.5%"],"html":true,"align":"right"}],"defaultPageSize":5,"showPageSizeOptions":false,"pageSizeOptions":[10,25,50,100],"paginationType":"numbers","showPagination":true,"showPageInfo":true,"minRows":1,"height":"auto","theme":{"color":"#333333","backgroundColor":"#FFFFFF","stripedColor":"rgba(128,128,128,0.05)","style":{"font-family":"system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif","fontSize":"16px"},"tableStyle":{"borderTopStyle":"solid","borderTopWidth":"2px","borderTopColor":"#D3D3D3"},"headerStyle":{"fontWeight":"normal","backgroundColor":"transparent","borderBottomStyle":"solid","borderBottomWidth":"2px","borderBottomColor":"#D3D3D3"},"groupHeaderStyle":{"fontWeight":"normal","backgroundColor":"transparent","borderBottomStyle":"solid","borderBottomWidth":"2px","borderBottomColor":"#D3D3D3"},"cellStyle":{"fontWeight":"normal"}},"elementId":"izbkpnbzlr","dataKey":"b8d8ffbc92e66b90c44925e13db8dfde"},"children":[]},"class":"reactR_markup"},"evals":["tag.attribs.columns.0.style","tag.attribs.columns.1.style","tag.attribs.columns.2.style","tag.attribs.columns.3.style"],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>The goal of this short document was to surface some data on enrollment trends in Fair Haven and peers. It is clear that, although enrollment have generally been declining in Fair Haven, the district did not see the sharper permanent declines as Peninsula Peers saw during the Covid. In addition, Fair Haven is neither rapidly growing nor shrinking like other peer districts.</p>
 
 
 </section>
@@ -1091,7 +1611,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"loop":false,"descPosition":"bottom","closeEffect":"zoom","selector":".lightbox","openEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","loop":false,"selector":".lightbox","descPosition":"bottom","closeEffect":"zoom"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {

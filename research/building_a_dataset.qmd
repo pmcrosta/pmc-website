@@ -3158,7 +3158,7 @@ colnames(comb2324)
 The following table is a handy reference to some of the main data sets created in this document, which have been made available as CSV files.
 
 | Name | Description |
-|------------------------------------|------------------------------------|
+|----|----|
 | [ccdnjk12_peers.csv](datasets/ccdnjk12_peers.csv) | Common Core of Data (2023-24), ACS-EDGE, and FH peer group sets. Only contains PK/K-8 districts |
 | [comb2324.csv](datasets/comb2324.csv) | Common Core of Data, ACS-EDGE, Budget data, Report Card data, all for PK/K-8 districts 2023-24 |
 | [edge_df.csv](datasets/edge_df.csv) | ACS-EDGE for all NJ districts |
