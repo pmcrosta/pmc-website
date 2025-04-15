@@ -22,6 +22,10 @@ To better understand these trends, I turn to some data on district enrollments f
 -   How have total enrollments in Fair Haven compared to peninsula districts?
 -   How have total enrollments in Fair Haven compared to other similar districts?
 
+::: callout-note
+This document is not meant to be an academic analysis of enrollment patterns. Rather, I wrote it to assist my own understanding of some of the issues and circumstances that impact Fair Haven schools, and as a way to understand one aspect of Fair Haven's experience relative to peers.
+:::
+
 ```{r}
 #| label: setup
 #| code-summary: Code - Load libraries
