@@ -16,6 +16,10 @@ format:
 
 This document contains comparative data on educational inputs and outcomes for Fair Haven and peer districts. Inputs include items such as teacher characteristics and per pupil expenditures. Outcomes are primarily oriented around standardized test scores. It is important to note that often what we can measure or what available measurements we have are not always the measurements that we might want or measurements at the right granularity. That said, I think it is still worth exploring the available data so that we can learn something about the production of education.
 
+::: callout-caution
+Under construction. This doc only contains plots right now. Annotations are coming soon.
+:::
+
 ```{r}
 #| label: setup
 #| code-summary: Code - Load libraries
@@ -67,6 +71,8 @@ knitr::opts_chunk$set(
     fig.height = 10,
     fig.align = "center"
 )
+
+sy <- "SY2023-24"
 ```
 
 ```{r}
@@ -80,7 +86,62 @@ knitr::opts_chunk$set(
 
 comb2324 <- read_csv("datasets/comb2324.csv")
 
-sy <- "SY2023-24"
+comb2324 <- comb2324 %>%
+  dplyr::mutate(
+    TotalEnrollment=as.numeric(TotalEnrollment),
+    student_teacher_ratio = as.numeric(student_teacher_ratio),
+    student_admin_ratio = as.numeric(student_admin_ratio),
+    TeacherAvgYearsExp_School = as.numeric(TeacherAvgYearsExp_School),
+    TeacherAvgYearsExpInDistrict_School = as.numeric(TeacherAvgYearsExpInDistrict_School),
+    PercentageOfOutOfFieldTeachers = as.numeric(PercentageOfOutOfFieldTeachers)/100,
+    PercentageTeachersWithProvisionalCredentials_School =as.numeric(PercentageTeachersWithProvisionalCredentials_School)/100,
+    Chronic_Abs_Pct = as.numeric(Chronic_Abs_Pct)/100,
+    `Students with Disabilities`=as.numeric(`Students with Disabilities`)/100,
+    MATH_ME_District=MATH_ME_District/100,
+    MATH_ME_District_notdis=MATH_ME_District_notdis/100,
+    MATH_ME_District_dis=MATH_ME_District_dis/100,
+    ELA_ME_District=ELA_ME_District/100,
+    ELA_ME_District_notdis=ELA_ME_District_notdis/100,
+    ELA_ME_District_dis=ELA_ME_District_dis/100)
+
+rc_all_comb <- read_csv("datasets/rc_all_comb.csv")
+
+outcomes_time <- rc_all_comb %>% 
+  dplyr::select(ST_LEAID, SchoolYear, DistrictName, ELA_ME_District, MATH_ME_District, disab_pct=`Students with Disabilities`,
+                TotalEnrollment, mSGP_ELA, mSGP_Math, ELA_ME_District_dis, ELA_ME_District_notdis,
+                MATH_ME_District_dis, MATH_ME_District_notdis, MATH_pct_level5, MATH_pct_level5_nogr8, 
+                ELA_pct_level5, Chronic_Abs_Pct) %>%
+  dplyr::mutate(
+      SchoolYear = ifelse(SchoolYear=="2023-24", "2023-2024", SchoolYear),
+    year=case_when(
+      SchoolYear == "2014-2015" ~ 1,
+      SchoolYear == "2015-2016" ~ 2,
+      SchoolYear == "2016-2017" ~ 3,
+      SchoolYear == "2017-2018" ~ 4,
+      SchoolYear == "2018-2019" ~ 5,
+      SchoolYear == "2019-2020" ~ 6,
+      SchoolYear == "2020-2021" ~ 7,
+      SchoolYear == "2021-2022" ~ 8,
+      SchoolYear == "2022-2023" ~ 9,
+      SchoolYear == "2023-2024" ~ 10,
+    ),
+    Chronic_Abs_Pct = as.numeric(Chronic_Abs_Pct)/100,
+    disab_pct=as.numeric(disab_pct)/100,
+    MATH_ME_District=as.numeric(MATH_ME_District)/100,
+    MATH_ME_District_notdis=as.numeric(MATH_ME_District_notdis)/100,
+    MATH_ME_District_dis=as.numeric(MATH_ME_District_dis)/100,
+    ELA_ME_District=as.numeric(ELA_ME_District)/100,
+    ELA_ME_District_notdis=as.numeric(ELA_ME_District_notdis)/100,
+    ELA_ME_District_dis=as.numeric(ELA_ME_District_dis)/100,
+    TotalEnrollment = as.numeric(TotalEnrollment)
+    ) %>%
+  dplyr::filter(ST_LEAID %in% comb2324$ST_LEAID[comb2324$hc_euclid_ward & comb2324$TotalEnrollment <1500])
+
+#disab_pct is missing for 2014-15
+outcomes_time <- outcomes_time %>% dplyr::rename(stleaid=ST_LEAID)
+outcomes_time$dist_colors <- comb2324$dist_colors[match(outcomes_time$stleaid, comb2324$ST_LEAID)]
+outcomes_time$dist_size <- if_else(outcomes_time$dist_colors=="Other", .5, 2)
+
 ```
 
 # Per pupil costs
@@ -115,7 +176,6 @@ comb2324 %>%
   }
 
 ```
-
 
 ```{r}
 #| label: fig-perpupil-instructionalcosts
@@ -209,7 +269,6 @@ comb2324 %>%
   }
 ```
 
-
 # Teacher and Administrative characteristics
 
 ```{r}
@@ -226,7 +285,6 @@ comb2324 %>%
 
 comb2324 %>%
   dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(student_teacher_ratio = as.numeric(student_teacher_ratio)) %>%
   dplyr::mutate(district_name = fct_reorder(district_name, student_teacher_ratio)) %>%
   {
     ggplot(data=., aes(x=student_teacher_ratio, y=district_name, fill=dist_colors)) +
@@ -258,7 +316,6 @@ comb2324 %>%
 
 comb2324 %>%
   dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(student_admin_ratio = as.numeric(student_admin_ratio)) %>%
   dplyr::mutate(district_name = fct_reorder(district_name, student_admin_ratio)) %>%
   {
     ggplot(data=., aes(x=student_admin_ratio, y=district_name, fill=dist_colors)) +
@@ -290,7 +347,6 @@ comb2324 %>%
 
 comb2324 %>%
   dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(TeacherAvgYearsExp_School = as.numeric(TeacherAvgYearsExp_School)) %>%
   dplyr::mutate(district_name = fct_reorder(district_name, TeacherAvgYearsExp_School)) %>%
   {
     ggplot(data=., aes(x=TeacherAvgYearsExp_School, y=district_name, fill=dist_colors)) +
@@ -323,7 +379,6 @@ comb2324 %>%
 
 comb2324 %>%
   dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(TeacherAvgYearsExpInDistrict_School = as.numeric(TeacherAvgYearsExpInDistrict_School)) %>%
   dplyr::mutate(district_name = fct_reorder(district_name, TeacherAvgYearsExpInDistrict_School)) %>%
   {
     ggplot(data=., aes(x=TeacherAvgYearsExpInDistrict_School, y=district_name, fill=dist_colors)) +
@@ -356,7 +411,6 @@ comb2324 %>%
 
 comb2324 %>%
   dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(PercentageOfOutOfFieldTeachers = as.numeric(PercentageOfOutOfFieldTeachers)/100) %>%
   dplyr::mutate(district_name = fct_reorder(district_name, PercentageOfOutOfFieldTeachers)) %>%
   {
     ggplot(data=., aes(x=PercentageOfOutOfFieldTeachers, y=district_name, fill=dist_colors)) +
@@ -388,7 +442,6 @@ comb2324 %>%
 
 comb2324 %>%
   dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(PercentageTeachersWithProvisionalCredentials_School = as.numeric(PercentageTeachersWithProvisionalCredentials_School)/100) %>%
   dplyr::mutate(district_name = fct_reorder(district_name, PercentageTeachersWithProvisionalCredentials_School)) %>%
   {
     ggplot(data=., aes(x=PercentageTeachersWithProvisionalCredentials_School, y=district_name, fill=dist_colors)) +
@@ -407,7 +460,6 @@ comb2324 %>%
 
 ```
 
-
 # Absences
 
 ```{r}
@@ -425,7 +477,6 @@ comb2324 %>%
 
 comb2324 %>%
   dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(Chronic_Abs_Pct = as.numeric(Chronic_Abs_Pct)/100) %>%
   dplyr::mutate(district_name = fct_reorder(district_name, Chronic_Abs_Pct)) %>%
   {
     ggplot(data=., aes(x=Chronic_Abs_Pct, y=district_name, fill=dist_colors)) +
@@ -443,6 +494,7 @@ comb2324 %>%
   }
 
 ```
+
 # Special Education
 
 ```{r}
@@ -458,13 +510,12 @@ comb2324 %>%
 #| 
 comb2324 %>%
   dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(`Students with Disabilities`=as.numeric(`Students with Disabilities`)/100, 
-                district_name = fct_reorder(district_name, `Students with Disabilities`)) %>%
+  dplyr::mutate(district_name = fct_reorder(district_name, `Students with Disabilities`)) %>%
   {
     ggplot(data=., aes(x=`Students with Disabilities`, y=district_name, fill=dist_colors)) +
       geom_bar(stat="identity", position="dodge") +
       theme_minimal() +
-      labs(x="Pct", y="") +
+      labs(x="Percent Students with Disabilities", y="") +
       ggtitle("Percent Students with Disabilities", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
       scale_fill_manual(values=district_name_colors, guide="none") +
       geom_text(aes(label=scales::percent(`Students with Disabilities`, accuracy = .1), x=`Students with Disabilities`), size=2.5, hjust=-.1) +
@@ -476,9 +527,9 @@ comb2324 %>%
   }
 ```
 
-
 # Outcomes
 
+## Math
 
 ```{r}
 #| label: fig-outcomes-math
@@ -497,10 +548,15 @@ comb2324 %>%
     ggplot(data=., aes(x=MATH_ME_District, y=district_name, fill=dist_colors)) +
       geom_bar(stat="identity", position="dodge") +
       theme_minimal() +
-      labs(x="Math Meets/Exceeds Pct", y="") +
+      labs(x="Percent Meets/Exceeds in Math", y="") +
       ggtitle("Meets/Exceeds Math", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
       scale_fill_manual(values=district_name_colors, guide="none") +
-      geom_text(aes(label=MATH_ME_District, x=MATH_ME_District), size=3, hjust=-.1)
+      geom_text(aes(label=scales::percent(MATH_ME_District, accuracy = .1), x=MATH_ME_District), size=2.5, hjust=-.1) +
+      scale_x_continuous(labels = scales::label_percent(accuracy = .1), expand = expansion(mult = c(0, 0.1)))  +
+      theme(panel.grid.major.y = element_blank()) +
+      theme(panel.grid.minor.y = element_blank()) +
+      theme(panel.grid.major.x = element_line(color="grey97")) +
+      theme(panel.grid.minor.x = element_blank()) 
   }
 
 ```
@@ -523,11 +579,15 @@ comb2324 %>%
     ggplot(data=., aes(x=MATH_pct_level5, y=district_name, fill=dist_colors)) +
       geom_bar(stat="identity", position="dodge") +
       theme_minimal() +
-      labs(x="Math Exceeds Pct", y="") +
+      labs(x="Percent Exceeds in Math", y="") +
       ggtitle("Exceeds Math", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
       scale_fill_manual(values=district_name_colors, guide="none") +
-      geom_text(aes(label=scales::percent(MATH_pct_level5, accuracy = 1), x=MATH_pct_level5), size=3, hjust=-.1) +
-      scale_x_continuous(labels = scales::label_percent(accuracy = 1))
+      geom_text(aes(label=scales::percent(MATH_pct_level5, accuracy = .1), x=MATH_pct_level5), size=2.5, hjust=-.1) +
+      scale_x_continuous(labels = scales::label_percent(accuracy = .1), expand = expansion(mult = c(0, 0.1)))  +
+      theme(panel.grid.major.y = element_blank()) +
+      theme(panel.grid.minor.y = element_blank()) +
+      theme(panel.grid.major.x = element_line(color="grey97")) +
+      theme(panel.grid.minor.x = element_blank()) 
   }
 ```
 
@@ -548,10 +608,15 @@ comb2324 %>%
     ggplot(data=., aes(x=mSGP_Math, y=district_name, fill=dist_colors)) +
       geom_bar(stat="identity", position="dodge") +
       theme_minimal() +
-      labs(x="Math Median Growth", y="") +
+      labs(x="Math Median Growth Percentile", y="") +
       ggtitle("Math Median Growth", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
       scale_fill_manual(values=district_name_colors, guide="none") +
-      geom_text(aes(label=mSGP_Math, x=mSGP_Math), size=3, hjust=-.1)
+      geom_text(aes(label=mSGP_Math, x=mSGP_Math), size=2.5, hjust=-.1) +
+      scale_x_continuous(expand = expansion(mult = c(0, 0.1)))  +
+      theme(panel.grid.major.y = element_blank()) +
+      theme(panel.grid.minor.y = element_blank()) +
+      theme(panel.grid.major.x = element_line(color="grey97")) +
+      theme(panel.grid.minor.x = element_blank()) 
   }
 
 ```
@@ -574,10 +639,15 @@ comb2324 %>%
     ggplot(data=., aes(x=MATH_ME_District_notdis, y=district_name, fill=dist_colors)) +
       geom_bar(stat="identity", position="dodge") +
       theme_minimal() +
-      labs(x="Math Meets/Exceeds Pct", y="") +
+      labs(x="Percent Meets/Exceeds in Math", y="") +
       ggtitle("Meets/Exceeds Math - Students without Disabilities", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
       scale_fill_manual(values=district_name_colors, guide="none") +
-      geom_text(aes(label=MATH_ME_District_notdis, x=MATH_ME_District_notdis), size=3, hjust=-.1)
+      geom_text(aes(label=scales::percent(MATH_ME_District_notdis, accuracy = .1), x=MATH_ME_District_notdis), size=2.5, hjust=-.1) +
+      scale_x_continuous(labels = scales::label_percent(accuracy = .1), expand = expansion(mult = c(0, 0.1)))  +
+      theme(panel.grid.major.y = element_blank()) +
+      theme(panel.grid.minor.y = element_blank()) +
+      theme(panel.grid.major.x = element_line(color="grey97")) +
+      theme(panel.grid.minor.x = element_blank()) 
   }
 
 ```
@@ -595,18 +665,61 @@ comb2324 %>%
 
 comb2324 %>%
   dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500, !is.na(MATH_ME_District_dis)) %>%
-  dplyr::mutate(district_name = fct_reorder(district_name, MATH_ME_District_dis)) %>%
+  dplyr::mutate(district_name = fct_reorder(district_name, MATH_ME_District_dis)) %>% 
   {
     ggplot(data=., aes(x=MATH_ME_District_dis, y=district_name, fill=dist_colors)) +
       geom_bar(stat="identity", position="dodge") +
       theme_minimal() +
-      labs(x="Math Meets/Exceeds Pct", y="") +
+      labs(x="Percent Meets/Exceeds in Math", y="") +
       ggtitle("Meets/Exceeds Math - Students with Disabilities", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
       scale_fill_manual(values=district_name_colors, guide="none") +
-      geom_text(aes(label=MATH_ME_District_dis, x=MATH_ME_District_dis), size=3, hjust=-.1)
+      geom_text(aes(label=scales::percent(MATH_ME_District_dis, accuracy = .1), x=MATH_ME_District_dis), size=2.5, hjust=-.1) +
+      scale_x_continuous(labels = scales::label_percent(accuracy = .1), expand = expansion(mult = c(0, 0.1)))  +
+      theme(panel.grid.major.y = element_blank()) +
+      theme(panel.grid.minor.y = element_blank()) +
+      theme(panel.grid.major.x = element_line(color="grey97")) +
+      theme(panel.grid.minor.x = element_blank()) 
   }
 ```
 
+```{r}
+#| label: fig-math-me-time
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| fig-height: 6
+#| fig-cap: "Math Meets/Exceeds over Time"
+#| code-summary: Code - Math Meets/Exceeds over Time
+
+all_years <- paste(2014:2023, 2015:2024, sep = "-")
+years_vector <- setNames(all_years, 1:10) # Corrected to align names and values
+
+# Use dplyr::full_join with a dummy data frame to ensure all levels are present
+data_full <- outcomes_time %>%
+  full_join(data.frame(SchoolYear = factor(all_years, levels = all_years)), by = "SchoolYear") %>%
+  dplyr::mutate(dist_colors = fct_relevel(dist_colors, rev(unique(outcomes_time$dist_colors))))
+
+data_full$DistrictName <- str_trim(str_replace_all(comb2324$LEA_NAME, "School District|Borough|Boro", "")[match(data_full$stleaid, comb2324$ST_LEAID)])
+
+
+ggplot(aes(x=SchoolYear, y=MATH_ME_District, group=stleaid, color=dist_colors), data=data_full)  +
+  geom_line(aes(size=dist_size)) +
+  #geom_smooth(aes(group=NA, color=NA), method="loess") +
+  scale_x_discrete(labels = all_years, expand = expansion(add=c(.5,1.5))) +
+  theme_bw() +
+  scale_color_manual("District", values=district_name_colors, labels =c("Shrewsbury", "Rumson", "Little Silver", "Fair Haven", "Others"), guide='none')  +
+  labs(title = "Math % Meets/Exceeds", subtitle = "Fair Haven and Peer Districts, 2014-15 to 2023-24", x="School Year", y="Percent Meets/Exceeds")  +
+  scale_size(guide = 'none', range = c(0.5, 2)) +
+  scale_y_continuous(labels = scales::label_percent(accuracy = 1)) +
+  theme(axis.text.x = element_text(angle = 30, hjust = 1)) +
+  geom_text(data = data_full %>% filter(SchoolYear == "2023-2024", dist_colors != "Other"),
+            aes(label = DistrictName, x = 10.5) , hjust = 0.3,  color = "#888888", size = 3)
+
+```
+
+## ELA
 
 ```{r}
 #| label: fig-outcomes-ela
@@ -621,16 +734,22 @@ comb2324 %>%
 
 comb2324 %>%
   dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(district_name = fct_reorder(district_name, ELA_ME_District)) %>%
+  dplyr::mutate(district_name = fct_reorder(district_name, ELA_ME_District)) %>% 
   {
     ggplot(data=., aes(x=ELA_ME_District, y=district_name, fill=dist_colors)) +
       geom_bar(stat="identity", position="dodge") +
       theme_minimal() +
-      labs(x="ELA Meets/Exceeds Pct", y="") +
+      labs(x="Percent Meets/Exceeds in ELA", y="") +
       ggtitle("Meets/Exceeds ELA", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
       scale_fill_manual(values=district_name_colors, guide="none") +
-      geom_text(aes(label=ELA_ME_District, x=ELA_ME_District), size=3, hjust=-.1)
+      geom_text(aes(label=scales::percent(ELA_ME_District, accuracy = .1), x=ELA_ME_District), size=2.5, hjust=-.1) +
+      scale_x_continuous(labels = scales::label_percent(accuracy = .1), expand = expansion(mult = c(0, 0.1)))  +
+      theme(panel.grid.major.y = element_blank()) +
+      theme(panel.grid.minor.y = element_blank()) +
+      theme(panel.grid.major.x = element_line(color="grey97")) +
+      theme(panel.grid.minor.x = element_blank()) 
   }
+
 ```
 
 ```{r}
@@ -641,25 +760,27 @@ comb2324 %>%
 #| eval: true
 #| cache: true
 #| fig-height: 6
-#| fig-cap: "ELA Outcomes Exceeds"
-#| code-summary: Code - ELA Outcomes Exceeds
+#| fig-cap: "ELA Outcomes - Exceeds"
+#| code-summary: Code - ELA Outcomes - Exceeds
 
 comb2324 %>%
-  dplyr::filter(euclidLT100SizeLT2000, !is.na(ELA_pct_level5)) %>%
+  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500, !is.na(ELA_pct_level5)) %>%
   dplyr::mutate(district_name = fct_reorder(district_name, ELA_pct_level5)) %>%
   {
     ggplot(data=., aes(x=ELA_pct_level5, y=district_name, fill=dist_colors)) +
       geom_bar(stat="identity", position="dodge") +
       theme_minimal() +
-      labs(x="ELA Exceeds Pct", y="") +
+      labs(x="Percent Exceeds in ELA", y="") +
       ggtitle("Exceeds ELA", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
       scale_fill_manual(values=district_name_colors, guide="none") +
-      geom_text(aes(label=scales::percent(ELA_pct_level5, accuracy = 1), x=ELA_pct_level5), size=3, hjust=-.1) +
-      scale_x_continuous(labels = scales::label_percent(accuracy = 1))
+      geom_text(aes(label=scales::percent(ELA_pct_level5, accuracy = .1), x=ELA_pct_level5), size=2.5, hjust=-.1) +
+      scale_x_continuous(labels = scales::label_percent(accuracy = .1), expand = expansion(mult = c(0, 0.1)))  +
+      theme(panel.grid.major.y = element_blank()) +
+      theme(panel.grid.minor.y = element_blank()) +
+      theme(panel.grid.major.x = element_line(color="grey97")) +
+      theme(panel.grid.minor.x = element_blank()) 
   }
-
 ```
-
 
 ```{r}
 #| label: fig-outcomes-ela-msgp
@@ -670,7 +791,7 @@ comb2324 %>%
 #| cache: true
 #| fig-height: 6
 #| fig-cap: "ELA Median Growth"
-#| code-summary: Code - ELA Median Growth 
+#| code-summary: Code - ELA Median Growth
 
 comb2324 %>%
   dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
@@ -679,10 +800,15 @@ comb2324 %>%
     ggplot(data=., aes(x=mSGP_ELA, y=district_name, fill=dist_colors)) +
       geom_bar(stat="identity", position="dodge") +
       theme_minimal() +
-      labs(x="ELA Median Growth", y="") +
-      ggtitle("ELA Median Student Growth", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
+      labs(x="ELA Median Growth Percentile", y="") +
+      ggtitle("ELA Median Growth", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
       scale_fill_manual(values=district_name_colors, guide="none") +
-      geom_text(aes(label=mSGP_ELA, x=mSGP_ELA), size=3, hjust=-.1)
+      geom_text(aes(label=mSGP_ELA, x=mSGP_ELA), size=2.5, hjust=-.1) +
+      scale_x_continuous(expand = expansion(mult = c(0, 0.1)))  +
+      theme(panel.grid.major.y = element_blank()) +
+      theme(panel.grid.minor.y = element_blank()) +
+      theme(panel.grid.major.x = element_line(color="grey97")) +
+      theme(panel.grid.minor.x = element_blank()) 
   }
 
 ```
@@ -705,11 +831,17 @@ comb2324 %>%
     ggplot(data=., aes(x=ELA_ME_District_notdis, y=district_name, fill=dist_colors)) +
       geom_bar(stat="identity", position="dodge") +
       theme_minimal() +
-      labs(x="ELA Meets/Exceeds Pct", y="") +
-      ggtitle("Meets/Exceeds ELA - Students Without Disabilities", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
+      labs(x="Percent Meets/Exceeds in ELA", y="") +
+      ggtitle("Meets/Exceeds ELA - Students without Disabilities", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
       scale_fill_manual(values=district_name_colors, guide="none") +
-      geom_text(aes(label=ELA_ME_District_notdis, x=ELA_ME_District_notdis), size=3, hjust=-.1)
+      geom_text(aes(label=scales::percent(ELA_ME_District_notdis, accuracy = .1), x=ELA_ME_District_notdis), size=2.5, hjust=-.1) +
+      scale_x_continuous(labels = scales::label_percent(accuracy = .1), expand = expansion(mult = c(0, 0.1)))  +
+      theme(panel.grid.major.y = element_blank()) +
+      theme(panel.grid.minor.y = element_blank()) +
+      theme(panel.grid.major.x = element_line(color="grey97")) +
+      theme(panel.grid.minor.x = element_blank()) 
   }
+
 ```
 
 ```{r}
@@ -720,8 +852,8 @@ comb2324 %>%
 #| eval: true
 #| cache: true
 #| fig-height: 6
-#| fig-cap: "ELA Outcomes - with Disabilities"
-#| code-summary: Code - ELA Outcomes - with Disabilities
+#| fig-cap: "ELA Outcomes - Disabilities"
+#| code-summary: Code - ELA Outcomes - Disabilities
 
 comb2324 %>%
   dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500, !is.na(ELA_ME_District_dis)) %>%
@@ -730,820 +862,789 @@ comb2324 %>%
     ggplot(data=., aes(x=ELA_ME_District_dis, y=district_name, fill=dist_colors)) +
       geom_bar(stat="identity", position="dodge") +
       theme_minimal() +
-      labs(x="ELA Meets/Exceeds Pct", y="") +
+      labs(x="Percent Meets/Exceeds in ELA", y="") +
       ggtitle("Meets/Exceeds ELA - Students with Disabilities", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
       scale_fill_manual(values=district_name_colors, guide="none") +
-      geom_text(aes(label=ELA_ME_District_dis, x=ELA_ME_District_dis), size=3, hjust=-.1)
+      geom_text(aes(label=scales::percent(ELA_ME_District_dis, accuracy = .1), x=ELA_ME_District_dis), size=2.5, hjust=-.1) +
+      scale_x_continuous(labels = scales::label_percent(accuracy = .1), expand = expansion(mult = c(0, 0.1)))  +
+      theme(panel.grid.major.y = element_blank()) +
+      theme(panel.grid.minor.y = element_blank()) +
+      theme(panel.grid.major.x = element_line(color="grey97")) +
+      theme(panel.grid.minor.x = element_blank()) 
   }
-
 ```
 
+```{r}
+#| label: fig-ela-me-time
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| fig-height: 6
+#| fig-cap: "ELA Meets/Exceeds over Time"
+#| code-summary: Code - ELA Meets/Exceeds over Time
+
+all_years <- paste(2014:2023, 2015:2024, sep = "-")
+years_vector <- setNames(all_years, 1:10) # Corrected to align names and values
+
+# Use dplyr::full_join with a dummy data frame to ensure all levels are present
+data_full <- outcomes_time %>%
+  full_join(data.frame(SchoolYear = factor(all_years, levels = all_years)), by = "SchoolYear") %>%
+  dplyr::mutate(dist_colors = fct_relevel(dist_colors, rev(unique(outcomes_time$dist_colors)))) 
+
+data_full$DistrictName <- str_trim(comb2324$district_name[match(data_full$stleaid, comb2324$ST_LEAID)])
+
+ggplot(aes(x=SchoolYear, y=ELA_ME_District, group=stleaid, color=dist_colors), data=data_full)  +
+  geom_line(aes(size=dist_size)) +
+  scale_x_discrete(labels = all_years, expand = expansion(add=c(.5,1.5))) +
+  theme_bw() +
+  scale_color_manual("District", values=district_name_colors, labels =c("Shrewsbury", "Rumson", "Little Silver", "Fair Haven", "Others"), guide='none')  +
+  labs(title = "ELA Percent Meets/Exceeds", subtitle = "Fair Haven and Peer Districts, 2014-15 to 2023-24", x="School Year", y="Percent Meets/Exceeds")  +
+  scale_size(guide = 'none', range = c(0.5, 2)) +
+  scale_y_continuous(labels = scales::label_percent(accuracy = 1)) +
+  theme(axis.text.x = element_text(angle = 30, hjust = 1)) +
+  geom_text(data = data_full %>% filter(SchoolYear == "2023-2024", dist_colors != "Other"),
+            aes(label = DistrictName, x = 10.5) , hjust = 0.3, color = "#888888", size = 3)
+
+```
 
 # Outcomes and Inputs Math
 
 ```{r}
-#| label: fig-outcomes-vs
+#| label: fig-math-vs-perpupil
 #| echo: true
 #| message: false
 #| warning: false
 #| eval: true
 #| cache: true
 #| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
+#| fig-cap: "Math vs Per Pupil Expenditure"
+#| code-summary: Code - Math vs Per Pupil Expenditure
+
+# comb2324 %>% dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>% rlm(MATH_ME_District ~ I(per_pupil_cost/1000), data=., method = "M")
 
 comb2324 %>%
   dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
   {
     ggplot(data=., aes(x=per_pupil_cost, y=MATH_ME_District, color=dist_colors)) +
       geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M", aes(weight=TotalEnrollment)) +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +
-      #stat_smooth(method=function(formula, data, weights=weight) rlm(formula, data, weights=weight, method="MM"), fullrange=TRUE) +
+      stat_poly_line(method="rlm:M", fill="grey85") +
+      #stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +
       theme_minimal() +
+      theme(legend.position = "bottom") +
       geom_text_repel(aes(label=.data$district_name)) +
       scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Per Pupil Cost", y="Math Meets/Exceeds") +
-      ggtitle("Math Meets/Exceeds by Per Pupil Cost", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
+      labs(x="Per Pupil Expenditure", y="Percent Meets/Exceeds in Math") +
+      ggtitle("Math Meets/Exceeds by Per Pupil Expenditure", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
+      scale_size_continuous(name = "District Size")
   }
 
 ```
 
 ```{r}
-#| label: fig-outcomes-vs
+#| label: fig-math-vs-perpupil-all
 #| echo: true
 #| message: false
 #| warning: false
 #| eval: true
 #| cache: true
 #| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
+#| fig-cap: "Math vs Per Pupil Expenditure - All Districts"
+#| code-summary: Code - Math vs Per Pupil Expenditure - All Districts
+
+# comb2324 %>% rlm(MATH_ME_District ~ I(per_pupil_cost/1000), data=., method = "M")
 
 comb2324 %>%
-  #dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
   {
     ggplot(data=., aes(x=per_pupil_cost, y=MATH_ME_District, color=dist_colors)) +
       geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M", aes(weight=TotalEnrollment)) +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +
-      #stat_smooth(method=function(formula, data, weights=weight) rlm(formula, data, weights=weight, method="MM"), fullrange=TRUE) +
+      stat_poly_line(method="rlm:M", fill="grey85") +
+      #stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +
       theme_minimal() +
+      theme(legend.position = "bottom") +
       geom_text_repel(aes(label=.data$district_name)) +
       scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Per Pupil Cost", y="Math Meets/Exceeds") +
-      ggtitle("Math Meets/Exceeds by Per Pupil Cost", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
+      labs(x="Per Pupil Expenditure", y="Percent Meets/Exceeds in Math") +
+      ggtitle("Math Meets/Exceeds by Per Pupil Expenditure", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
+      scale_size_continuous(name = "District Size")
   }
 
 ```
 
 ```{r}
-#| label: fig-outcomes-vs
+#| label: fig-math-vs-medianincome-all
 #| echo: true
 #| message: false
 #| warning: false
 #| eval: true
 #| cache: true
 #| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
+#| fig-cap: "Math vs Median Family Income - All Districts"
+#| code-summary: Code - Math vs Median Family Income - All Districts
+
+# comb2324 %>% rlm(MATH_ME_District ~ I(Fam_Med_Income/1000), data=., method = "M")
 
 comb2324 %>%
-  #dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
   {
-    ggplot(data=., aes(x=Number__Estimate__INCOME_AND_BENEFITS__IN_2022_INFLATION_ADJUSTED_DOLLARS___Families__Median_family_income__dollars_, y=MATH_ME_District, color=dist_colors)) +
+    ggplot(data=., aes(x=Fam_Med_Income, y=MATH_ME_District, color=dist_colors)) +
       geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M", aes(weight=TotalEnrollment)) +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +
-      #stat_smooth(method=function(formula, data, weights=weight) rlm(formula, data, weights=weight, method="MM"), fullrange=TRUE) +
+      stat_poly_line(method="rlm:M", fill="grey85") +
+      #stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +
       theme_minimal() +
+      theme(legend.position = "bottom") +
       geom_text_repel(aes(label=.data$district_name)) +
       scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Median Family Income", y="Math Meets/Exceeds") +
-      ggtitle("Math Meets/Exceeds by Median Family Income", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
+      labs(x="Median Family Income", y="Percent Meets/Exceeds in Math") +
+      ggtitle("Math Meets/Exceeds by Median Family Income", subtitle = paste0(sy, "; Sources: NJ Dept of Ed., ACS-EDGE")) +
+      scale_size_continuous(name = "District Size") +
+      scale_x_continuous(labels = scales::dollar, expand = expansion(mult = c(0, 0.1)))
   }
 
 ```
 
 ```{r}
-#| label: fig-outcomes-vs
+#| label: fig-math-vs-perpupil-exceeds
 #| echo: true
 #| message: false
 #| warning: false
 #| eval: true
 #| cache: true
 #| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
+#| fig-cap: "Math Exceeds vs Per Pupil Expenditure"
+#| code-summary: Code - Math Exceeds vs Per Pupil Expenditure
+
+# comb2324 %>% dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>% rlm(MATH_pct_level5 ~ I(per_pupil_cost/1000), data=., method = "M")
 
 comb2324 %>%
   dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
   {
     ggplot(data=., aes(x=per_pupil_cost, y=MATH_pct_level5, color=dist_colors)) +
       geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M") +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +  #stat_smooth(method=function(formula, data, weights=weight) rlm(formula, data, weights=weight, method="MM"), fullrange=TRUE) +
+      stat_poly_line(method="rlm:M", fill="grey85") +
+      #stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +
       theme_minimal() +
+      theme(legend.position = "bottom") +
       geom_text_repel(aes(label=.data$district_name)) +
       scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Per Pupil Cost", y="Math Exceeds") +
-      ggtitle("Math Exceeds by Per Pupil Cost", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
+      labs(x="Per Pupil Expenditure", y="Percent Exceeds in Math") +
+      ggtitle("Math Exceeds by Per Pupil Expenditure", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
+      scale_size_continuous(name = "District Size") +
+      scale_y_continuous(labels = scales::label_percent(accuracy = 1)) +
+      scale_x_continuous(labels = scales::dollar, expand = expansion(mult = c(0, 0.1)))
   }
 
 ```
 
 ```{r}
-#| label: fig-outcomes-vs
+#| label: fig-mathsgp-vs-perpupil
 #| echo: true
 #| message: false
 #| warning: false
 #| eval: true
 #| cache: true
 #| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
+#| fig-cap: "Math Growth Percentile vs Per Pupil Expenditure"
+#| code-summary: Code - Math Growth Percentile vs Per Pupil Expenditure
+
+# comb2324 %>% dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>% rlm(mSGP_Math ~ I(per_pupil_cost/1000), data=., method = "M")
 
 comb2324 %>%
   dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
   {
     ggplot(data=., aes(x=per_pupil_cost, y=mSGP_Math, color=dist_colors)) +
       geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M") +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M", label.x = .8, label.y=1, color="black") +
+      stat_poly_line(method="rlm:M", fill="grey85") +
+      #stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +
       theme_minimal() +
+      theme(legend.position = "bottom") +
       geom_text_repel(aes(label=.data$district_name)) +
       scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Per Pupil Cost", y="Math Growth") +
-      ggtitle("Math Growth by Per Pupil Cost", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
+      labs(x="Per Pupil Expenditure", y="Math Growth Percentile") +
+      ggtitle("Math Growth Percentile by Per Pupil Expenditure", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
+      scale_size_continuous(name = "District Size") +
+      scale_x_continuous(labels = scales::dollar, expand = expansion(mult = c(0, 0.1)))
   }
+
 
 ```
 
 ```{r}
-#| label: fig-outcomes-vs
+#| label: fig-mathsgp-vs-perpupil-all
 #| echo: true
 #| message: false
 #| warning: false
 #| eval: true
 #| cache: true
 #| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
+#| fig-cap: "Math Growth Percentile vs Per Pupil Expenditure - All"
+#| code-summary: Code - Math Growth Percentile vs Per Pupil Expenditure - All
+
+# comb2324 %>% rlm(mSGP_Math ~ I(per_pupil_cost/1000), data=., method = "M")
 
 comb2324 %>%
-  #dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
   {
     ggplot(data=., aes(x=per_pupil_cost, y=mSGP_Math, color=dist_colors)) +
       geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M") +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M", label.x = .8, label.y=1, color="black") +
+      stat_poly_line(method="rlm:M", fill="grey85") +
       theme_minimal() +
+      theme(legend.position = "bottom") +
       geom_text_repel(aes(label=.data$district_name)) +
       scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Per Pupil Cost", y="Math Growth") +
-      ggtitle("Math Growth by Per Pupil Cost", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
+      labs(x="Per Pupil Expenditure", y="Math Growth Percentile") +
+      ggtitle("Math Growth Percentile by Per Pupil Expenditure", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
+      scale_size_continuous(name = "District Size") +
+      scale_x_continuous(labels = scales::dollar, expand = expansion(mult = c(0, 0.1)))
   }
 
 ```
 
 ```{r}
-#| label: fig-outcomes-vs
+#| label: fig-math-vs-percentint
 #| echo: true
 #| message: false
 #| warning: false
 #| eval: true
 #| cache: true
 #| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
+#| fig-cap: "Math vs Percent Expenditure to Instruction"
+#| code-summary: Code - Math vs Percent Expenditure to Instruction
+
+# comb2324 %>% dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>% rlm(MATH_ME_District ~ I(per_pupil_class_instruction/ per_pupil_cost), data=., method = "M")
 
 comb2324 %>%
   dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
   dplyr::mutate(inst_pct = per_pupil_class_instruction/ per_pupil_cost) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
   {
     ggplot(data=., aes(x=inst_pct, y=MATH_ME_District, color=dist_colors)) +
       geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M") +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M", label.x = .8, label.y=1, color="black") +
+      stat_poly_line(method="rlm:M", fill="grey85") +
       theme_minimal() +
+      theme(legend.position = "bottom") +
       geom_text_repel(aes(label=.data$district_name)) +
       scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Percent Instruction", y="Math Meets/Exceeds") +
+      labs(x="Percent Instruction", y="Percent Meets/Exceeds in Math") +
       ggtitle("Math Meets/Exceeds by Percent Instruction", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none") +
+      scale_size_continuous(name = "District Size") +
       scale_x_continuous(labels = scales::label_percent(accuracy = 1))
   }
 
 ```
 
 ```{r}
-#| label: fig-outcomes-vs
+#| label: fig-math-vs-avgyears
 #| echo: true
 #| message: false
 #| warning: false
 #| eval: true
 #| cache: true
 #| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
+#| fig-cap: "Math vs Teacher Avg Years Exp"
+#| code-summary: Code - Math vs Teacher Avg Years Exp
+
+# comb2324 %>% dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>% rlm(MATH_ME_District ~ TeacherAvgYearsExp_School, data=., method = "M")
+
 
 comb2324 %>%
   dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(student_teacher_ratio=as.numeric(student_teacher_ratio)) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
   {
-    ggplot(data=., aes(x=student_teacher_ratio, y=MATH_ME_District, color=dist_colors)) +
+    ggplot(data=., aes(x=TeacherAvgYearsExp_School, y=MATH_ME_District, color=dist_colors)) +
       geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M") +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M", label.x = .8, label.y=1, color="black") +
+      stat_poly_line(method="rlm:M", fill="grey85") +
       theme_minimal() +
+      theme(legend.position = "bottom") +
       geom_text_repel(aes(label=.data$district_name)) +
       scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Student Teacher Ratio", y="Math Meets/Exceeds") +
-      ggtitle("Math Meets/Exceeds by Student Teacher Ratio", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
-  }
-
-```
-
-```{r}
-#| label: fig-outcomes-vs
-#| echo: true
-#| message: false
-#| warning: false
-#| eval: true
-#| cache: true
-#| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
-
-comb2324 %>%
-  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(student_teacher_ratio=as.numeric(student_teacher_ratio)) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
-  {
-    ggplot(data=., aes(x=student_teacher_ratio, y=mSGP_Math, color=dist_colors)) +
-      geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M") +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M", label.x = .8, label.y=1, color="black") +
-      theme_minimal() +
-      geom_text_repel(aes(label=.data$district_name)) +
-      scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Student Teacher Ratio", y="Math Growth") +
-      ggtitle("Math Growth by Student Teacher Ratio", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
-  }
-
-```
-
-```{r}
-#| label: fig-outcomes-vs
-#| echo: true
-#| message: false
-#| warning: false
-#| eval: true
-#| cache: true
-#| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
-
-
-comb2324 %>%
-  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(student_admin_ratio=as.numeric(student_admin_ratio)) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
-  {
-    ggplot(data=., aes(x=student_admin_ratio, y=MATH_ME_District, color=dist_colors)) +
-      geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M") +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M", label.x = .8, label.y=1, color="black") +
-      theme_minimal() +
-      geom_text_repel(aes(label=.data$district_name)) +
-      scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Student Admin Ratio", y="Math Meets/Exceeds") +
-      ggtitle("Math Meets/Exceeds by Student Admin Ratio", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
-  }
-
-```
-
-```{r}
-#| label: fig-outcomes-vs
-#| echo: true
-#| message: false
-#| warning: false
-#| eval: true
-#| cache: true
-#| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
-comb2324 %>%
-  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(student_admin_ratio=as.numeric(student_admin_ratio)) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
-  {
-    ggplot(data=., aes(x=student_admin_ratio, y=mSGP_Math, color=dist_colors)) +
-      geom_point(aes(size=student_admin_ratio)) +
-      stat_poly_line(method="rlm:M") +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M", label.x = .8, label.y=1, color="black") +
-      theme_minimal() +
-      geom_text_repel(aes(label=.data$district_name)) +
-      scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Student Admin Ratio", y="Math Growth") +
-      ggtitle("Math Growth by Student Admin Ratio", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
-  }
-
-
-```
-
-```{r}
-#| label: fig-outcomes-vs
-#| echo: true
-#| message: false
-#| warning: false
-#| eval: true
-#| cache: true
-#| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
-
-comb2324 %>%
-  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(TeacherAvgYearsExp_District=as.numeric(TeacherAvgYearsExp_District)) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
-  {
-    ggplot(data=., aes(x=TeacherAvgYearsExp_District, y=MATH_ME_District, color=dist_colors)) +
-      geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M") +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M", label.x = .8, label.y=1, color="black") +
-      theme_minimal() +
-      geom_text_repel(aes(label=.data$district_name)) +
-      scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Teacher Avg Years Exp", y="Math Meets/Exceeds") +
+      labs(x="Teacher Avg Years Exp", y="Percent Meets/Exceeds in Math") +
       ggtitle("Math Meets/Exceeds by Teacher Avg Years Exp", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
+      scale_size_continuous(name = "District Size")
   }
 
 ```
 
 ```{r}
-#| label: fig-outcomes-vs
+#| label: fig-math-vs-avgyears-dist
 #| echo: true
 #| message: false
 #| warning: false
 #| eval: true
 #| cache: true
 #| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
+#| fig-cap: "Math vs Teacher Avg Years Exp in District"
+#| code-summary: Code - Math vs Teacher Avg Years Exp in District 
+
+# comb2324 %>% dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>% rlm(MATH_ME_District ~ TeacherAvgYearsExpInDistrict_School, data=., method = "M")
+
 
 comb2324 %>%
   dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(TeacherAvgYearsExp_District=as.numeric(TeacherAvgYearsExp_District)) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
   {
-    ggplot(data=., aes(x=TeacherAvgYearsExp_District, y=mSGP_Math, color=dist_colors)) +
+    ggplot(data=., aes(x=TeacherAvgYearsExpInDistrict_School, y=MATH_ME_District, color=dist_colors)) +
       geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M") +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M", label.x = .8, label.y=1, color="black") +
+      stat_poly_line(method="rlm:M", fill="grey85") +
       theme_minimal() +
+      theme(legend.position = "bottom") +
       geom_text_repel(aes(label=.data$district_name)) +
       scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Teacher Avg Years Exp", y="Math Meets/Exceeds") +
+      labs(x="Teacher Avg Years Exp in District", y="Percent Meets/Exceeds in Math") +
+      ggtitle("Math Meets/Exceeds by Teacher Avg Years Exp in District", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
+      scale_size_continuous(name = "District Size")
+  }
+```
+
+```{r}
+#| label: fig-mathgrowth-vs-avgyears
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| fig-height: 6
+#| fig-cap: "Math Growth vs Teacher Avg Years Exp"
+#| code-summary: Code - Math Growth vs Teacher Avg Years Exp
+
+# comb2324 %>% dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>% rlm(mSGP_Math ~ TeacherAvgYearsExp_School, data=., method = "M")
+
+comb2324 %>%
+  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
+  {
+    ggplot(data=., aes(x=TeacherAvgYearsExp_School, y=mSGP_Math, color=dist_colors)) +
+      geom_point(aes(size=TotalEnrollment)) +
+      stat_poly_line(method="rlm:M", fill="grey85") +
+      theme_minimal() +
+      theme(legend.position = "bottom") +
+      geom_text_repel(aes(label=.data$district_name)) +
+      scale_color_manual(values=district_name_colors, guide="none") +
+      labs(x="Teacher Avg Years Exp", y="Math Student Growth Percentile") +
       ggtitle("Math Growth by Teacher Avg Years Exp", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
+      scale_size_continuous(name = "District Size")
   }
 
 ```
 
 ```{r}
-#| label: fig-outcomes-vs
+#| label: fig-math-vs-chronicabs
 #| echo: true
 #| message: false
 #| warning: false
 #| eval: true
 #| cache: true
 #| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
+#| fig-cap: "Math vs Chronic Absenteeism"
+#| code-summary: Code - Math vs Chronic Absenteeism
 
-
-comb2324 %>%
-  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(TeacherAvgYearsExpInDistrict_District=as.numeric(TeacherAvgYearsExpInDistrict_District)) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
-  {
-    ggplot(data=., aes(x=TeacherAvgYearsExpInDistrict_District, y=MATH_ME_District, color=dist_colors)) +
-      geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M") +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M", label.x = .8, label.y=1, color="black") +
-      theme_minimal() +
-      geom_text_repel(aes(label=.data$district_name)) +
-      scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Teacher Avg Years Exp in District", y="Math Meets/Exceeds") +
-      ggtitle("Math Meets/Exceeds by Teacher Avg Years Ex in District", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
-  }
-
-```
-
-```{r}
-#| label: fig-outcomes-vs
-#| echo: true
-#| message: false
-#| warning: false
-#| eval: true
-#| cache: true
-#| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
-comb2324 %>%
-  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(TeacherAvgYearsExpInDistrict_District=as.numeric(TeacherAvgYearsExpInDistrict_District)) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
-  {
-    ggplot(data=., aes(x=TeacherAvgYearsExpInDistrict_District, y=mSGP_Math, color=dist_colors)) +
-      geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M") +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M", label.x = .8, label.y=1, color="black") +
-      theme_minimal() +
-      geom_text_repel(aes(label=.data$district_name)) +
-      scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Teacher Avg Years Exp in District", y="Math Meets/Exceeds") +
-      ggtitle("Math Growth by Teacher Avg Years Exp in District", subtitle = paste0(sy, "; N = ", sum(!is.na(.$mSGP_Math)))) +
-      scale_size_continuous(guide="none")
-  }
-
-```
-
-```{r}
-#| label: fig-outcomes-vs
-#| echo: true
-#| message: false
-#| warning: false
-#| eval: true
-#| cache: true
-#| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
-
+comb2324 %>% dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>% rlm(MATH_ME_District ~ Chronic_Abs_Pct, data=., method = "M")
 
 comb2324 %>%
   dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(PercentageOfOutOfFieldTeachers_District=as.numeric(PercentageOfOutOfFieldTeachers_District)) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
-  {
-    ggplot(data=., aes(x=PercentageOfOutOfFieldTeachers_District, y=MATH_ME_District, color=dist_colors)) +
-      geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M") +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M", label.x = .8, label.y=1, color="black") +
-      theme_minimal() +
-      geom_text_repel(aes(label=.data$district_name)) +
-      scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Percentage Of Out Of Field Teachers", y="Math Meets/Exceeds") +
-      ggtitle("Math Meets/Exceeds by Percentage Of Out Of Field Teachers", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
-  }
-
-```
-
-```{r}
-#| label: fig-outcomes-vs
-#| echo: true
-#| message: false
-#| warning: false
-#| eval: true
-#| cache: true
-#| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
-
-comb2324 %>%
-  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(PercentageOfOutOfFieldTeachers_District=as.numeric(PercentageOfOutOfFieldTeachers_District)) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
-  {
-    ggplot(data=., aes(x=PercentageOfOutOfFieldTeachers_District, y=mSGP_Math, color=dist_colors)) +
-      geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M") +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M", label.x = .8, label.y=1, color="black") +
-      theme_minimal() +
-      geom_text_repel(aes(label=.data$district_name)) +
-      scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Percentage Of Out Of Field Teachers", y="Math Meets/Exceeds") +
-      ggtitle("Math Growth by Percentage Of Out Of Field Teachers", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
-  }
-
-```
-
-```{r}
-#| label: fig-outcomes-vs
-#| echo: true
-#| message: false
-#| warning: false
-#| eval: true
-#| cache: true
-#| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
-comb2324 %>%
-  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(PercentageTeachersWithProvisionalCredentials_District=as.numeric(PercentageTeachersWithProvisionalCredentials_District)) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
-  {
-    ggplot(data=., aes(x=PercentageTeachersWithProvisionalCredentials_District, y=MATH_ME_District, color=dist_colors)) +
-      geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M") +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M", label.x = .8, label.y=1, color="black") +
-      theme_minimal() +
-      geom_text_repel(aes(label=.data$district_name)) +
-      scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Percentage Teachers With Provisional Credentials", y="Math Meets/Exceeds") +
-      ggtitle("Math Meets/Exceeds by Percentage Teachers With Provisional Credentials", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
-  }
-
-```
-
-```{r}
-#| label: fig-outcomes-vs
-#| echo: true
-#| message: false
-#| warning: false
-#| eval: true
-#| cache: true
-#| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
-
-comb2324 %>%
-  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(PercentageTeachersWithProvisionalCredentials_District=as.numeric(PercentageTeachersWithProvisionalCredentials_District)) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
-  {
-    ggplot(data=., aes(x=PercentageTeachersWithProvisionalCredentials_District, y=mSGP_Math, color=dist_colors)) +
-      geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M") +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M", label.x = .8, label.y=1, color="black") +
-      theme_minimal() +
-      geom_text_repel(aes(label=.data$district_name)) +
-      scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Percentage Teachers With Provisional Credentials", y="Math Meets/Exceeds") +
-      ggtitle("Math Growth by Percentage Teachers With Provisional Credentials", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
-  }
-
-```
-
-```{r}
-#| label: fig-outcomes-vs
-#| echo: true
-#| message: false
-#| warning: false
-#| eval: true
-#| cache: true
-#| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
-
-
-comb2324 %>%
-  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(Chronic_Abs_Pct=as.numeric(Chronic_Abs_Pct)) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
   {
     ggplot(data=., aes(x=Chronic_Abs_Pct, y=MATH_ME_District, color=dist_colors)) +
       geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M") +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M", label.x = .8, label.y=1, color="black") +
+      stat_poly_line(method="rlm:M", fill="grey85") +
       theme_minimal() +
       geom_text_repel(aes(label=.data$district_name)) +
       scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Chronic Absent Pct", y="Math Meets/Exceeds") +
-      ggtitle("Math Meets/Exceeds by Chronic Absent Pct", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
+      labs(x="Chronic Absent Pct", y="Percent Meets/Exceeds in Math") +
+      ggtitle("Percent Math Meets/Exceeds by Chronic Absent Pct", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
       scale_size_continuous(guide="none")
   }
 
 ```
 
 ```{r}
-#| label: fig-outcomes-vs
+#| label: fig-math-vs-chronicabs-all
 #| echo: true
 #| message: false
 #| warning: false
 #| eval: true
 #| cache: true
 #| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
+#| fig-cap: "Math vs Chronic Absenteeism - All Districts"
+#| code-summary: Code - Math vs Chronic Absenteeism - All Districts
+
+# comb2324 %>% rlm(MATH_ME_District ~ Chronic_Abs_Pct, data=., method = "M")
 
 comb2324 %>%
-  #dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(Chronic_Abs_Pct=as.numeric(Chronic_Abs_Pct)) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
   {
     ggplot(data=., aes(x=Chronic_Abs_Pct, y=MATH_ME_District, color=dist_colors)) +
       geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M") +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M", label.x = .8, label.y=1, color="black") +
+      stat_poly_line(method="rlm:M", fill="grey85") +
       theme_minimal() +
       geom_text_repel(aes(label=.data$district_name)) +
       scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Chronic Absent Pct", y="Math Meets/Exceeds") +
-      ggtitle("Math Meets/Exceeds by Chronic Absent Pct", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
+      labs(x="Chronic Absent Pct", y="Percent Meets/Exceeds in Math") +
+      ggtitle("Percent Math Meets/Exceeds by Chronic Absent Pct", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
       scale_size_continuous(guide="none")
   }
 
-```
-
-```{r}
-#| label: fig-outcomes-vs
-#| echo: true
-#| message: false
-#| warning: false
-#| eval: true
-#| cache: true
-#| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
-
-comb2324 %>%
-  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(Chronic_Abs_Pct=as.numeric(Chronic_Abs_Pct)) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
-  {
-    ggplot(data=., aes(x=Chronic_Abs_Pct, y=mSGP_Math, color=dist_colors)) +
-      geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M") +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M", label.x = .8, label.y=1, color="black") +
-      theme_minimal() +
-      geom_text_repel(aes(label=.data$district_name)) +
-      scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Chronic Absent Pct", y="Math Meets/Exceeds") +
-      ggtitle("Math Growth by Chronic Absent Pct", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
-  }
-
-```
-
-```{r}
-#| label: fig-outcomes-vs
-#| echo: true
-#| message: false
-#| warning: false
-#| eval: true
-#| cache: true
-#| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
-
-
-comb2324 %>%
-  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(Abs_over15=as.numeric(Abs_over15)) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
-  {
-    ggplot(data=., aes(x=Abs_over15, y=MATH_ME_District, color=dist_colors)) +
-      geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M") +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M", label.x = .8, label.y=1, color="black") +
-      theme_minimal() +
-      geom_text_repel(aes(label=.data$district_name)) +
-      scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Pct 15+ Absent", y="Math Meets/Exceeds") +
-      ggtitle("Math Meets/Exceeds by Pct 15+ Absent", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
-  }
-
-```
-
-```{r}
-#| label: fig-outcomes-vs
-#| echo: true
-#| message: false
-#| warning: false
-#| eval: true
-#| cache: true
-#| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
-
-comb2324 %>%
-  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(Abs_over15=as.numeric(Abs_over15)) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
-  {
-    ggplot(data=., aes(x=Abs_over15, y=mSGP_Math, color=dist_colors)) +
-      geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M") +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M", label.x = .8, label.y=1, color="black") +
-      theme_minimal() +
-      geom_text_repel(aes(label=.data$district_name)) +
-      scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Pct 15+ Absent", y="Math Meets/Exceeds") +
-      ggtitle("Math Growth by Chronic Absent Pct", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
-  }
-
-```
-
-```{r}
-#| label: fig-outcomes-vs
-#| echo: true
-#| message: false
-#| warning: false
-#| eval: true
-#| cache: true
-#| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
-
-comb2324 %>%
-  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(`Students with Disabilities`=as.numeric(`Students with Disabilities`)) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
-  {
-    ggplot(data=., aes(x=`Students with Disabilities`, y=MATH_ME_District, color=dist_colors)) +
-      geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M") +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M", label.x = .8, label.y=1, color="black") +
-      theme_minimal() +
-      geom_text_repel(aes(label=.data$district_name)) +
-      scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="Pct Students w/Disabilities", y="Math Meets/Exceeds") +
-      ggtitle("Math Meets/Exceeds by Pct Students w/Disabilities", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) + +
-      scale_size_continuous(guide="none")
-  }
-
-```
-
-```{r}
-#| label: fig-outcomes-vs
-#| echo: true
-#| message: false
-#| warning: false
-#| eval: true
-#| cache: true
-#| fig-height: 6
-#| fig-cap: "Outcomes vs"
-#| code-summary: Code - Outcomes vs
-
-comb2324 %>%
-  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
-  dplyr::mutate(TotalEnrollment=as.numeric(TotalEnrollment)) %>%
-  
-  {
-    ggplot(data=., aes(x=TotalEnrollment, y=MATH_ME_District, color=dist_colors)) +
-      geom_point(aes(size=TotalEnrollment)) +
-      stat_poly_line(method="rlm:M") +
-      stat_poly_eq(use_label(c("eq")), method="rlm:M", label.x = .8, label.y=1, color="black") +
-      theme_minimal() +
-      geom_text_repel(aes(label=.data$district_name)) +
-      scale_color_manual(values=district_name_colors, guide="none") +
-      labs(x="TotalEnrollment", y="Math Meets/Exceeds") +
-      ggtitle("Math Meets/Exceeds by TotalEnrollment", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
-  }
 ```
 
 # Outcomes and Inputs ELA
+
+```{r}
+#| label: fig-ela-vs-perpupil
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| fig-height: 6
+#| fig-cap: "ELA vs Per Pupil Expenditure"
+#| code-summary: Code - ELA vs Per Pupil Expenditure
+
+# comb2324 %>% dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>% rlm(ELA_ME_District ~ I(per_pupil_cost/1000), data=., method = "M")
+
+comb2324 %>%
+  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
+  {
+    ggplot(data=., aes(x=per_pupil_cost, y=ELA_ME_District, color=dist_colors)) +
+      geom_point(aes(size=TotalEnrollment)) +
+      stat_poly_line(method="rlm:M", fill="grey85") +
+      #stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +
+      theme_minimal() +
+      theme(legend.position = "bottom") +
+      geom_text_repel(aes(label=.data$district_name)) +
+      scale_color_manual(values=district_name_colors, guide="none") +
+      labs(x="Per Pupil Expenditure", y="Percent Meets/Exceeds in ELA") +
+      ggtitle("ELA Meets/Exceeds by Per Pupil Expenditure", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
+      scale_size_continuous(name = "District Size")
+  }
+
+```
+
+```{r}
+#| label: fig-ela-vs-perpupil-all
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| fig-height: 6
+#| fig-cap: "ELA vs Per Pupil Expenditure - All Districts"
+#| code-summary: Code - ELA vs Per Pupil Expenditure - All Districts
+
+# comb2324 %>% rlm(ELA_ME_District ~ I(per_pupil_cost/1000), data=., method = "M")
+
+comb2324 %>%
+  {
+    ggplot(data=., aes(x=per_pupil_cost, y=ELA_ME_District, color=dist_colors)) +
+      geom_point(aes(size=TotalEnrollment)) +
+      stat_poly_line(method="rlm:M", fill="grey85") +
+      #stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +
+      theme_minimal() +
+      theme(legend.position = "bottom") +
+      geom_text_repel(aes(label=.data$district_name)) +
+      scale_color_manual(values=district_name_colors, guide="none") +
+      labs(x="Per Pupil Expenditure", y="Percent Meets/Exceeds in ELA") +
+      ggtitle("ELA Meets/Exceeds by Per Pupil Expenditure", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
+      scale_size_continuous(name = "District Size")
+  }
+
+```
+
+```{r}
+#| label: fig-ela-vs-medianincome-all
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| fig-height: 6
+#| fig-cap: "ELA vs Median Family Income - All Districts"
+#| code-summary: Code - ELA vs Median Family Income - All Districts
+
+# comb2324 %>% rlm(ELA_ME_District ~ I(Fam_Med_Income/1000), data=., method = "M")
+
+comb2324 %>%
+  {
+    ggplot(data=., aes(x=Fam_Med_Income, y=ELA_ME_District, color=dist_colors)) +
+      geom_point(aes(size=TotalEnrollment)) +
+      stat_poly_line(method="rlm:M", fill="grey85") +
+      #stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +
+      theme_minimal() +
+      theme(legend.position = "bottom") +
+      geom_text_repel(aes(label=.data$district_name)) +
+      scale_color_manual(values=district_name_colors, guide="none") +
+      labs(x="Median Family Income", y="Percent Meets/Exceeds in ELA") +
+      ggtitle("ELA Meets/Exceeds by Median Family Income", subtitle = paste0(sy, "; Sources: NJ Dept of Ed., ACS-EDGE")) +
+      scale_size_continuous(name = "District Size") +
+      scale_x_continuous(labels = scales::dollar, expand = expansion(mult = c(0, 0.1)))
+  }
+
+```
+
+```{r}
+#| label: fig-ela-vs-perpupil-exceeds
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| fig-height: 6
+#| fig-cap: "ELA Exceeds vs Per Pupil Expenditure"
+#| code-summary: Code - ELA Exceeds vs Per Pupil Expenditure
+
+# comb2324 %>% dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>% rlm(ELA_pct_level5 ~ I(per_pupil_cost/1000), data=., method = "M")
+
+comb2324 %>%
+  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
+  {
+    ggplot(data=., aes(x=per_pupil_cost, y=ELA_pct_level5, color=dist_colors)) +
+      geom_point(aes(size=TotalEnrollment)) +
+      stat_poly_line(method="rlm:M", fill="grey85") +
+      #stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +
+      theme_minimal() +
+      theme(legend.position = "bottom") +
+      geom_text_repel(aes(label=.data$district_name)) +
+      scale_color_manual(values=district_name_colors, guide="none") +
+      labs(x="Per Pupil Expenditure", y="Percent Exceeds in ELA") +
+      ggtitle("ELA Exceeds by Per Pupil Expenditure", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
+      scale_size_continuous(name = "District Size") +
+      scale_y_continuous(labels = scales::label_percent(accuracy = 1)) +
+      scale_x_continuous(labels = scales::dollar, expand = expansion(mult = c(0, 0.1)))
+  }
+
+```
+
+```{r}
+#| label: fig-elasgp-vs-perpupil
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| fig-height: 6
+#| fig-cap: "ELA Growth Percentile vs Per Pupil Expenditure"
+#| code-summary: Code - ELA Growth Percentile vs Per Pupil Expenditure
+
+# comb2324 %>% dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>% rlm(mSGP_ELA ~ I(per_pupil_cost/1000), data=., method = "M")
+
+comb2324 %>%
+  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
+  {
+    ggplot(data=., aes(x=per_pupil_cost, y=mSGP_ELA, color=dist_colors)) +
+      geom_point(aes(size=TotalEnrollment)) +
+      stat_poly_line(method="rlm:M", fill="grey85") +
+      #stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +
+      theme_minimal() +
+      theme(legend.position = "bottom") +
+      geom_text_repel(aes(label=.data$district_name)) +
+      scale_color_manual(values=district_name_colors, guide="none") +
+      labs(x="Per Pupil Expenditure", y="ELA Growth Percentile") +
+      ggtitle("ELA Growth Percentile by Per Pupil Expenditure", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
+      scale_size_continuous(name = "District Size") +
+      scale_x_continuous(labels = scales::dollar, expand = expansion(mult = c(0, 0.1)))
+  }
+
+
+```
+
+```{r}
+#| label: fig-elasgp-vs-perpupil-all
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| fig-height: 6
+#| fig-cap: "ELA Growth Percentile vs Per Pupil Expenditure - All"
+#| code-summary: Code - ELA Growth Percentile vs Per Pupil Expenditure - All
+
+# comb2324 %>% rlm(mSGP_ELA ~ I(per_pupil_cost/1000), data=., method = "M")
+
+comb2324 %>%
+  {
+    ggplot(data=., aes(x=per_pupil_cost, y=mSGP_ELA, color=dist_colors)) +
+      geom_point(aes(size=TotalEnrollment)) +
+      stat_poly_line(method="rlm:M", fill="grey85") +
+      theme_minimal() +
+      theme(legend.position = "bottom") +
+      geom_text_repel(aes(label=.data$district_name)) +
+      scale_color_manual(values=district_name_colors, guide="none") +
+      labs(x="Per Pupil Expenditure", y="ELA Growth Percentile") +
+      ggtitle("ELA Growth Percentile by Per Pupil Expenditure", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
+      scale_size_continuous(name = "District Size") +
+      scale_x_continuous(labels = scales::dollar, expand = expansion(mult = c(0, 0.1)))
+  }
+
+```
+
+```{r}
+#| label: fig-ela-vs-percentint
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| fig-height: 6
+#| fig-cap: "ELA vs Percent Expenditure to Instruction"
+#| code-summary: Code - ELA vs Percent Expenditure to Instruction
+
+# comb2324 %>% dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>% rlm(ELA_ME_District ~ I(per_pupil_class_instruction/ per_pupil_cost), data=., method = "M")
+
+comb2324 %>%
+  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
+  dplyr::mutate(inst_pct = per_pupil_class_instruction/ per_pupil_cost) %>%
+  {
+    ggplot(data=., aes(x=inst_pct, y=ELA_ME_District, color=dist_colors)) +
+      geom_point(aes(size=TotalEnrollment)) +
+      stat_poly_line(method="rlm:M", fill="grey85") +
+      theme_minimal() +
+      theme(legend.position = "bottom") +
+      geom_text_repel(aes(label=.data$district_name)) +
+      scale_color_manual(values=district_name_colors, guide="none") +
+      labs(x="Percent Instruction", y="Percent Meets/Exceeds in ELA") +
+      ggtitle("ELA Meets/Exceeds by Percent Instruction", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
+      scale_size_continuous(name = "District Size") +
+      scale_x_continuous(labels = scales::label_percent(accuracy = 1))
+  }
+
+```
+
+```{r}
+#| label: fig-ela-vs-avgyears
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| fig-height: 6
+#| fig-cap: "ELA vs Teacher Avg Years Exp"
+#| code-summary: Code - ELA vs Teacher Avg Years Exp
+
+# comb2324 %>% dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>% rlm(ELA_ME_District ~ TeacherAvgYearsExp_School, data=., method = "M")
+
+
+comb2324 %>%
+  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
+  {
+    ggplot(data=., aes(x=TeacherAvgYearsExp_School, y=ELA_ME_District, color=dist_colors)) +
+      geom_point(aes(size=TotalEnrollment)) +
+      stat_poly_line(method="rlm:M", fill="grey85") +
+      theme_minimal() +
+      theme(legend.position = "bottom") +
+      geom_text_repel(aes(label=.data$district_name)) +
+      scale_color_manual(values=district_name_colors, guide="none") +
+      labs(x="Teacher Avg Years Exp", y="Percent Meets/Exceeds in ELA") +
+      ggtitle("ELA Meets/Exceeds by Teacher Avg Years Exp", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
+      scale_size_continuous(name = "District Size")
+  }
+
+```
+
+```{r}
+#| label: fig-ela-vs-avgyears-dist
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| fig-height: 6
+#| fig-cap: "ELA vs Teacher Avg Years Exp in District"
+#| code-summary: Code - ELA vs Teacher Avg Years Exp in District 
+
+# comb2324 %>% dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>% rlm(ELA_ME_District ~ TeacherAvgYearsExpInDistrict_School, data=., method = "M")
+
+
+comb2324 %>%
+  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
+  {
+    ggplot(data=., aes(x=TeacherAvgYearsExpInDistrict_School, y=ELA_ME_District, color=dist_colors)) +
+      geom_point(aes(size=TotalEnrollment)) +
+      stat_poly_line(method="rlm:M", fill="grey85") +
+      theme_minimal() +
+      theme(legend.position = "bottom") +
+      geom_text_repel(aes(label=.data$district_name)) +
+      scale_color_manual(values=district_name_colors, guide="none") +
+      labs(x="Teacher Avg Years Exp in District", y="Percent Meets/Exceeds in ELA") +
+      ggtitle("ELA Meets/Exceeds by Teacher Avg Years Exp in District", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
+      scale_size_continuous(name = "District Size")
+  }
+```
+
+```{r}
+#| label: fig-elagrowth-vs-avgyears
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| fig-height: 6
+#| fig-cap: "ELA Growth vs Teacher Avg Years Exp"
+#| code-summary: Code - ELA Growth vs Teacher Avg Years Exp
+
+# comb2324 %>% dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>% rlm(mSGP_ELA ~ TeacherAvgYearsExp_School, data=., method = "M")
+
+comb2324 %>%
+  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
+  {
+    ggplot(data=., aes(x=TeacherAvgYearsExp_School, y=mSGP_ELA, color=dist_colors)) +
+      geom_point(aes(size=TotalEnrollment)) +
+      stat_poly_line(method="rlm:M", fill="grey85") +
+      theme_minimal() +
+      theme(legend.position = "bottom") +
+      geom_text_repel(aes(label=.data$district_name)) +
+      scale_color_manual(values=district_name_colors, guide="none") +
+      labs(x="Teacher Avg Years Exp", y="ELA Student Growth Percentile") +
+      ggtitle("ELA Growth by Teacher Avg Years Exp", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
+      scale_size_continuous(name = "District Size")
+  }
+
+```
+
+```{r}
+#| label: fig-ela-vs-chronicabs
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| fig-height: 6
+#| fig-cap: "ELA vs Chronic Absenteeism"
+#| code-summary: Code - ELA vs Chronic Absenteeism
+
+comb2324 %>% dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>% rlm(ELA_ME_District ~ Chronic_Abs_Pct, data=., method = "M")
+
+comb2324 %>%
+  dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
+  {
+    ggplot(data=., aes(x=Chronic_Abs_Pct, y=ELA_ME_District, color=dist_colors)) +
+      geom_point(aes(size=TotalEnrollment)) +
+      stat_poly_line(method="rlm:M", fill="grey85") +
+      theme_minimal() +
+      geom_text_repel(aes(label=.data$district_name)) +
+      scale_color_manual(values=district_name_colors, guide="none") +
+      labs(x="Chronic Absent Pct", y="Percent Meets/Exceeds in ELA") +
+      ggtitle("Percent ELA Meets/Exceeds by Chronic Absent Pct", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
+      scale_size_continuous(guide="none")
+  }
+
+```
+
+```{r}
+#| label: fig-ela-vs-chronicabs-all
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true
+#| fig-height: 6
+#| fig-cap: "ELA vs Chronic Absenteeism - All Districts"
+#| code-summary: Code - ELA vs Chronic Absenteeism - All Districts
+
+# comb2324 %>% rlm(ELA_ME_District ~ Chronic_Abs_Pct, data=., method = "M")
+
+comb2324 %>%
+  {
+    ggplot(data=., aes(x=Chronic_Abs_Pct, y=ELA_ME_District, color=dist_colors)) +
+      geom_point(aes(size=TotalEnrollment)) +
+      stat_poly_line(method="rlm:M", fill="grey85") +
+      theme_minimal() +
+      geom_text_repel(aes(label=.data$district_name)) +
+      scale_color_manual(values=district_name_colors, guide="none") +
+      labs(x="Chronic Absent Pct", y="Percent Meets/Exceeds in ELA") +
+      ggtitle("Percent ELA Meets/Exceeds by Chronic Absent Pct", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
+      scale_size_continuous(guide="none")
+  }
+
+```
