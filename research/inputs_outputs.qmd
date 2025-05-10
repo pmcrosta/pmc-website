@@ -14,11 +14,54 @@ format:
 
 # Inputs and Outputs
 
-This document contains comparative data on educational inputs and outcomes for Fair Haven and peer districts. Inputs include items such as teacher characteristics and per pupil expenditures. Outcomes are primarily oriented around standardized test scores. It is important to note that often what we can measure or what available measurements we have are not always the measurements that we might want or measurements at the right granularity. That said, I think it is still worth exploring the available data so that we can learn something about the production of education.
+This document contains comparative data on educational inputs and outcomes for Fair Haven and peer districts. In an effort to learn more about education in Fair Haven and how it compares to peer districts, I started building a [data set](building_a_dataset.qmd) and creating lots of graphs, many of which are reproduced on this page. The focus is on educational inputs and outcomes that live in data sets available to the public. This is to say that there are, of course, a number of inputs and outcomes that are not captured here, and thus this is a very incomplete picture of any educational process. What we can measure or what available measurements we have are not always the measurements that we might want or measurements at the right granularity. But we press on. Inputs include items such as teacher characteristics, student characteristics, and expenditures. Outcomes here are primarily oriented around standardized test scores.
 
-::: callout-caution
-Under construction. This doc only contains plots right now. Annotations are coming soon.
-:::
+Rather than commenting on every graph on this page, I have compiled a list of "things I have learned" combing through the data.
+
+## Expenditures
+
+-   Compared to peers, Fair Haven had a relatively low total per-pupil expenditure ni 2023-24 (@fig-perpupil-totalcosts). At face value, it is not obvious as to whether this is a positive or negative, something to champion or a concern. Fair Haven spent about \$5,000 less per student than Little Silver, and one could easily imagine what an extra \$5k could purchase.
+-   Total expenditure includes a number of costs that may not be so tightly associated with educational products, and so I also look at per-pupil expenditures on instruction (@fig-perpupil-instructionalcosts). Here we see Fair Haven again had a relatively lower per-pupil expenditure, though the delta between Fair Haven and our geographic neighbors was only about \$1,000. Related, Fair Haven had nearly the highest percentage of expenditures going to instruction. (@fig-perpupil-instructpct)
+-   Notably, Fair Haven had the lowest administrative cost per student out of the entire peer set (@fig-perpupil-admincosts). Related, Fair Haven had among the highest student-admin ratios, or a high number of students per administrator (@fig-adminstudent).
+
+## Teachers, absences, special education
+
+-   Looking at teachers, Fair Haven had one of the youngest teacher work forces in terms of years of experience (@fig-teacherexperience).
+-   Historically, Fair Haven has had challenges with chronic absences, but in the 2023-24 school year, the chronic absence percentage was nearly the same as our geographic neighbors, 4.8%. (@fig-absences-chronic)
+-   Also historically, or at least anecdotally, Fair Haven has had a relatively large proportion of students classified as "with disabilities", which broadly includes any students with IEPs (Individualized Education Plans). As seen in (@fig-specialed), Fair Haven is about in the middle of the peer group with 15.6% of students receiving special education.
+
+## Math outcomes
+
+-   Most districts in the peer group had at least 70% of students meeting or exceeding expectations in Math according to state standardized tests in grades 3-8, with Fair Haven in the middle 3rd of the pack at 78.3% (@fig-outcomes-math). Rumson and Little Silver had over 86% of students meet or exceed expectations in Math (these are among the highest in the state).
+-   In Math, Fair Haven had a median student growth percentile ([SGP](https://www.njsmart.org/njr/ks/Student%20Growth%20Percentile/SGP%20Technical%20Overview.pdf)) of 55. SGP is a hard-to-interpret measure of academic progress from one year to the next, and 55 is considered typical. Rumson's SGP was 53 and Little Silver's was 70. (@fig-outcomes-math-msgp)
+-   When excluding students with disabilities, rates of meeting or exceeding expectations in Math for all districts increased. Fair Haven and geographic peers were all about 85%. (@fig-outcomes-math-nodis).
+-   When restricting to students with disabilities, about 43% Fair Haven students met or exceeded expectations in Math, compared to about 55% in Rumson (@fig-outcomes-math-dis).
+-   Over time, Fair Haven showed steep improvement in Math from 2014-15 to 2018-19 before dipping and remaining flat after the Covid-19 pandemic. Note that the earliest part of this time series (2014-15) was when the state replaced the NJASK test with the PARCC test. Districts that were ill-prepared for the change generally saw low test scores in the early days. In 2018-19 the NJSLA replaced PARCC (though NJSLA is similar to PARCC). (@fig-math-me-time)
+
+## ELA outcomes
+
+-   For ELA (English Language Arts), most districts in the peer group had at least 77% of students meeting or exceeding expectations according to state standardized tests in grades 3-8, with Fair Haven in the middle 3rd of the pack at 81.9% (@fig-outcomes-ela)
+-   When excluding students with disabilities, rates of meeting or exceeding expectations in ELA for all districts increased. Fair Haven had 91% meet or exceeds in ELA. (@fig-outcomes-ela-nodis)
+-   When restricting to students with disabilities, about 41% Fair Haven students met or exceeded expectations in ELA, compared to about 65% in Little Silver (@fig-outcomes-ela-dis)
+-   Over time, Fair Haven showed steep improvement in ELA from 2014-15 to 2018-19 before dipping and remaining flat after the Covid-19 pandemic. (@fig-ela-me-time)
+
+## Outcomes and inputs
+
+-   Relationships between outcomes (like Math and ELA achievement) and inputs (like expenditures per pupil) often show weak positive relationships, which is not unexpected. One reason to examine this relationship between only Fair Haven and similar peers is to compare like with like as best as possible and reduce biases coming from unmeasured or omitted factors (@fig-math-vs-perpupil and @fig-ela-vs-perpupil).
+-   One relationship that is particularly strong is between district median family income and Math and ELA achievement (@fig-math-vs-medianincome-all and @fig-ela-vs-medianincome-all). I find these relationships to be a clear reminder of the socioeconomic diversity present in our State as well as the privilege that many of us share in the Peninsula area.
+-   Another relationshp that stood out to me was between chronic absence and achievement. @fig-math-vs-chronicabs and @fig-ela-vs-chronicabs show the negative relationship between chronic absence and Math and ELA achievement. @fig-math-vs-chronicabs-all and @fig-ela-vs-chronicabs-all shows it for all districts.
+
+## Summary
+
+In 2023-24, Fair Haven spent less per student overall and on instruction compared to peers, but directed a high percentage of its budget to the classroom. It had the lowest administrative costs and a young teaching staff. Chronic absences improved to match neighbors. About 15.6% of students had disabilities, placing Fair Haven in the middle of its peer group.
+
+Academic outcomes in Math (78.3%) and ELA (81.9%) were in the middle range compared to peers. Excluding students with disabilities, these rates improved significantly. However, students with disabilities showed lower achievement in both subjects than some peers. Achievement improved notably from 2014-15 to 2018-19 before leveling off post-pandemic.
+
+Within the peer group, per-pupil spending had a weak link to outcomes, but median family income strongly correlated with achievement across all districts. Higher chronic absence was linked to lower Math and ELA scores.
+
+Despite the richness of these data, they are limited in what they reveal about the educational landscape in Fair Haven. Though I do believe that this is a decent starting point for helping folks to align on a set of facts that can lead to fruitful conversations with practitioners.
+
+# Figures
 
 ```{r}
 #| label: setup
@@ -144,7 +187,7 @@ outcomes_time$dist_size <- if_else(outcomes_time$dist_colors=="Other", .5, 2)
 
 ```
 
-# Per pupil costs
+## Per pupil costs
 
 ```{r}
 #| label: fig-perpupil-totalcosts
@@ -269,7 +312,7 @@ comb2324 %>%
   }
 ```
 
-# Teacher and Administrative characteristics
+## Teacher and Administrative characteristics
 
 ```{r}
 #| label: fig-teacherstudent
@@ -460,7 +503,7 @@ comb2324 %>%
 
 ```
 
-# Absences
+## Absences
 
 ```{r}
 #| label: fig-absences-chronic
@@ -495,7 +538,7 @@ comb2324 %>%
 
 ```
 
-# Special Education
+## Special Education
 
 ```{r}
 #| label: fig-specialed
@@ -527,9 +570,9 @@ comb2324 %>%
   }
 ```
 
-# Outcomes
+## Outcomes
 
-## Math
+### Math
 
 ```{r}
 #| label: fig-outcomes-math
@@ -719,7 +762,7 @@ ggplot(aes(x=SchoolYear, y=MATH_ME_District, group=stleaid, color=dist_colors), 
 
 ```
 
-## ELA
+### ELA
 
 ```{r}
 #| label: fig-outcomes-ela
@@ -909,7 +952,7 @@ ggplot(aes(x=SchoolYear, y=ELA_ME_District, group=stleaid, color=dist_colors), d
 
 ```
 
-# Outcomes and Inputs Math
+## Outcomes and Inputs Math
 
 ```{r}
 #| label: fig-math-vs-perpupil
@@ -937,7 +980,9 @@ comb2324 %>%
       scale_color_manual(values=district_name_colors, guide="none") +
       labs(x="Per Pupil Expenditure", y="Percent Meets/Exceeds in Math") +
       ggtitle("Math Meets/Exceeds by Per Pupil Expenditure", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(name = "District Size")
+      scale_size_continuous(name = "District Size") +
+      scale_y_continuous(labels = scales::label_percent(accuracy = 1), limits=c(0,1)) +
+      scale_x_continuous(labels = scales::dollar, expand = expansion(mult = c(0, 0.1)))
   }
 
 ```
@@ -967,7 +1012,9 @@ comb2324 %>%
       scale_color_manual(values=district_name_colors, guide="none") +
       labs(x="Per Pupil Expenditure", y="Percent Meets/Exceeds in Math") +
       ggtitle("Math Meets/Exceeds by Per Pupil Expenditure", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(name = "District Size")
+      scale_size_continuous(name = "District Size") +
+      scale_y_continuous(labels = scales::label_percent(accuracy = 1), limits=c(0,1)) +
+      scale_x_continuous(labels = scales::dollar, expand = expansion(mult = c(0, 0.1)))
   }
 
 ```
@@ -998,6 +1045,7 @@ comb2324 %>%
       labs(x="Median Family Income", y="Percent Meets/Exceeds in Math") +
       ggtitle("Math Meets/Exceeds by Median Family Income", subtitle = paste0(sy, "; Sources: NJ Dept of Ed., ACS-EDGE")) +
       scale_size_continuous(name = "District Size") +
+      scale_y_continuous(labels = scales::label_percent(accuracy = 1), limits=c(0,1)) +
       scale_x_continuous(labels = scales::dollar, expand = expansion(mult = c(0, 0.1)))
   }
 
@@ -1030,7 +1078,7 @@ comb2324 %>%
       labs(x="Per Pupil Expenditure", y="Percent Exceeds in Math") +
       ggtitle("Math Exceeds by Per Pupil Expenditure", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
       scale_size_continuous(name = "District Size") +
-      scale_y_continuous(labels = scales::label_percent(accuracy = 1)) +
+      scale_y_continuous(labels = scales::label_percent(accuracy = 1), limits=c(0,1)) +
       scale_x_continuous(labels = scales::dollar, expand = expansion(mult = c(0, 0.1)))
   }
 
@@ -1126,7 +1174,8 @@ comb2324 %>%
       labs(x="Percent Instruction", y="Percent Meets/Exceeds in Math") +
       ggtitle("Math Meets/Exceeds by Percent Instruction", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
       scale_size_continuous(name = "District Size") +
-      scale_x_continuous(labels = scales::label_percent(accuracy = 1))
+      scale_x_continuous(labels = scales::label_percent(accuracy = 1)) +
+      scale_y_continuous(labels = scales::label_percent(accuracy = 1), limits=c(0,1))  
   }
 
 ```
@@ -1157,7 +1206,8 @@ comb2324 %>%
       scale_color_manual(values=district_name_colors, guide="none") +
       labs(x="Teacher Avg Years Exp", y="Percent Meets/Exceeds in Math") +
       ggtitle("Math Meets/Exceeds by Teacher Avg Years Exp", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(name = "District Size")
+      scale_size_continuous(name = "District Size") +
+      scale_y_continuous(labels = scales::label_percent(accuracy = 1), limits=c(0,1))
   }
 
 ```
@@ -1188,7 +1238,8 @@ comb2324 %>%
       scale_color_manual(values=district_name_colors, guide="none") +
       labs(x="Teacher Avg Years Exp in District", y="Percent Meets/Exceeds in Math") +
       ggtitle("Math Meets/Exceeds by Teacher Avg Years Exp in District", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(name = "District Size")
+      scale_size_continuous(name = "District Size") +
+      scale_y_continuous(labels = scales::label_percent(accuracy = 1), limits=c(0,1))
   }
 ```
 
@@ -1233,7 +1284,7 @@ comb2324 %>%
 #| fig-cap: "Math vs Chronic Absenteeism"
 #| code-summary: Code - Math vs Chronic Absenteeism
 
-comb2324 %>% dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>% rlm(MATH_ME_District ~ Chronic_Abs_Pct, data=., method = "M")
+# comb2324 %>% dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>% rlm(MATH_ME_District ~ Chronic_Abs_Pct, data=., method = "M")
 
 comb2324 %>%
   dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
@@ -1246,7 +1297,9 @@ comb2324 %>%
       scale_color_manual(values=district_name_colors, guide="none") +
       labs(x="Chronic Absent Pct", y="Percent Meets/Exceeds in Math") +
       ggtitle("Percent Math Meets/Exceeds by Chronic Absent Pct", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
+      scale_size_continuous(guide="none") +
+      scale_y_continuous(labels = scales::label_percent(accuracy = 1), limits=c(0,1)) +
+      scale_x_continuous(labels = scales::label_percent(accuracy = 1)) 
   }
 
 ```
@@ -1274,12 +1327,14 @@ comb2324 %>%
       scale_color_manual(values=district_name_colors, guide="none") +
       labs(x="Chronic Absent Pct", y="Percent Meets/Exceeds in Math") +
       ggtitle("Percent Math Meets/Exceeds by Chronic Absent Pct", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
+      scale_size_continuous(guide="none")  +
+      scale_y_continuous(labels = scales::label_percent(accuracy = 1), limits=c(0,1)) +
+      scale_x_continuous(labels = scales::label_percent(accuracy = 1)) 
   }
 
 ```
 
-# Outcomes and Inputs ELA
+## Outcomes and Inputs ELA
 
 ```{r}
 #| label: fig-ela-vs-perpupil
@@ -1307,7 +1362,9 @@ comb2324 %>%
       scale_color_manual(values=district_name_colors, guide="none") +
       labs(x="Per Pupil Expenditure", y="Percent Meets/Exceeds in ELA") +
       ggtitle("ELA Meets/Exceeds by Per Pupil Expenditure", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(name = "District Size")
+      scale_size_continuous(name = "District Size") +
+      scale_y_continuous(labels = scales::label_percent(accuracy = 1), limits=c(0,1)) +
+      scale_x_continuous(labels = scales::dollar, expand = expansion(mult = c(0, 0.1)))
   }
 
 ```
@@ -1337,7 +1394,9 @@ comb2324 %>%
       scale_color_manual(values=district_name_colors, guide="none") +
       labs(x="Per Pupil Expenditure", y="Percent Meets/Exceeds in ELA") +
       ggtitle("ELA Meets/Exceeds by Per Pupil Expenditure", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(name = "District Size")
+      scale_size_continuous(name = "District Size") +
+      scale_y_continuous(labels = scales::label_percent(accuracy = 1), limits=c(0,1)) +
+      scale_x_continuous(labels = scales::dollar, expand = expansion(mult = c(0, 0.1)))
   }
 
 ```
@@ -1368,6 +1427,7 @@ comb2324 %>%
       labs(x="Median Family Income", y="Percent Meets/Exceeds in ELA") +
       ggtitle("ELA Meets/Exceeds by Median Family Income", subtitle = paste0(sy, "; Sources: NJ Dept of Ed., ACS-EDGE")) +
       scale_size_continuous(name = "District Size") +
+      scale_y_continuous(labels = scales::label_percent(accuracy = 1), limits=c(0,1)) +
       scale_x_continuous(labels = scales::dollar, expand = expansion(mult = c(0, 0.1)))
   }
 
@@ -1400,7 +1460,7 @@ comb2324 %>%
       labs(x="Per Pupil Expenditure", y="Percent Exceeds in ELA") +
       ggtitle("ELA Exceeds by Per Pupil Expenditure", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
       scale_size_continuous(name = "District Size") +
-      scale_y_continuous(labels = scales::label_percent(accuracy = 1)) +
+      scale_y_continuous(labels = scales::label_percent(accuracy = 1), limits=c(0,1)) +
       scale_x_continuous(labels = scales::dollar, expand = expansion(mult = c(0, 0.1)))
   }
 
@@ -1496,6 +1556,7 @@ comb2324 %>%
       labs(x="Percent Instruction", y="Percent Meets/Exceeds in ELA") +
       ggtitle("ELA Meets/Exceeds by Percent Instruction", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
       scale_size_continuous(name = "District Size") +
+      scale_y_continuous(labels = scales::label_percent(accuracy = 1), limits=c(0,1)) +
       scale_x_continuous(labels = scales::label_percent(accuracy = 1))
   }
 
@@ -1527,7 +1588,8 @@ comb2324 %>%
       scale_color_manual(values=district_name_colors, guide="none") +
       labs(x="Teacher Avg Years Exp", y="Percent Meets/Exceeds in ELA") +
       ggtitle("ELA Meets/Exceeds by Teacher Avg Years Exp", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(name = "District Size")
+      scale_size_continuous(name = "District Size") +
+      scale_y_continuous(labels = scales::label_percent(accuracy = 1), limits=c(0,1)) 
   }
 
 ```
@@ -1558,7 +1620,8 @@ comb2324 %>%
       scale_color_manual(values=district_name_colors, guide="none") +
       labs(x="Teacher Avg Years Exp in District", y="Percent Meets/Exceeds in ELA") +
       ggtitle("ELA Meets/Exceeds by Teacher Avg Years Exp in District", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(name = "District Size")
+      scale_size_continuous(name = "District Size") +
+      scale_y_continuous(labels = scales::label_percent(accuracy = 1), limits=c(0,1)) 
   }
 ```
 
@@ -1603,7 +1666,7 @@ comb2324 %>%
 #| fig-cap: "ELA vs Chronic Absenteeism"
 #| code-summary: Code - ELA vs Chronic Absenteeism
 
-comb2324 %>% dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>% rlm(ELA_ME_District ~ Chronic_Abs_Pct, data=., method = "M")
+# comb2324 %>% dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>% rlm(ELA_ME_District ~ Chronic_Abs_Pct, data=., method = "M")
 
 comb2324 %>%
   dplyr::filter(hc_euclid_ward, TotalEnrollment < 1500) %>%
@@ -1616,7 +1679,9 @@ comb2324 %>%
       scale_color_manual(values=district_name_colors, guide="none") +
       labs(x="Chronic Absent Pct", y="Percent Meets/Exceeds in ELA") +
       ggtitle("Percent ELA Meets/Exceeds by Chronic Absent Pct", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
+      scale_size_continuous(guide="none") +
+      scale_y_continuous(labels = scales::label_percent(accuracy = 1), limits=c(0,1)) +
+      scale_x_continuous(labels = scales::label_percent(accuracy = 1)) 
   }
 
 ```
@@ -1644,7 +1709,9 @@ comb2324 %>%
       scale_color_manual(values=district_name_colors, guide="none") +
       labs(x="Chronic Absent Pct", y="Percent Meets/Exceeds in ELA") +
       ggtitle("Percent ELA Meets/Exceeds by Chronic Absent Pct", subtitle = paste0(sy, "; Source: NJ Dept of Ed.")) +
-      scale_size_continuous(guide="none")
+      scale_size_continuous(guide="none") +
+      scale_x_continuous(labels = scales::label_percent(accuracy = 1)) +
+      scale_y_continuous(labels = scales::label_percent(accuracy = 1), limits=c(0,1))
   }
 
 ```

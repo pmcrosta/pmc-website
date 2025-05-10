@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Peter M. Crosta">
-<meta name="dcterms.date" content="2025-05-02">
+<meta name="dcterms.date" content="2025-05-09">
 
 <title>Inputs and Outputs | Peter M. Crosta – Peter M. Crosta</title>
 <style>
@@ -197,7 +197,17 @@ gtag('config', 'G-FWYE2E48ZC', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#inputs-and-outputs" id="toc-inputs-and-outputs" class="nav-link active" data-scroll-target="#inputs-and-outputs">Inputs and Outputs</a></li>
+  <li><a href="#inputs-and-outputs" id="toc-inputs-and-outputs" class="nav-link active" data-scroll-target="#inputs-and-outputs">Inputs and Outputs</a>
+  <ul class="collapse">
+  <li><a href="#expenditures" id="toc-expenditures" class="nav-link" data-scroll-target="#expenditures">Expenditures</a></li>
+  <li><a href="#teachers-absences-special-education" id="toc-teachers-absences-special-education" class="nav-link" data-scroll-target="#teachers-absences-special-education">Teachers, absences, special education</a></li>
+  <li><a href="#math-outcomes" id="toc-math-outcomes" class="nav-link" data-scroll-target="#math-outcomes">Math outcomes</a></li>
+  <li><a href="#ela-outcomes" id="toc-ela-outcomes" class="nav-link" data-scroll-target="#ela-outcomes">ELA outcomes</a></li>
+  <li><a href="#outcomes-and-inputs" id="toc-outcomes-and-inputs" class="nav-link" data-scroll-target="#outcomes-and-inputs">Outcomes and inputs</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  </ul></li>
+  <li><a href="#figures" id="toc-figures" class="nav-link" data-scroll-target="#figures">Figures</a>
+  <ul class="collapse">
   <li><a href="#per-pupil-costs" id="toc-per-pupil-costs" class="nav-link" data-scroll-target="#per-pupil-costs">Per pupil costs</a></li>
   <li><a href="#teacher-and-administrative-characteristics" id="toc-teacher-and-administrative-characteristics" class="nav-link" data-scroll-target="#teacher-and-administrative-characteristics">Teacher and Administrative characteristics</a></li>
   <li><a href="#absences" id="toc-absences" class="nav-link" data-scroll-target="#absences">Absences</a></li>
@@ -209,6 +219,7 @@ gtag('config', 'G-FWYE2E48ZC', { 'anonymize_ip': true});
   </ul></li>
   <li><a href="#outcomes-and-inputs-math" id="toc-outcomes-and-inputs-math" class="nav-link" data-scroll-target="#outcomes-and-inputs-math">Outcomes and Inputs Math</a></li>
   <li><a href="#outcomes-and-inputs-ela" id="toc-outcomes-and-inputs-ela" class="nav-link" data-scroll-target="#outcomes-and-inputs-ela">Outcomes and Inputs ELA</a></li>
+  </ul></li>
   </ul>
 </nav>
 </nav>
@@ -238,7 +249,7 @@ gtag('config', 'G-FWYE2E48ZC', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">May 2, 2025</p>
+      <p class="date">May 9, 2025</p>
     </div>
   </div>
   
@@ -252,20 +263,61 @@ gtag('config', 'G-FWYE2E48ZC', { 'anonymize_ip': true});
 
 <section id="inputs-and-outputs" class="level1">
 <h1>Inputs and Outputs</h1>
-<p>This document contains comparative data on educational inputs and outcomes for Fair Haven and peer districts. Inputs include items such as teacher characteristics and per pupil expenditures. Outcomes are primarily oriented around standardized test scores. It is important to note that often what we can measure or what available measurements we have are not always the measurements that we might want or measurements at the right granularity. That said, I think it is still worth exploring the available data so that we can learn something about the production of education.</p>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Caution
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Under construction. This doc only contains plots right now. Annotations are coming soon.</p>
-</div>
-</div>
+<p>This document contains comparative data on educational inputs and outcomes for Fair Haven and peer districts. In an effort to learn more about education in Fair Haven and how it compares to peer districts, I started building a <a href="../research/building_a_dataset.html">data set</a> and creating lots of graphs, many of which are reproduced on this page. The focus is on educational inputs and outcomes that live in data sets available to the public. This is to say that there are, of course, a number of inputs and outcomes that are not captured here, and thus this is a very incomplete picture of any educational process. What we can measure or what available measurements we have are not always the measurements that we might want or measurements at the right granularity. But we press on. Inputs include items such as teacher characteristics, student characteristics, and expenditures. Outcomes here are primarily oriented around standardized test scores.</p>
+<p>Rather than commenting on every graph on this page, I have compiled a list of “things I have learned” combing through the data.</p>
+<section id="expenditures" class="level2">
+<h2 class="anchored" data-anchor-id="expenditures">Expenditures</h2>
+<ul>
+<li>Compared to peers, Fair Haven had a relatively low total per-pupil expenditure ni 2023-24 (<a href="#fig-perpupil-totalcosts" class="quarto-xref">Figure&nbsp;1</a>). At face value, it is not obvious as to whether this is a positive or negative, something to champion or a concern. Fair Haven spent about $5,000 less per student than Little Silver, and one could easily imagine what an extra $5k could purchase.</li>
+<li>Total expenditure includes a number of costs that may not be so tightly associated with educational products, and so I also look at per-pupil expenditures on instruction (<a href="#fig-perpupil-instructionalcosts" class="quarto-xref">Figure&nbsp;2</a>). Here we see Fair Haven again had a relatively lower per-pupil expenditure, though the delta between Fair Haven and our geographic neighbors was only about $1,000. Related, Fair Haven had nearly the highest percentage of expenditures going to instruction. (<a href="#fig-perpupil-instructpct" class="quarto-xref">Figure&nbsp;4</a>)</li>
+<li>Notably, Fair Haven had the lowest administrative cost per student out of the entire peer set (<a href="#fig-perpupil-admincosts" class="quarto-xref">Figure&nbsp;3</a>). Related, Fair Haven had among the highest student-admin ratios, or a high number of students per administrator (<a href="#fig-adminstudent" class="quarto-xref">Figure&nbsp;6</a>).</li>
+</ul>
+</section>
+<section id="teachers-absences-special-education" class="level2">
+<h2 class="anchored" data-anchor-id="teachers-absences-special-education">Teachers, absences, special education</h2>
+<ul>
+<li>Looking at teachers, Fair Haven had one of the youngest teacher work forces in terms of years of experience (<a href="#fig-teacherexperience" class="quarto-xref">Figure&nbsp;7</a>).</li>
+<li>Historically, Fair Haven has had challenges with chronic absences, but in the 2023-24 school year, the chronic absence percentage was nearly the same as our geographic neighbors, 4.8%. (<a href="#fig-absences-chronic" class="quarto-xref">Figure&nbsp;11</a>)</li>
+<li>Also historically, or at least anecdotally, Fair Haven has had a relatively large proportion of students classified as “with disabilities”, which broadly includes any students with IEPs (Individualized Education Plans). As seen in (<a href="#fig-specialed" class="quarto-xref">Figure&nbsp;12</a>), Fair Haven is about in the middle of the peer group with 15.6% of students receiving special education.</li>
+</ul>
+</section>
+<section id="math-outcomes" class="level2">
+<h2 class="anchored" data-anchor-id="math-outcomes">Math outcomes</h2>
+<ul>
+<li>Most districts in the peer group had at least 70% of students meeting or exceeding expectations in Math according to state standardized tests in grades 3-8, with Fair Haven in the middle 3rd of the pack at 78.3% (<a href="#fig-outcomes-math" class="quarto-xref">Figure&nbsp;13</a>). Rumson and Little Silver had over 86% of students meet or exceed expectations in Math (these are among the highest in the state).</li>
+<li>In Math, Fair Haven had a median student growth percentile (<a href="https://www.njsmart.org/njr/ks/Student%20Growth%20Percentile/SGP%20Technical%20Overview.pdf">SGP</a>) of 55. SGP is a hard-to-interpret measure of academic progress from one year to the next, and 55 is considered typical. Rumson’s SGP was 53 and Little Silver’s was 70. (<a href="#fig-outcomes-math-msgp" class="quarto-xref">Figure&nbsp;15</a>)</li>
+<li>When excluding students with disabilities, rates of meeting or exceeding expectations in Math for all districts increased. Fair Haven and geographic peers were all about 85%. (<a href="#fig-outcomes-math-nodis" class="quarto-xref">Figure&nbsp;16</a>).</li>
+<li>When restricting to students with disabilities, about 43% Fair Haven students met or exceeded expectations in Math, compared to about 55% in Rumson (<a href="#fig-outcomes-math-dis" class="quarto-xref">Figure&nbsp;17</a>).</li>
+<li>Over time, Fair Haven showed steep improvement in Math from 2014-15 to 2018-19 before dipping and remaining flat after the Covid-19 pandemic. Note that the earliest part of this time series (2014-15) was when the state replaced the NJASK test with the PARCC test. Districts that were ill-prepared for the change generally saw low test scores in the early days. In 2018-19 the NJSLA replaced PARCC (though NJSLA is similar to PARCC). (<a href="#fig-math-me-time" class="quarto-xref">Figure&nbsp;18</a>)</li>
+</ul>
+</section>
+<section id="ela-outcomes" class="level2">
+<h2 class="anchored" data-anchor-id="ela-outcomes">ELA outcomes</h2>
+<ul>
+<li>For ELA (English Language Arts), most districts in the peer group had at least 77% of students meeting or exceeding expectations according to state standardized tests in grades 3-8, with Fair Haven in the middle 3rd of the pack at 81.9% (<a href="#fig-outcomes-ela" class="quarto-xref">Figure&nbsp;19</a>)</li>
+<li>When excluding students with disabilities, rates of meeting or exceeding expectations in ELA for all districts increased. Fair Haven had 91% meet or exceeds in ELA. (<a href="#fig-outcomes-ela-nodis" class="quarto-xref">Figure&nbsp;22</a>)</li>
+<li>When restricting to students with disabilities, about 41% Fair Haven students met or exceeded expectations in ELA, compared to about 65% in Little Silver (<a href="#fig-outcomes-ela-dis" class="quarto-xref">Figure&nbsp;23</a>)</li>
+<li>Over time, Fair Haven showed steep improvement in ELA from 2014-15 to 2018-19 before dipping and remaining flat after the Covid-19 pandemic. (<a href="#fig-ela-me-time" class="quarto-xref">Figure&nbsp;24</a>)</li>
+</ul>
+</section>
+<section id="outcomes-and-inputs" class="level2">
+<h2 class="anchored" data-anchor-id="outcomes-and-inputs">Outcomes and inputs</h2>
+<ul>
+<li>Relationships between outcomes (like Math and ELA achievement) and inputs (like expenditures per pupil) often show weak positive relationships, which is not unexpected. One reason to examine this relationship between only Fair Haven and similar peers is to compare like with like as best as possible and reduce biases coming from unmeasured or omitted factors (<a href="#fig-math-vs-perpupil" class="quarto-xref">Figure&nbsp;25</a> and <a href="#fig-ela-vs-perpupil" class="quarto-xref">Figure&nbsp;37</a>).</li>
+<li>One relationship that is particularly strong is between district median family income and Math and ELA achievement (<a href="#fig-math-vs-medianincome-all" class="quarto-xref">Figure&nbsp;27</a> and <a href="#fig-ela-vs-medianincome-all" class="quarto-xref">Figure&nbsp;39</a>). I find these relationships to be a clear reminder of the socioeconomic diversity present in our State as well as the privilege that many of us share in the Peninsula area.</li>
+<li>Another relationshp that stood out to me was between chronic absence and achievement. <a href="#fig-math-vs-chronicabs" class="quarto-xref">Figure&nbsp;35</a> and <a href="#fig-ela-vs-chronicabs" class="quarto-xref">Figure&nbsp;47</a> show the negative relationship between chronic absence and Math and ELA achievement. <a href="#fig-math-vs-chronicabs-all" class="quarto-xref">Figure&nbsp;36</a> and <a href="#fig-ela-vs-chronicabs-all" class="quarto-xref">Figure&nbsp;48</a> shows it for all districts.</li>
+</ul>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>In 2023-24, Fair Haven spent less per student overall and on instruction compared to peers, but directed a high percentage of its budget to the classroom. It had the lowest administrative costs and a young teaching staff. Chronic absences improved to match neighbors. About 15.6% of students had disabilities, placing Fair Haven in the middle of its peer group.</p>
+<p>Academic outcomes in Math (78.3%) and ELA (81.9%) were in the middle range compared to peers. Excluding students with disabilities, these rates improved significantly. However, students with disabilities showed lower achievement in both subjects than some peers. Achievement improved notably from 2014-15 to 2018-19 before leveling off post-pandemic.</p>
+<p>Within the peer group, per-pupil spending had a weak link to outcomes, but median family income strongly correlated with achievement across all districts. Higher chronic absence was linked to lower Math and ELA scores.</p>
+<p>Despite the richness of these data, they are limited in what they reveal about the educational landscape in Fair Haven. Though I do believe that this is a decent starting point for helping folks to align on a set of facts that can lead to fruitful conversations with practitioners.</p>
+</section>
+</section>
+<section id="figures" class="level1">
+<h1>Figures</h1>
 <div class="cell">
 <details class="code-fold">
 <summary>Code - Load libraries</summary>
@@ -380,9 +432,8 @@ Caution
 <span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>outcomes_time<span class="sc">$</span>dist_size <span class="ot">&lt;-</span> <span class="fu">if_else</span>(outcomes_time<span class="sc">$</span>dist_colors<span class="sc">==</span><span class="st">"Other"</span>, .<span class="dv">5</span>, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-</section>
-<section id="per-pupil-costs" class="level1">
-<h1>Per pupil costs</h1>
+<section id="per-pupil-costs" class="level2">
+<h2 class="anchored" data-anchor-id="per-pupil-costs">Per pupil costs</h2>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code - Per pupil costs</summary>
@@ -521,8 +572,8 @@ Figure&nbsp;4: Per pupil instructional percentage
 </div>
 </div>
 </section>
-<section id="teacher-and-administrative-characteristics" class="level1">
-<h1>Teacher and Administrative characteristics</h1>
+<section id="teacher-and-administrative-characteristics" class="level2">
+<h2 class="anchored" data-anchor-id="teacher-and-administrative-characteristics">Teacher and Administrative characteristics</h2>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code - Student-Teacher Ratio</summary>
@@ -728,8 +779,8 @@ Figure&nbsp;10: Teachers with Provisional Credential
 </div>
 </div>
 </section>
-<section id="absences" class="level1">
-<h1>Absences</h1>
+<section id="absences" class="level2">
+<h2 class="anchored" data-anchor-id="absences">Absences</h2>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code - Chronic Absences</summary>
@@ -767,8 +818,8 @@ Figure&nbsp;11: Absences
 </div>
 </div>
 </section>
-<section id="special-education" class="level1">
-<h1>Special Education</h1>
+<section id="special-education" class="level2">
+<h2 class="anchored" data-anchor-id="special-education">Special Education</h2>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code - Special Ed</summary>
@@ -804,10 +855,10 @@ Figure&nbsp;12: Special Ed
 </div>
 </div>
 </section>
-<section id="outcomes" class="level1">
-<h1>Outcomes</h1>
-<section id="math" class="level2">
-<h2 class="anchored" data-anchor-id="math">Math</h2>
+<section id="outcomes" class="level2">
+<h2 class="anchored" data-anchor-id="outcomes">Outcomes</h2>
+<section id="math" class="level3">
+<h3 class="anchored" data-anchor-id="math">Math</h3>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code - Math Outcomes</summary>
@@ -1019,8 +1070,8 @@ Figure&nbsp;18: Math Meets/Exceeds over Time
 </div>
 </div>
 </section>
-<section id="ela" class="level2">
-<h2 class="anchored" data-anchor-id="ela">ELA</h2>
+<section id="ela" class="level3">
+<h3 class="anchored" data-anchor-id="ela">ELA</h3>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code - ELA Outcomes</summary>
@@ -1231,8 +1282,8 @@ Figure&nbsp;24: ELA Meets/Exceeds over Time
 </div>
 </section>
 </section>
-<section id="outcomes-and-inputs-math" class="level1">
-<h1>Outcomes and Inputs Math</h1>
+<section id="outcomes-and-inputs-math" class="level2">
+<h2 class="anchored" data-anchor-id="outcomes-and-inputs-math">Outcomes and Inputs Math</h2>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code - Math vs Per Pupil Expenditure</summary>
@@ -1251,8 +1302,10 @@ Figure&nbsp;24: ELA Meets/Exceeds over Time
 <span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
 <span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Per Pupil Expenditure"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in Math"</span>) <span class="sc">+</span></span>
 <span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"Math Meets/Exceeds by Per Pupil Expenditure"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>)</span>
-<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>) <span class="sc">+</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>), <span class="at">limits=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>dollar, <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>)))</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-math-vs-perpupil" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1284,8 +1337,10 @@ Figure&nbsp;25: Math vs Per Pupil Expenditure
 <span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
 <span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Per Pupil Expenditure"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in Math"</span>) <span class="sc">+</span></span>
 <span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"Math Meets/Exceeds by Per Pupil Expenditure"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>)</span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>) <span class="sc">+</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>), <span class="at">limits=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>dollar, <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>)))</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-math-vs-perpupil-all" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1318,8 +1373,9 @@ Figure&nbsp;26: Math vs Per Pupil Expenditure - All Districts
 <span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Median Family Income"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in Math"</span>) <span class="sc">+</span></span>
 <span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"Math Meets/Exceeds by Median Family Income"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Sources: NJ Dept of Ed., ACS-EDGE"</span>)) <span class="sc">+</span></span>
 <span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>) <span class="sc">+</span></span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>dollar, <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>)))</span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>), <span class="at">limits=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>dollar, <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>)))</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-math-vs-medianincome-all" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1353,7 +1409,7 @@ Figure&nbsp;27: Math vs Median Family Income - All Districts
 <span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Per Pupil Expenditure"</span>, <span class="at">y=</span><span class="st">"Percent Exceeds in Math"</span>) <span class="sc">+</span></span>
 <span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"Math Exceeds by Per Pupil Expenditure"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
 <span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>) <span class="sc">+</span></span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>), <span class="at">limits=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
 <span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>dollar, <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>)))</span>
 <span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -1457,8 +1513,9 @@ Figure&nbsp;30: Math Growth Percentile vs Per Pupil Expenditure - All
 <span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Percent Instruction"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in Math"</span>) <span class="sc">+</span></span>
 <span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"Math Meets/Exceeds by Percent Instruction"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
 <span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>) <span class="sc">+</span></span>
-<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>))</span>
-<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>), <span class="at">limits=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))  </span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-math-vs-percentint" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1491,8 +1548,9 @@ Figure&nbsp;31: Math vs Percent Expenditure to Instruction
 <span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
 <span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Teacher Avg Years Exp"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in Math"</span>) <span class="sc">+</span></span>
 <span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"Math Meets/Exceeds by Teacher Avg Years Exp"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
-<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>)</span>
-<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>) <span class="sc">+</span></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>), <span class="at">limits=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-math-vs-avgyears" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1525,8 +1583,9 @@ Figure&nbsp;32: Math vs Teacher Avg Years Exp
 <span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
 <span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Teacher Avg Years Exp in District"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in Math"</span>) <span class="sc">+</span></span>
 <span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"Math Meets/Exceeds by Teacher Avg Years Exp in District"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
-<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>)</span>
-<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>) <span class="sc">+</span></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>), <span class="at">limits=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-math-vs-avgyears-dist" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1577,35 +1636,23 @@ Figure&nbsp;34: Math Growth vs Teacher Avg Years Exp
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code - Math vs Chronic Absenteeism</summary>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_ward, TotalEnrollment <span class="sc">&lt;</span> <span class="dv">1500</span>) <span class="sc">%&gt;%</span> <span class="fu">rlm</span>(MATH_ME_District <span class="sc">~</span> Chronic_Abs_Pct, <span class="at">data=</span>., <span class="at">method =</span> <span class="st">"M"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Call:
-rlm(formula = MATH_ME_District ~ Chronic_Abs_Pct, data = ., method = "M")
-Converged in 7 iterations
-
-Coefficients:
-    (Intercept) Chronic_Abs_Pct 
-      0.8501194      -1.7529098 
-
-Degrees of freedom: 37 total; 35 residual
-Scale estimate: 0.0691 </code></pre>
-</div>
-<details class="code-fold">
-<summary>Code - Math vs Chronic Absenteeism</summary>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_ward, TotalEnrollment <span class="sc">&lt;</span> <span class="dv">1500</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>Chronic_Abs_Pct, <span class="at">y=</span>MATH_ME_District, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Chronic Absent Pct"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in Math"</span>) <span class="sc">+</span></span>
-<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"Percent Math Meets/Exceeds by Chronic Absent Pct"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
-<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">guide=</span><span class="st">"none"</span>)</span>
-<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% dplyr::filter(hc_euclid_ward, TotalEnrollment &lt; 1500) %&gt;% rlm(MATH_ME_District ~ Chronic_Abs_Pct, data=., method = "M")</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_ward, TotalEnrollment <span class="sc">&lt;</span> <span class="dv">1500</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>Chronic_Abs_Pct, <span class="at">y=</span>MATH_ME_District, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Chronic Absent Pct"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in Math"</span>) <span class="sc">+</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"Percent Math Meets/Exceeds by Chronic Absent Pct"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>), <span class="at">limits=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>)) </span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-math-vs-chronicabs" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1623,20 +1670,22 @@ Figure&nbsp;35: Math vs Chronic Absenteeism
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code - Math vs Chronic Absenteeism - All Districts</summary>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% rlm(MATH_ME_District ~ Chronic_Abs_Pct, data=., method = "M")</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>Chronic_Abs_Pct, <span class="at">y=</span>MATH_ME_District, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Chronic Absent Pct"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in Math"</span>) <span class="sc">+</span></span>
-<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"Percent Math Meets/Exceeds by Chronic Absent Pct"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
-<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">guide=</span><span class="st">"none"</span>)</span>
-<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% rlm(MATH_ME_District ~ Chronic_Abs_Pct, data=., method = "M")</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>Chronic_Abs_Pct, <span class="at">y=</span>MATH_ME_District, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Chronic Absent Pct"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in Math"</span>) <span class="sc">+</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"Percent Math Meets/Exceeds by Chronic Absent Pct"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">guide=</span><span class="st">"none"</span>)  <span class="sc">+</span></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>), <span class="at">limits=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>)) </span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-math-vs-chronicabs-all" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1652,28 +1701,30 @@ Figure&nbsp;36: Math vs Chronic Absenteeism - All Districts
 </div>
 </div>
 </section>
-<section id="outcomes-and-inputs-ela" class="level1">
-<h1>Outcomes and Inputs ELA</h1>
+<section id="outcomes-and-inputs-ela" class="level2">
+<h2 class="anchored" data-anchor-id="outcomes-and-inputs-ela">Outcomes and Inputs ELA</h2>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code - ELA vs Per Pupil Expenditure</summary>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% dplyr::filter(hc_euclid_ward, TotalEnrollment &lt; 1500) %&gt;% rlm(ELA_ME_District ~ I(per_pupil_cost/1000), data=., method = "M")</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_ward, TotalEnrollment <span class="sc">&lt;</span> <span class="dv">1500</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>per_pupil_cost, <span class="at">y=</span>ELA_ME_District, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>      <span class="co">#stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +</span></span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
-<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
-<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Per Pupil Expenditure"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in ELA"</span>) <span class="sc">+</span></span>
-<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"ELA Meets/Exceeds by Per Pupil Expenditure"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
-<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>)</span>
-<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% dplyr::filter(hc_euclid_ward, TotalEnrollment &lt; 1500) %&gt;% rlm(ELA_ME_District ~ I(per_pupil_cost/1000), data=., method = "M")</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_ward, TotalEnrollment <span class="sc">&lt;</span> <span class="dv">1500</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>per_pupil_cost, <span class="at">y=</span>ELA_ME_District, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>      <span class="co">#stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Per Pupil Expenditure"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in ELA"</span>) <span class="sc">+</span></span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"ELA Meets/Exceeds by Per Pupil Expenditure"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>) <span class="sc">+</span></span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>), <span class="at">limits=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>dollar, <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>)))</span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-ela-vs-perpupil" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1691,22 +1742,24 @@ Figure&nbsp;37: ELA vs Per Pupil Expenditure
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code - ELA vs Per Pupil Expenditure - All Districts</summary>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% rlm(ELA_ME_District ~ I(per_pupil_cost/1000), data=., method = "M")</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>per_pupil_cost, <span class="at">y=</span>ELA_ME_District, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>      <span class="co">#stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +</span></span>
-<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
-<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
-<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Per Pupil Expenditure"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in ELA"</span>) <span class="sc">+</span></span>
-<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"ELA Meets/Exceeds by Per Pupil Expenditure"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
-<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>)</span>
-<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% rlm(ELA_ME_District ~ I(per_pupil_cost/1000), data=., method = "M")</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>per_pupil_cost, <span class="at">y=</span>ELA_ME_District, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>      <span class="co">#stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Per Pupil Expenditure"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in ELA"</span>) <span class="sc">+</span></span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"ELA Meets/Exceeds by Per Pupil Expenditure"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>) <span class="sc">+</span></span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>), <span class="at">limits=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>dollar, <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>)))</span>
+<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-ela-vs-perpupil-all" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1724,23 +1777,24 @@ Figure&nbsp;38: ELA vs Per Pupil Expenditure - All Districts
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code - ELA vs Median Family Income - All Districts</summary>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% rlm(ELA_ME_District ~ I(Fam_Med_Income/1000), data=., method = "M")</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>Fam_Med_Income, <span class="at">y=</span>ELA_ME_District, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
-<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>      <span class="co">#stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +</span></span>
-<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
-<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
-<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Median Family Income"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in ELA"</span>) <span class="sc">+</span></span>
-<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"ELA Meets/Exceeds by Median Family Income"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Sources: NJ Dept of Ed., ACS-EDGE"</span>)) <span class="sc">+</span></span>
-<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>) <span class="sc">+</span></span>
-<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>dollar, <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>)))</span>
-<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% rlm(ELA_ME_District ~ I(Fam_Med_Income/1000), data=., method = "M")</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>Fam_Med_Income, <span class="at">y=</span>ELA_ME_District, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>      <span class="co">#stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Median Family Income"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in ELA"</span>) <span class="sc">+</span></span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"ELA Meets/Exceeds by Median Family Income"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Sources: NJ Dept of Ed., ACS-EDGE"</span>)) <span class="sc">+</span></span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>) <span class="sc">+</span></span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>), <span class="at">limits=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>dollar, <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>)))</span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-ela-vs-medianincome-all" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1758,25 +1812,25 @@ Figure&nbsp;39: ELA vs Median Family Income - All Districts
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code - ELA Exceeds vs Per Pupil Expenditure</summary>
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% dplyr::filter(hc_euclid_ward, TotalEnrollment &lt; 1500) %&gt;% rlm(ELA_pct_level5 ~ I(per_pupil_cost/1000), data=., method = "M")</span></span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_ward, TotalEnrollment <span class="sc">&lt;</span> <span class="dv">1500</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>per_pupil_cost, <span class="at">y=</span>ELA_pct_level5, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
-<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
-<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>      <span class="co">#stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +</span></span>
-<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
-<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
-<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Per Pupil Expenditure"</span>, <span class="at">y=</span><span class="st">"Percent Exceeds in ELA"</span>) <span class="sc">+</span></span>
-<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"ELA Exceeds by Per Pupil Expenditure"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
-<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>) <span class="sc">+</span></span>
-<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>dollar, <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>)))</span>
-<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% dplyr::filter(hc_euclid_ward, TotalEnrollment &lt; 1500) %&gt;% rlm(ELA_pct_level5 ~ I(per_pupil_cost/1000), data=., method = "M")</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_ward, TotalEnrollment <span class="sc">&lt;</span> <span class="dv">1500</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>per_pupil_cost, <span class="at">y=</span>ELA_pct_level5, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>      <span class="co">#stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Per Pupil Expenditure"</span>, <span class="at">y=</span><span class="st">"Percent Exceeds in ELA"</span>) <span class="sc">+</span></span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"ELA Exceeds by Per Pupil Expenditure"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>) <span class="sc">+</span></span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>), <span class="at">limits=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>dollar, <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>)))</span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-ela-vs-perpupil-exceeds" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1794,24 +1848,24 @@ Figure&nbsp;40: ELA Exceeds vs Per Pupil Expenditure
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code - ELA Growth Percentile vs Per Pupil Expenditure</summary>
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% dplyr::filter(hc_euclid_ward, TotalEnrollment &lt; 1500) %&gt;% rlm(mSGP_ELA ~ I(per_pupil_cost/1000), data=., method = "M")</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_ward, TotalEnrollment <span class="sc">&lt;</span> <span class="dv">1500</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>per_pupil_cost, <span class="at">y=</span>mSGP_ELA, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
-<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>      <span class="co">#stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +</span></span>
-<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
-<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
-<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Per Pupil Expenditure"</span>, <span class="at">y=</span><span class="st">"ELA Growth Percentile"</span>) <span class="sc">+</span></span>
-<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"ELA Growth Percentile by Per Pupil Expenditure"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
-<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>) <span class="sc">+</span></span>
-<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>dollar, <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>)))</span>
-<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% dplyr::filter(hc_euclid_ward, TotalEnrollment &lt; 1500) %&gt;% rlm(mSGP_ELA ~ I(per_pupil_cost/1000), data=., method = "M")</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_ward, TotalEnrollment <span class="sc">&lt;</span> <span class="dv">1500</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>per_pupil_cost, <span class="at">y=</span>mSGP_ELA, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>      <span class="co">#stat_poly_eq(use_label(c("eq")), method="rlm:M",  label.x = .8, label.y=1, color="black") +</span></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Per Pupil Expenditure"</span>, <span class="at">y=</span><span class="st">"ELA Growth Percentile"</span>) <span class="sc">+</span></span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"ELA Growth Percentile by Per Pupil Expenditure"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>) <span class="sc">+</span></span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>dollar, <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>)))</span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-elasgp-vs-perpupil" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1829,22 +1883,22 @@ Figure&nbsp;41: ELA Growth Percentile vs Per Pupil Expenditure
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code - ELA Growth Percentile vs Per Pupil Expenditure - All</summary>
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% rlm(mSGP_ELA ~ I(per_pupil_cost/1000), data=., method = "M")</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>per_pupil_cost, <span class="at">y=</span>mSGP_ELA, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
-<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
-<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
-<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
-<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Per Pupil Expenditure"</span>, <span class="at">y=</span><span class="st">"ELA Growth Percentile"</span>) <span class="sc">+</span></span>
-<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"ELA Growth Percentile by Per Pupil Expenditure"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
-<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>) <span class="sc">+</span></span>
-<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>dollar, <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>)))</span>
-<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% rlm(mSGP_ELA ~ I(per_pupil_cost/1000), data=., method = "M")</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>per_pupil_cost, <span class="at">y=</span>mSGP_ELA, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Per Pupil Expenditure"</span>, <span class="at">y=</span><span class="st">"ELA Growth Percentile"</span>) <span class="sc">+</span></span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"ELA Growth Percentile by Per Pupil Expenditure"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>) <span class="sc">+</span></span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>dollar, <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>)))</span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-elasgp-vs-perpupil-all" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1862,24 +1916,25 @@ Figure&nbsp;42: ELA Growth Percentile vs Per Pupil Expenditure - All
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code - ELA vs Percent Expenditure to Instruction</summary>
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% dplyr::filter(hc_euclid_ward, TotalEnrollment &lt; 1500) %&gt;% rlm(ELA_ME_District ~ I(per_pupil_class_instruction/ per_pupil_cost), data=., method = "M")</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_ward, TotalEnrollment <span class="sc">&lt;</span> <span class="dv">1500</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">inst_pct =</span> per_pupil_class_instruction<span class="sc">/</span> per_pupil_cost) <span class="sc">%&gt;%</span></span>
-<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>inst_pct, <span class="at">y=</span>ELA_ME_District, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
-<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
-<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
-<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
-<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
-<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Percent Instruction"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in ELA"</span>) <span class="sc">+</span></span>
-<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"ELA Meets/Exceeds by Percent Instruction"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
-<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>) <span class="sc">+</span></span>
-<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>))</span>
-<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% dplyr::filter(hc_euclid_ward, TotalEnrollment &lt; 1500) %&gt;% rlm(ELA_ME_District ~ I(per_pupil_class_instruction/ per_pupil_cost), data=., method = "M")</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_ward, TotalEnrollment <span class="sc">&lt;</span> <span class="dv">1500</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">inst_pct =</span> per_pupil_class_instruction<span class="sc">/</span> per_pupil_cost) <span class="sc">%&gt;%</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>inst_pct, <span class="at">y=</span>ELA_ME_District, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Percent Instruction"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in ELA"</span>) <span class="sc">+</span></span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"ELA Meets/Exceeds by Percent Instruction"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>) <span class="sc">+</span></span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>), <span class="at">limits=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>))</span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-ela-vs-percentint" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1897,23 +1952,24 @@ Figure&nbsp;43: ELA vs Percent Expenditure to Instruction
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code - ELA vs Teacher Avg Years Exp</summary>
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% dplyr::filter(hc_euclid_ward, TotalEnrollment &lt; 1500) %&gt;% rlm(ELA_ME_District ~ TeacherAvgYearsExp_School, data=., method = "M")</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_ward, TotalEnrollment <span class="sc">&lt;</span> <span class="dv">1500</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>TeacherAvgYearsExp_School, <span class="at">y=</span>ELA_ME_District, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
-<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
-<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
-<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
-<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
-<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Teacher Avg Years Exp"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in ELA"</span>) <span class="sc">+</span></span>
-<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"ELA Meets/Exceeds by Teacher Avg Years Exp"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
-<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>)</span>
-<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% dplyr::filter(hc_euclid_ward, TotalEnrollment &lt; 1500) %&gt;% rlm(ELA_ME_District ~ TeacherAvgYearsExp_School, data=., method = "M")</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_ward, TotalEnrollment <span class="sc">&lt;</span> <span class="dv">1500</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>TeacherAvgYearsExp_School, <span class="at">y=</span>ELA_ME_District, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Teacher Avg Years Exp"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in ELA"</span>) <span class="sc">+</span></span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"ELA Meets/Exceeds by Teacher Avg Years Exp"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>) <span class="sc">+</span></span>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>), <span class="at">limits=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) </span>
+<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-ela-vs-avgyears" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1931,23 +1987,24 @@ Figure&nbsp;44: ELA vs Teacher Avg Years Exp
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code - ELA vs Teacher Avg Years Exp in District</summary>
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% dplyr::filter(hc_euclid_ward, TotalEnrollment &lt; 1500) %&gt;% rlm(ELA_ME_District ~ TeacherAvgYearsExpInDistrict_School, data=., method = "M")</span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_ward, TotalEnrollment <span class="sc">&lt;</span> <span class="dv">1500</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>TeacherAvgYearsExpInDistrict_School, <span class="at">y=</span>ELA_ME_District, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
-<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
-<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
-<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
-<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
-<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Teacher Avg Years Exp in District"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in ELA"</span>) <span class="sc">+</span></span>
-<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"ELA Meets/Exceeds by Teacher Avg Years Exp in District"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
-<span id="cb49-16"><a href="#cb49-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>)</span>
-<span id="cb49-17"><a href="#cb49-17" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% dplyr::filter(hc_euclid_ward, TotalEnrollment &lt; 1500) %&gt;% rlm(ELA_ME_District ~ TeacherAvgYearsExpInDistrict_School, data=., method = "M")</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_ward, TotalEnrollment <span class="sc">&lt;</span> <span class="dv">1500</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>TeacherAvgYearsExpInDistrict_School, <span class="at">y=</span>ELA_ME_District, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Teacher Avg Years Exp in District"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in ELA"</span>) <span class="sc">+</span></span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"ELA Meets/Exceeds by Teacher Avg Years Exp in District"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>) <span class="sc">+</span></span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>), <span class="at">limits=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) </span>
+<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-ela-vs-avgyears-dist" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1965,22 +2022,22 @@ Figure&nbsp;45: ELA vs Teacher Avg Years Exp in District
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code - ELA Growth vs Teacher Avg Years Exp</summary>
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% dplyr::filter(hc_euclid_ward, TotalEnrollment &lt; 1500) %&gt;% rlm(mSGP_ELA ~ TeacherAvgYearsExp_School, data=., method = "M")</span></span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_ward, TotalEnrollment <span class="sc">&lt;</span> <span class="dv">1500</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>TeacherAvgYearsExp_School, <span class="at">y=</span>mSGP_ELA, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
-<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
-<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
-<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
-<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
-<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Teacher Avg Years Exp"</span>, <span class="at">y=</span><span class="st">"ELA Student Growth Percentile"</span>) <span class="sc">+</span></span>
-<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"ELA Growth by Teacher Avg Years Exp"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
-<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>)</span>
-<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% dplyr::filter(hc_euclid_ward, TotalEnrollment &lt; 1500) %&gt;% rlm(mSGP_ELA ~ TeacherAvgYearsExp_School, data=., method = "M")</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_ward, TotalEnrollment <span class="sc">&lt;</span> <span class="dv">1500</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>TeacherAvgYearsExp_School, <span class="at">y=</span>mSGP_ELA, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Teacher Avg Years Exp"</span>, <span class="at">y=</span><span class="st">"ELA Student Growth Percentile"</span>) <span class="sc">+</span></span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"ELA Growth by Teacher Avg Years Exp"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
+<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">name =</span> <span class="st">"District Size"</span>)</span>
+<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-elagrowth-vs-avgyears" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1998,35 +2055,23 @@ Figure&nbsp;46: ELA Growth vs Teacher Avg Years Exp
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code - ELA vs Chronic Absenteeism</summary>
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_ward, TotalEnrollment <span class="sc">&lt;</span> <span class="dv">1500</span>) <span class="sc">%&gt;%</span> <span class="fu">rlm</span>(ELA_ME_District <span class="sc">~</span> Chronic_Abs_Pct, <span class="at">data=</span>., <span class="at">method =</span> <span class="st">"M"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Call:
-rlm(formula = ELA_ME_District ~ Chronic_Abs_Pct, data = ., method = "M")
-Converged in 4 iterations
-
-Coefficients:
-    (Intercept) Chronic_Abs_Pct 
-      0.9078934      -1.6860251 
-
-Degrees of freedom: 37 total; 35 residual
-Scale estimate: 0.08 </code></pre>
-</div>
-<details class="code-fold">
-<summary>Code - ELA vs Chronic Absenteeism</summary>
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_ward, TotalEnrollment <span class="sc">&lt;</span> <span class="dv">1500</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>Chronic_Abs_Pct, <span class="at">y=</span>ELA_ME_District, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
-<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
-<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
-<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
-<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Chronic Absent Pct"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in ELA"</span>) <span class="sc">+</span></span>
-<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"Percent ELA Meets/Exceeds by Chronic Absent Pct"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
-<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">guide=</span><span class="st">"none"</span>)</span>
-<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% dplyr::filter(hc_euclid_ward, TotalEnrollment &lt; 1500) %&gt;% rlm(ELA_ME_District ~ Chronic_Abs_Pct, data=., method = "M")</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(hc_euclid_ward, TotalEnrollment <span class="sc">&lt;</span> <span class="dv">1500</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>Chronic_Abs_Pct, <span class="at">y=</span>ELA_ME_District, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Chronic Absent Pct"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in ELA"</span>) <span class="sc">+</span></span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"Percent ELA Meets/Exceeds by Chronic Absent Pct"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>), <span class="at">limits=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb49-16"><a href="#cb49-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>)) </span>
+<span id="cb49-17"><a href="#cb49-17" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-ela-vs-chronicabs" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -2044,20 +2089,22 @@ Figure&nbsp;47: ELA vs Chronic Absenteeism
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code - ELA vs Chronic Absenteeism - All Districts</summary>
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% rlm(ELA_ME_District ~ Chronic_Abs_Pct, data=., method = "M")</span></span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
-<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>Chronic_Abs_Pct, <span class="at">y=</span>ELA_ME_District, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
-<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
-<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
-<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
-<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Chronic Absent Pct"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in ELA"</span>) <span class="sc">+</span></span>
-<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"Percent ELA Meets/Exceeds by Chronic Absent Pct"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
-<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">guide=</span><span class="st">"none"</span>)</span>
-<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comb2324 %&gt;% rlm(ELA_ME_District ~ Chronic_Abs_Pct, data=., method = "M")</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>comb2324 <span class="sc">%&gt;%</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>., <span class="fu">aes</span>(<span class="at">x=</span>Chronic_Abs_Pct, <span class="at">y=</span>ELA_ME_District, <span class="at">color=</span>dist_colors)) <span class="sc">+</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>TotalEnrollment)) <span class="sc">+</span></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_poly_line</span>(<span class="at">method=</span><span class="st">"rlm:M"</span>, <span class="at">fill=</span><span class="st">"grey85"</span>) <span class="sc">+</span></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>.data<span class="sc">$</span>district_name)) <span class="sc">+</span></span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span>district_name_colors, <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Chronic Absent Pct"</span>, <span class="at">y=</span><span class="st">"Percent Meets/Exceeds in ELA"</span>) <span class="sc">+</span></span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">"Percent ELA Meets/Exceeds by Chronic Absent Pct"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(sy, <span class="st">"; Source: NJ Dept of Ed."</span>)) <span class="sc">+</span></span>
+<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_size_continuous</span>(<span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>), <span class="at">limits=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-ela-vs-chronicabs-all" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -2074,6 +2121,7 @@ Figure&nbsp;48: ELA vs Chronic Absenteeism - All Districts
 </div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -2662,7 +2710,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"selector":".lightbox","closeEffect":"zoom","loop":false,"descPosition":"bottom","openEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","descPosition":"bottom","loop":false,"openEffect":"zoom","closeEffect":"zoom"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {

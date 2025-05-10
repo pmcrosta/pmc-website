@@ -5,6 +5,6 @@ date: last-modified
 
 As part of my commitment to being data-driven and outcome-oriented, I'll share examples of research, data analysis, and related insights on this page.
 
--   [Building a dataset](research/building_a_dataset.html): combining education data from state and federal sources; creation of a set of peer districts for Fair Haven.
+-   [Building a dataset](research/building_a_dataset.qmd): combining education data from state and federal sources; creation of a set of peer districts for Fair Haven.
 -   [Enrollment trends](research/enrollment_trends.qmd): short doc showcasing enrollment trends for Fair Haven and peer districts from 2011-12 to 2023-24.
 -   [Inputs and outputs](research/inputs_outputs.qmd): Exploratory data analysis to understand how Fair Haven compares to peers across a range of educational inputs and outputs.
