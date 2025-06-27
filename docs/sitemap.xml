@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.petecrosta.com/research/building_a_dataset.html</loc>
-    <lastmod>2025-04-13T12:36:49.207Z</lastmod>
+    <loc>https://www.petecrosta.com/research/inputs_outputs.html</loc>
+    <lastmod>2025-05-10T01:17:34.415Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.petecrosta.com/research/enrollment_trends.html</loc>
+    <lastmod>2025-04-15T00:11:58.131Z</lastmod>
   </url>
   <url>
     <loc>https://www.petecrosta.com/issues.html</loc>
-    <lastmod>2025-03-17T18:38:04.943Z</lastmod>
+    <lastmod>2025-06-27T15:19:53.852Z</lastmod>
   </url>
   <url>
     <loc>https://www.petecrosta.com/about.html</loc>
@@ -14,18 +18,14 @@
   </url>
   <url>
     <loc>https://www.petecrosta.com/index.html</loc>
-    <lastmod>2025-05-14T23:28:49.131Z</lastmod>
+    <lastmod>2025-06-27T15:26:30.709Z</lastmod>
   </url>
   <url>
     <loc>https://www.petecrosta.com/research.html</loc>
-    <lastmod>2025-05-09T21:54:40.168Z</lastmod>
+    <lastmod>2025-06-27T15:24:47.578Z</lastmod>
   </url>
   <url>
-    <loc>https://www.petecrosta.com/research/enrollment_trends.html</loc>
-    <lastmod>2025-04-15T00:11:58.131Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.petecrosta.com/research/inputs_outputs.html</loc>
-    <lastmod>2025-05-10T01:17:34.415Z</lastmod>
+    <loc>https://www.petecrosta.com/research/building_a_dataset.html</loc>
+    <lastmod>2025-04-13T12:36:49.207Z</lastmod>
   </url>
 </urlset>
