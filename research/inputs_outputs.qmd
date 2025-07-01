@@ -20,7 +20,7 @@ Rather than commenting on every graph on this page, I have compiled a list of "t
 
 ## Expenditures
 
--   Compared to peers, Fair Haven had a relatively low total per-pupil expenditure ni 2023-24 (@fig-perpupil-totalcosts). At face value, it is not obvious as to whether this is a positive or negative, something to champion or a concern. Fair Haven spent about \$5,000 less per student than Little Silver, and one could easily imagine what an extra \$5k could purchase.
+-   Compared to peers, Fair Haven had a relatively low total per-pupil expenditure in 2023-24 (@fig-perpupil-totalcosts). At face value, it is not obvious as to whether this is a positive or negative, something to champion or a concern. Fair Haven spent about \$5,000 less per student than Little Silver, and one could easily imagine what an extra \$5k could purchase.
 -   Total expenditure includes a number of costs that may not be so tightly associated with educational products, and so I also look at per-pupil expenditures on instruction (@fig-perpupil-instructionalcosts). Here we see Fair Haven again had a relatively lower per-pupil expenditure, though the delta between Fair Haven and our geographic neighbors was only about \$1,000. Related, Fair Haven had nearly the highest percentage of expenditures going to instruction. (@fig-perpupil-instructpct)
 -   Notably, Fair Haven had the lowest administrative cost per student out of the entire peer set (@fig-perpupil-admincosts). Related, Fair Haven had among the highest student-admin ratios, or a high number of students per administrator (@fig-adminstudent).
 
@@ -41,7 +41,7 @@ Rather than commenting on every graph on this page, I have compiled a list of "t
 ## ELA outcomes
 
 -   For ELA (English Language Arts), most districts in the peer group had at least 77% of students meeting or exceeding expectations according to state standardized tests in grades 3-8, with Fair Haven in the middle 3rd of the pack at 81.9% (@fig-outcomes-ela)
--   When excluding students with disabilities, rates of meeting or exceeding expectations in ELA for all districts increased. Fair Haven had 91% meet or exceeds in ELA. (@fig-outcomes-ela-nodis)
+-   When excluding students with disabilities, rates of meeting or exceeding expectations in ELA for all districts increased. Fair Haven had 91% meet or exceed in ELA. (@fig-outcomes-ela-nodis)
 -   When restricting to students with disabilities, about 41% Fair Haven students met or exceeded expectations in ELA, compared to about 65% in Little Silver (@fig-outcomes-ela-dis)
 -   Over time, Fair Haven showed steep improvement in ELA from 2014-15 to 2018-19 before dipping and remaining flat after the Covid-19 pandemic. (@fig-ela-me-time)
 
@@ -49,7 +49,7 @@ Rather than commenting on every graph on this page, I have compiled a list of "t
 
 -   Relationships between outcomes (like Math and ELA achievement) and inputs (like expenditures per pupil) often show weak positive relationships, which is not unexpected. One reason to examine this relationship between only Fair Haven and similar peers is to compare like with like as best as possible and reduce biases coming from unmeasured or omitted factors (@fig-math-vs-perpupil and @fig-ela-vs-perpupil).
 -   One relationship that is particularly strong is between district median family income and Math and ELA achievement (@fig-math-vs-medianincome-all and @fig-ela-vs-medianincome-all). I find these relationships to be a clear reminder of the socioeconomic diversity present in our State as well as the privilege that many of us share in the Peninsula area.
--   Another relationshp that stood out to me was between chronic absence and achievement. @fig-math-vs-chronicabs and @fig-ela-vs-chronicabs show the negative relationship between chronic absence and Math and ELA achievement. @fig-math-vs-chronicabs-all and @fig-ela-vs-chronicabs-all shows it for all districts.
+-   Another relationship that stood out to me was between chronic absence and achievement. @fig-math-vs-chronicabs and @fig-ela-vs-chronicabs show the negative relationship between chronic absence and Math and ELA achievement. @fig-math-vs-chronicabs-all and @fig-ela-vs-chronicabs-all shows it for all districts.
 
 ## Summary
 
