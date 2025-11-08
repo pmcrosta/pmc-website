@@ -16,8 +16,8 @@ website:
   site-url: "https://www.petecrosta.com"
   repo-url: https://github.com/pmcrosta/pmc-website
   google-analytics: "G-FWYE2E48ZC"
+  favicon: "files/pc2.png"
   navbar:
-    # logo: "path/to/your/logo.png" # Optional: Add a logo image
     left:
       - text: "Home"
         href: index.qmd
@@ -43,12 +43,12 @@ website:
     right:
       - icon: envelope-fill
         href: "mailto:pmcrosta@gmail.com"
-  announcement: 
-    icon: info-circle
-    dismissable: true
-    content: "Election day is Tuesday, November 4, 2025."
-    type: primary
-    position: below-navbar
+  # announcement: 
+  #   icon: info-circle
+  #   dismissable: true
+  #   content: "Election day is Tuesday, November 4, 2025."
+  #   type: primary
+  #   position: below-navbar
 
 freeze: true
 

@@ -5,6 +5,7 @@ date: last-modified
 
 As part of my commitment to being data-driven, outcome-oriented, and transparent, I will share here some examples of research and data analyses that I have conducted to help me better understand the education landscape in Fair Haven. I'll also use this space to post essays related to the process of running for Board of Education as well as other topics.
 
--   [Building a dataset](research/building_a_dataset.qmd): combining education data from state and federal sources; creation of a set of peer districts for Fair Haven.
--   [Enrollment trends](research/enrollment_trends.qmd): short doc showcasing enrollment trends for Fair Haven and peer districts from 2011-12 to 2023-24.
+-   [Building a dataset](research/building_a_dataset.qmd): Combining education data from state and federal sources; creation of a set of peer districts for Fair Haven.
+-   [Enrollment trends](research/enrollment_trends.qmd): Short doc showcasing enrollment trends for Fair Haven and peer districts from 2011-12 to 2023-24.
 -   [Inputs and outputs](research/inputs_outputs.qmd): Exploratory data analysis to understand how Fair Haven compares to peers across a range of educational inputs and outputs (but certainly not all!).
+-   [Running for School Board: The Petition and Campaign Finance](research/running.qmd): Notes on processes I learned about while running for Board.
